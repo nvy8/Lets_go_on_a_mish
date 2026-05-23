@@ -128,26 +128,26 @@ function SourceColumn({
         {sources.map((s) => {
           const isSelected = selected.has(s.id);
           return (
-            <button
+            <div
               key={s.id}
               onClick={() => onToggle(s.id)}
-              className={`rounded-xl border p-4 text-left transition ${
+              className={`cursor-pointer rounded-xl border-2 p-4 transition ${
                 isSelected
                   ? "border-amber-500 bg-amber-50 ring-2 ring-amber-200"
-                  : "border-zinc-200 bg-white hover:border-zinc-400"
+                  : "border-zinc-200 bg-white hover:border-amber-300"
               }`}
             >
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-3">
                 <div
-                  className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 ${
-                    isSelected ? "border-amber-500 bg-amber-500" : "border-zinc-300"
+                  className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded border-2 ${
+                    isSelected ? "border-amber-500 bg-amber-500" : "border-zinc-300 bg-white"
                   }`}
                 >
                   {isSelected && (
                     <svg
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      className="h-3 w-3 text-white"
+                      className="h-4 w-4 text-white"
                     >
                       <path d="M16.7 5.3a1 1 0 010 1.4l-7 7a1 1 0 01-1.4 0L4.3 9.7a1 1 0 011.4-1.4L9 11.6l6.3-6.3a1 1 0 011.4 0z" />
                     </svg>
@@ -155,11 +155,22 @@ function SourceColumn({
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-xs font-mono text-zinc-500">{s.domain}</div>
-                  <div className="mt-0.5 text-sm font-semibold text-zinc-900">{s.title}</div>
-                  <div className="mt-1 line-clamp-2 text-xs text-zinc-600">{s.preview_text}</div>
+                  <div className="mt-0.5 text-base font-semibold leading-snug text-zinc-900">
+                    {s.title}
+                  </div>
+                  <div className="mt-1 line-clamp-3 text-sm text-zinc-600">{s.preview_text}</div>
                 </div>
               </div>
-            </button>
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener"
+                onClick={(e) => e.stopPropagation()}
+                className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700"
+              >
+                🔗 Open in new tab
+              </a>
+            </div>
           );
         })}
       </div>
