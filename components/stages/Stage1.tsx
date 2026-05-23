@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { KidNotice } from "@/components/KidNotice";
 
 type Example = { quality: "bad" | "ok" | "strong"; text: string };
 type Critique = { verdict: "strong" | "needs_work"; feedback: string };
@@ -58,15 +59,36 @@ export function Stage1({ shareToken }: { shareToken: string }) {
   if (loadingExamples) {
     return (
       <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
-        <div className="text-4xl">🔍</div>
-        <div className="mt-3 text-lg text-zinc-700">Your coach is writing some examples...</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-brainstorming.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg text-zinc-700">Your coach is writing some examples…</div>
         <div className="mt-1 text-sm text-zinc-500">(takes about 5 seconds)</div>
       </div>
     );
   }
 
   if (!examples) {
-    return <div className="text-red-600">Failed to load examples. Refresh the page.</div>;
+    return (
+      <KidNotice
+        tone="error"
+        title="Something got stuck"
+        action={
+          <button
+            onClick={() => window.location.reload()}
+            className="rounded-full bg-zinc-900 px-5 py-2.5 text-base font-semibold text-white hover:bg-zinc-800"
+          >
+            Try again
+          </button>
+        }
+      >
+        We couldn&apos;t load your coach&apos;s examples. Tap below to try again.
+      </KidNotice>
+    );
   }
 
   // PHASE 1: pick the strongest
@@ -102,7 +124,7 @@ export function Stage1({ shareToken }: { shareToken: string }) {
           <button
             disabled={pickedIdx === null}
             onClick={() => setPhase("reveal")}
-            className="mt-6 rounded-full bg-zinc-900 px-8 py-3 text-base font-bold text-white disabled:opacity-40"
+            className="mt-6 rounded-full bg-zinc-900 px-8 py-3 text-base font-bold text-white hover:bg-zinc-800 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
           >
             I picked one! →
           </button>
@@ -137,7 +159,7 @@ export function Stage1({ shareToken }: { shareToken: string }) {
                   : "border-red-200 bg-red-50"
               }`}
             >
-              <div className="flex items-center gap-2 text-xs font-mono uppercase">
+              <div className="flex items-center gap-2 text-xs font-semibold tracking-wide">
                 <span
                   className={
                     ex.quality === "strong"
@@ -161,7 +183,7 @@ export function Stage1({ shareToken }: { shareToken: string }) {
         </div>
         <button
           onClick={() => setPhase("draft")}
-          className="mt-6 rounded-full bg-amber-500 px-8 py-3 text-base font-bold text-white"
+          className="mt-6 rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
         >
           Now write your own! →
         </button>
@@ -172,25 +194,30 @@ export function Stage1({ shareToken }: { shareToken: string }) {
   // PHASE 3: kid drafts their own
   return (
     <div className="rounded-2xl border-2 border-amber-200 bg-white p-6">
-      <h2 className="text-2xl font-bold">✍️ Your turn!</h2>
-      <p className="mt-2 text-base text-zinc-700">
-        Write your OWN research question. Make it specific. Your coach will help you make it even better.
+      <h2 className="text-2xl font-bold">✍️ Your turn</h2>
+      <p className="mt-2 text-lg text-zinc-700">
+        Write your own research question. Make it specific. Your coach will help you make it even better.
       </p>
+      <label htmlFor="stage1-draft" className="mt-4 block text-base font-semibold text-zinc-700">
+        Your research question
+      </label>
       <textarea
+        id="stage1-draft"
         value={draft}
         onChange={(e) => {
           setDraft(e.target.value);
           setCritique(null);
         }}
-        placeholder="Type your research question here..."
+        placeholder="Type it here…"
         rows={3}
-        className="mt-4 w-full rounded-xl border-2 border-zinc-300 px-4 py-3 text-lg leading-7 focus:border-amber-500 focus:outline-none"
+        aria-label="Your research question"
+        className="mt-2 w-full rounded-xl border-2 border-zinc-300 px-4 py-3 text-lg leading-7 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200"
       />
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button
           onClick={getCritique}
           disabled={draft.length < 5 || critiquing}
-          className="rounded-full bg-zinc-900 px-6 py-3 text-base font-semibold text-white disabled:opacity-40"
+          className="rounded-full bg-zinc-900 px-6 py-3 text-base font-semibold text-white hover:bg-zinc-800 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
         >
           {critiquing ? "Coach is reading..." : "Ask the coach 🧑‍🏫"}
         </button>
@@ -198,7 +225,7 @@ export function Stage1({ shareToken }: { shareToken: string }) {
           <button
             onClick={accept}
             disabled={accepting}
-            className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-white disabled:opacity-50"
+            className="rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
           >
             {accepting ? "Saving..." : "Let's go! →"}
           </button>
@@ -213,8 +240,8 @@ export function Stage1({ shareToken }: { shareToken: string }) {
               : "border-amber-300 bg-amber-50"
           }`}
         >
-          <div className="text-sm font-bold uppercase">
-            {critique.verdict === "strong" ? "✓ Coach says: Awesome!" : "✎ Coach says: Almost there"}
+          <div className="text-base font-bold">
+            {critique.verdict === "strong" ? "✓ Coach says: awesome!" : "✎ Coach says: almost there"}
           </div>
           <div className="mt-2 text-base">{critique.feedback}</div>
         </div>

@@ -116,7 +116,7 @@ export function Stage4({ shareToken }: { shareToken: string }) {
         </p>
         <button
           onClick={() => router.push(`/m/${shareToken}/stage/5`)}
-          className="mt-6 rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white"
+          className="mt-6 rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
         >
           Continue to Spot Hallucinations →
         </button>
@@ -144,7 +144,7 @@ export function Stage4({ shareToken }: { shareToken: string }) {
       </div>
 
       <div className="mt-4 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
-        <div className="text-sm font-bold uppercase tracking-wide text-amber-700">
+        <div className="text-sm font-bold tracking-wide text-amber-700">
           📌 The fact
         </div>
         <div className="mt-1 text-lg font-semibold leading-7">{current.plain_text}</div>
@@ -152,17 +152,22 @@ export function Stage4({ shareToken }: { shareToken: string }) {
 
       {!current.ai_grade ? (
         <div className="mt-4">
+          <label htmlFor="stage4-explanation" className="block text-base font-semibold text-zinc-700">
+            Your explanation (in your own words)
+          </label>
           <textarea
+            id="stage4-explanation"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="In my own words: this means..."
+            placeholder="In my own words: this means…"
             rows={5}
-            className="w-full rounded-xl border-2 border-zinc-300 px-4 py-3 text-lg leading-7 focus:border-amber-500 focus:outline-none"
+            aria-label="Your explanation"
+            className="mt-2 w-full rounded-xl border-2 border-zinc-300 px-4 py-3 text-lg leading-7 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200"
           />
           <button
             onClick={gradeCurrent}
             disabled={draft.length < 10 || grading}
-            className="mt-3 rounded-full bg-zinc-900 px-6 py-3 text-base font-semibold text-white disabled:opacity-40"
+            className="mt-3 rounded-full bg-zinc-900 px-6 py-3 text-base font-semibold text-white hover:bg-zinc-800 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
           >
             {grading ? "Coach is reading..." : "Ask the coach 🧑‍🏫"}
           </button>
@@ -170,13 +175,13 @@ export function Stage4({ shareToken }: { shareToken: string }) {
       ) : (
         <div className="mt-4 space-y-4">
           <div className="rounded-xl border border-zinc-200 bg-white p-4">
-            <div className="text-xs font-mono uppercase text-zinc-500">Your explanation</div>
+            <div className="text-sm font-semibold tracking-wide text-zinc-600">Your explanation</div>
             <div className="mt-1 text-sm">{current.kid_explanation}</div>
           </div>
           <div
             className={`rounded-xl border p-4 ${GRADE_LABELS[current.ai_grade]?.color || "border-zinc-200"}`}
           >
-            <div className="text-xs font-mono uppercase">
+            <div className="text-sm font-semibold tracking-wide">
               {GRADE_LABELS[current.ai_grade]?.label || current.ai_grade}
             </div>
             <div className="mt-1 text-sm">{current.ai_feedback}</div>
@@ -185,7 +190,7 @@ export function Stage4({ shareToken }: { shareToken: string }) {
             {!isLast ? (
               <button
                 onClick={nextFact}
-                className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white"
+                className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-zinc-950 hover:bg-amber-400"
               >
                 Next fact →
               </button>
@@ -193,7 +198,7 @@ export function Stage4({ shareToken }: { shareToken: string }) {
               <button
                 onClick={finish}
                 disabled={!allGraded || advancing}
-                className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-40"
+                className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
               >
                 {advancing ? "Saving..." : "Finish Stage 4 →"}
               </button>

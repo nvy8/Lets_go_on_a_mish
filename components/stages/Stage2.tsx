@@ -79,10 +79,16 @@ export function Stage2({ shareToken }: { shareToken: string }) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center text-zinc-500">
-        <div className="text-2xl">📄</div>
-        <div className="mt-2">Fetching previews from each source page...</div>
-        <div className="mt-1 text-xs">(takes ~10s — actually loading 10 web pages)</div>
+      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-study.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg text-zinc-700">Fetching previews from each source…</div>
+        <div className="mt-1 text-sm text-zinc-500">(takes ~10s — actually loading 10 web pages)</div>
       </div>
     );
   }
@@ -168,7 +174,7 @@ export function Stage2({ shareToken }: { shareToken: string }) {
         <div className="flex justify-end">
           <button
             onClick={next}
-            className="rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white"
+            className="rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
           >
             Continue to Triangulate →
           </button>
@@ -275,7 +281,7 @@ export function Stage2({ shareToken }: { shareToken: string }) {
                   )}
 
                   <div className="mt-4">
-                    <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                    <div className="text-xs font-semibold tracking-wide text-zinc-500">
                       Quick preview
                     </div>
                     <div className="mt-2 max-h-44 overflow-y-auto rounded-lg bg-zinc-50 p-3 text-base leading-6 text-zinc-800">
@@ -327,7 +333,7 @@ export function Stage2({ shareToken }: { shareToken: string }) {
         <button
           onClick={submitJudgments}
           disabled={!allJudged || submitting}
-          className="rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-white disabled:opacity-40"
+          className="rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
         >
           {submitting ? "Coach is checking..." : "I'm done — see how I did →"}
         </button>

@@ -123,10 +123,16 @@ export function Stage3({ shareToken }: { shareToken: string }) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center text-zinc-500">
-        <div className="text-2xl">🧩</div>
-        <div className="mt-2">Your coach is reading all 3 sources and pulling out candidate facts...</div>
-        <div className="mt-1 text-xs">(takes 10-20s — this is the hardest stage)</div>
+      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-study.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg text-zinc-700">Your coach is reading all 3 sources and pulling out candidate facts…</div>
+        <div className="mt-1 text-sm text-zinc-500">(takes 10-20s — this is the hardest stage)</div>
       </div>
     );
   }
@@ -145,7 +151,7 @@ export function Stage3({ shareToken }: { shareToken: string }) {
         </p>
         <button
           onClick={() => router.push(`/m/${shareToken}/stage/4`)}
-          className="mt-6 rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white"
+          className="mt-6 rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
         >
           Continue to Explain →
         </button>
@@ -167,15 +173,19 @@ export function Stage3({ shareToken }: { shareToken: string }) {
   return (
     <div className="relative">
       {toast && (
-        <div className="fixed left-1/2 top-20 z-50 -translate-x-1/2 rounded-lg bg-red-600 px-4 py-2 text-sm text-white shadow-lg">
-          {toast}
+        <div
+          role="alert"
+          className="fixed left-1/2 top-20 z-50 flex max-w-md -translate-x-1/2 items-start gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-base text-amber-900 shadow-lg animate-sleuth-pop-in"
+        >
+          <span aria-hidden="true">🤔</span>
+          <span>{toast}</span>
         </div>
       )}
 
       <div className="mb-4 rounded-2xl border-2 border-amber-200 bg-white p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <div className="text-xs font-bold uppercase tracking-wide text-amber-600">
+            <div className="text-sm font-bold tracking-wide text-amber-700">
               📖 Reading website {currentIdx + 1} of {sources.length}
             </div>
             <div className="mt-1 text-xl font-bold leading-tight">{currentSource.title}</div>
@@ -206,9 +216,9 @@ export function Stage3({ shareToken }: { shareToken: string }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* SOURCE TEXT — 2/3 cols */}
-        <div className="lg:col-span-2">
+        <div className="md:col-span-2">
           <div className="max-h-[65vh] overflow-y-auto rounded-2xl border-2 border-zinc-200 bg-white p-6 shadow-sm">
             <h3 className="text-2xl font-bold">{currentSource.title}</h3>
             <div className="mt-1 text-sm text-zinc-500">{currentSource.domain}</div>
@@ -225,7 +235,7 @@ export function Stage3({ shareToken }: { shareToken: string }) {
             <button
               disabled={currentIdx === 0}
               onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))}
-              className="rounded-full border-2 border-zinc-300 px-5 py-2.5 text-base font-semibold disabled:opacity-30"
+              className="rounded-full border-2 border-zinc-300 px-5 py-2.5 text-base font-semibold hover:bg-zinc-50 disabled:border-zinc-200 disabled:text-zinc-300 disabled:cursor-not-allowed"
             >
               ← Previous website
             </button>
@@ -240,7 +250,7 @@ export function Stage3({ shareToken }: { shareToken: string }) {
               <button
                 onClick={advance}
                 disabled={advancing}
-                className="rounded-full bg-amber-500 px-6 py-2.5 text-base font-bold text-white disabled:opacity-50"
+                className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
               >
                 {advancing ? "Saving..." : "I'm done — check my facts →"}
               </button>
@@ -249,9 +259,9 @@ export function Stage3({ shareToken }: { shareToken: string }) {
         </div>
 
         {/* FACTS SIDEBAR — 1/3 cols */}
-        <div className="lg:col-span-1">
+        <div className="md:col-span-1">
           <div className="sticky top-4 max-h-[80vh] overflow-y-auto rounded-2xl border-2 border-amber-200 bg-amber-50 p-4">
-            <div className="mb-3 text-sm font-bold uppercase tracking-wide text-amber-800">
+            <div className="mb-3 text-base font-bold tracking-wide text-amber-900">
               ✨ {facts.length} facts to find
             </div>
             <div className="text-xs text-amber-700 mb-3">
@@ -293,19 +303,19 @@ export function Stage3({ shareToken }: { shareToken: string }) {
                             }}
                             disabled={!isCurrentSource || verified || state === "checking"}
                             title={`Website ${idx + 1}: ${s.domain}`}
-                            className={`flex h-9 w-9 items-center justify-center rounded-lg text-base font-bold transition ${
+                            className={`flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold transition ${
                               verified
                                 ? "bg-green-500 text-white shadow"
                                 : state === "checking"
                                 ? "bg-amber-400 text-white animate-pulse"
                                 : state === "rejected"
-                                ? "bg-red-500 text-white animate-pulse"
+                                ? "bg-red-500 text-white animate-sleuth-shake"
                                 : isCurrentSource
                                 ? "border-2 border-amber-400 bg-white text-amber-700 hover:bg-amber-100"
                                 : "border-2 border-zinc-200 bg-zinc-50 text-zinc-300"
                             }`}
                           >
-                            {verified ? "✓" : state === "rejected" ? "✗" : idx + 1}
+                            {verified ? "✓" : state === "rejected" ? "🤔" : idx + 1}
                           </button>
                         );
                       })}

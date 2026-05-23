@@ -29,24 +29,25 @@ export function StageShell({
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-8">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="text-xs uppercase tracking-wide text-amber-600">
+        <div className="min-w-0 flex-1">
+          <div className="text-xs font-semibold tracking-wide text-amber-700">
             Stage {stageNum} of {TOTAL_STAGES}
           </div>
-          <h1 className="mt-1 text-2xl font-semibold">{STAGE_NAMES[stageNum]}</h1>
-          <p className="mt-1 text-sm text-zinc-500">{missionTopic}</p>
+          <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{STAGE_NAMES[stageNum]}</h1>
+          <p className="mt-1 text-base text-zinc-600">{missionTopic}</p>
         </div>
-        <div className="text-right text-xs text-zinc-500">
-          <div>{displayName}</div>
-          <div className="font-mono">{missionTitle}</div>
+        <div className="shrink-0 text-right text-sm text-zinc-600">
+          <div className="font-semibold">{displayName}</div>
+          <div className="text-zinc-500">{missionTitle}</div>
         </div>
       </div>
 
       <div className="mt-4 flex items-center gap-3">
         <div className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-200">
           <div
-            className="h-full bg-amber-500 transition-all"
+            className="h-full bg-amber-500 transition-all duration-500 ease-out"
             style={{ width: `${(stageNum / TOTAL_STAGES) * 100}%` }}
+            aria-label={`Progress: stage ${stageNum} of ${TOTAL_STAGES}`}
           />
         </div>
         <div className="flex gap-1">
@@ -54,7 +55,8 @@ export function StageShell({
             <span
               key={b}
               title={b}
-              className="inline-flex h-7 items-center rounded-full bg-amber-100 px-2 text-xs font-medium text-amber-800"
+              aria-label={`Badge earned: ${b}`}
+              className="inline-flex h-7 items-center rounded-full bg-amber-100 px-2 text-sm font-medium text-amber-900"
             >
               🏅 {b}
             </span>

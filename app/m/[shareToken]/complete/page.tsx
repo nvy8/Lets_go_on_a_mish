@@ -45,7 +45,13 @@ export default function CompletePage({
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
       <div className="text-center">
-        <div className="text-7xl">🏆</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-performing.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-56 w-auto"
+        />
         <h1 className="mt-3 text-4xl font-semibold">Mission complete</h1>
         <p className="mt-2 text-lg text-zinc-600">
           Nice work, <b>{data.display_name}</b>.
@@ -53,7 +59,7 @@ export default function CompletePage({
       </div>
 
       <div className="mt-10 rounded-3xl border-2 border-amber-300 bg-amber-50 p-6 text-center">
-        <div className="text-sm font-mono uppercase tracking-wide text-amber-700">
+        <div className="text-sm font-semibold tracking-wide text-amber-700">
           Badges earned
         </div>
         <div className="mt-3 flex flex-wrap justify-center gap-2">
@@ -72,14 +78,14 @@ export default function CompletePage({
       </div>
 
       <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-6">
-        <div className="text-xs font-mono uppercase tracking-wide text-amber-600">
+        <div className="text-sm font-semibold tracking-wide text-amber-700">
           Research question
         </div>
         <div className="mt-1 text-base font-semibold">
           {data.refined_query || data.mission.topic}
         </div>
 
-        <div className="mt-6 text-xs font-mono uppercase tracking-wide text-amber-600">
+        <div className="mt-6 text-sm font-semibold tracking-wide text-amber-700">
           {data.facts.length} verified facts
         </div>
         <ul className="mt-2 space-y-2 text-sm">
@@ -93,7 +99,7 @@ export default function CompletePage({
           ))}
         </ul>
 
-        <div className="mt-6 text-xs font-mono uppercase tracking-wide text-amber-600">
+        <div className="mt-6 text-sm font-semibold tracking-wide text-amber-700">
           Sources
         </div>
         <ul className="mt-2 space-y-1 text-sm">
@@ -109,7 +115,7 @@ export default function CompletePage({
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <button
           onClick={() => generatePDF(data)}
-          className="rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white hover:bg-amber-600"
+          className="rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
         >
           📥 Download Research Brief (PDF)
         </button>

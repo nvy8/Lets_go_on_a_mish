@@ -65,34 +65,43 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-3xl">
             🔍
           </div>
-          <div className="mt-3 text-sm font-medium uppercase tracking-wide text-amber-700">
-            Sleuth Mission
+          <div className="mt-3 text-sm font-semibold tracking-wide text-amber-700">
+            Sleuth mission
           </div>
           <h1 className="mt-1 text-2xl font-semibold">{mission.title}</h1>
           <p className="mt-2 text-zinc-600">{mission.topic}</p>
         </div>
 
         <form onSubmit={join} className="mt-8 flex flex-col gap-3">
-          <label className="text-sm font-medium text-zinc-700">
-            Pick a display name (no last names, no emails)
+          <label htmlFor="kid-display-name" className="text-base font-semibold text-zinc-700">
+            Pick a display name
           </label>
+          <p className="-mt-2 text-sm text-zinc-500">
+            No last names. No emails. Pick something fun.
+          </p>
           <input
+            id="kid-display-name"
             placeholder="e.g. MaxR or DragonHunter"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             required
             maxLength={30}
-            className="rounded-xl border border-zinc-300 px-4 py-3 text-lg focus:border-amber-500 focus:outline-none"
+            aria-label="Display name"
+            className="rounded-xl border-2 border-zinc-300 px-4 py-3 text-lg focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200"
           />
+          <div className="flex items-start gap-2 rounded-xl bg-zinc-50 px-3 py-2 text-sm text-zinc-600">
+            <span aria-hidden="true">👀</span>
+            <span>Your teacher can see your name and your work on this mission.</span>
+          </div>
           {error && (
             <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
           )}
           <button
             type="submit"
             disabled={joining || displayName.trim().length === 0}
-            className="mt-2 rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white hover:bg-amber-600 disabled:opacity-50"
+            className="mt-2 rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
           >
-            {joining ? "Starting..." : "Start mission →"}
+            {joining ? "Starting…" : "Start mission →"}
           </button>
         </form>
       </div>

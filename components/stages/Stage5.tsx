@@ -68,10 +68,16 @@ export function Stage5({ shareToken }: { shareToken: string }) {
 
   if (!items) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center text-zinc-500">
-        <div className="text-2xl">🕵️</div>
-        <div className="mt-2">Generating 4 versions of each fact (1 real, 3 AI-flavoured fakes)...</div>
-        <div className="mt-1 text-xs">(takes 20-30s — this is the trickiest one to fake well)</div>
+      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-high-tech.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg text-zinc-700">Generating 4 versions of each fact (1 real, 3 AI-flavoured fakes)…</div>
+        <div className="mt-1 text-sm text-zinc-500">(takes 20-30s — this is the trickiest one to fake well)</div>
       </div>
     );
   }
@@ -93,7 +99,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
         </p>
         <button
           onClick={() => router.push(`/m/${shareToken}/complete`)}
-          className="mt-6 rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white"
+          className="mt-6 rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
         >
           See your Research Brief →
         </button>
@@ -110,14 +116,14 @@ export function Stage5({ shareToken }: { shareToken: string }) {
     <div>
       <div className="rounded-2xl border-2 border-amber-200 bg-white p-6">
         <div className="flex items-start justify-between gap-4">
-          <h2 className="text-2xl font-bold">🕵️ Spot the FAKE!</h2>
+          <h2 className="text-2xl font-bold">🕵️ Spot the fake</h2>
           <div className="text-sm font-bold text-amber-700">
             {currentIdx + 1} of {items.length}
           </div>
         </div>
-        <p className="mt-2 text-base text-zinc-700">
-          One of these 4 is the REAL version. The other 3 are <b>fakes</b> — wrong info, weird AI
-          writing, or both. Pick the real one!
+        <p className="mt-2 text-lg text-zinc-700">
+          One of these 4 is the real version. The other 3 are <b>fakes</b> — wrong info, weird AI
+          writing, or both. Pick the real one.
         </p>
         <p className="mt-2 text-sm text-zinc-500">
           💡 Watch out for: wrong dates, weird AI words like &quot;moreover&quot; or &quot;delve into&quot;,
@@ -126,7 +132,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
       </div>
 
       <div className="mt-4 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
-        <div className="text-sm font-bold uppercase tracking-wide text-amber-700">
+        <div className="text-sm font-bold tracking-wide text-amber-700">
           📌 The real fact (you found this in 2+ sources)
         </div>
         <div className="mt-1 text-lg font-semibold leading-7">{current.fact_text}</div>
@@ -161,7 +167,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
                   {showResult && (
                     <div className="mt-2 space-y-1">
                       <span
-                        className={`inline-block rounded px-2 py-0.5 text-[10px] font-mono uppercase ${KIND_LABELS[opt.kind]?.color}`}
+                        className={`inline-block rounded px-2 py-0.5 text-xs font-semibold tracking-wide ${KIND_LABELS[opt.kind]?.color}`}
                       >
                         {KIND_LABELS[opt.kind]?.label}
                       </span>
@@ -187,7 +193,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
         {isRevealed && !isLast && (
           <button
             onClick={next}
-            className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white"
+            className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-zinc-950 hover:bg-amber-400"
           >
             Next fact →
           </button>
@@ -196,7 +202,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
           <button
             onClick={finish}
             disabled={submitting}
-            className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+            className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
           >
             {submitting ? "Saving..." : "See my final brief →"}
           </button>

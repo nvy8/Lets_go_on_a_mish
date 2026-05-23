@@ -46,3 +46,36 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+
+/* Microinteractions — short, single-shot, respect reduced motion */
+@keyframes sleuth-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes sleuth-tap {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.96); }
+}
+@keyframes sleuth-pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-sleuth-shake { animation: sleuth-shake 250ms ease-in-out 1; }
+.animate-sleuth-tap { animation: sleuth-tap 150ms ease-out 1; }
+.animate-sleuth-pop-in { animation: sleuth-pop-in 450ms cubic-bezier(0.34, 1.56, 0.64, 1) 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sleuth-shake,
+  .animate-sleuth-tap,
+  .animate-sleuth-pop-in,
+  .animate-pulse {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
