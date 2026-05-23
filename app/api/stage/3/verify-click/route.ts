@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentSession } from '@/lib/auth';
 import { connect, COLLECTIONS } from '@/lib/db';
 import { runClaudeJSON } from '@/lib/llm';
-import { verifyClickPrompt } from '@/lib/prompts/stage4';
+import { verifyClickPrompt } from '@/lib/prompts/stage3';
 import type { SourceEntry, FactEntry } from '@/lib/types';
 
 type VerifyResp = { supported: boolean; reason: string };

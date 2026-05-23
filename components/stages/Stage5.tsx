@@ -2,205 +2,206 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-type Fact = {
-  id: string;
-  plain_text: string;
-  kid_explanation?: string;
-  ai_grade?: "exceeding" | "meeting" | "approaching" | "far_from";
-  ai_feedback?: string;
+type Option = {
+  kind: "clean" | "factual_error" | "ai_tell" | "both";
+  text: string;
+  teach_note: string;
+};
+type Item = {
+  fact_id: string;
+  fact_text: string;
+  options: Option[];
+  correct_index: number;
 };
 
-const GRADE_LABELS: Record<string, { label: string; color: string }> = {
-  exceeding: { label: "✨ Exceeding", color: "bg-purple-100 text-purple-800 border-purple-300" },
-  meeting: { label: "✓ Meeting", color: "bg-green-100 text-green-800 border-green-300" },
-  approaching: { label: "~ Approaching", color: "bg-amber-100 text-amber-800 border-amber-300" },
-  far_from: { label: "✗ Far from", color: "bg-red-100 text-red-800 border-red-300" },
+const KIND_LABELS: Record<string, { label: string; color: string }> = {
+  clean: { label: "✅ Accurate", color: "bg-green-100 text-green-800 border-green-300" },
+  factual_error: { label: "❌ Wrong fact", color: "bg-red-100 text-red-800 border-red-300" },
+  ai_tell: { label: "🤖 AI tells", color: "bg-purple-100 text-purple-800 border-purple-300" },
+  both: { label: "🤖❌ Both", color: "bg-orange-100 text-orange-800 border-orange-300" },
 };
 
 export function Stage5({ shareToken }: { shareToken: string }) {
   const router = useRouter();
-  const [facts, setFacts] = useState<Fact[] | null>(null);
+  const [items, setItems] = useState<Item[] | null>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [draft, setDraft] = useState("");
-  const [grading, setGrading] = useState(false);
-  const [advancing, setAdvancing] = useState(false);
-  const [done, setDone] = useState(false);
-  const [doneBadge, setDoneBadge] = useState(false);
+  const [picks, setPicks] = useState<Record<string, number>>({});
+  const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const [done, setDone] = useState<{ correct: number; total: number; earned_badge: boolean } | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch("/api/stage/5/init")
+    fetch("/api/stage/5/init", { method: "POST" })
       .then((r) => r.json())
       .then((d) => {
-        if (d.facts) {
-          setFacts(d.facts);
-          // Find first ungraded
-          const firstUngraded = d.facts.findIndex((f: Fact) => !f.ai_grade);
-          if (firstUngraded >= 0) setCurrentIdx(firstUngraded);
-          else setCurrentIdx(d.facts.length - 1);
-        }
+        if (d.items) setItems(d.items);
       });
   }, []);
 
-  async function gradeCurrent() {
-    if (!facts || !facts[currentIdx]) return;
-    const f = facts[currentIdx];
-    setGrading(true);
-    try {
-      const res = await fetch("/api/stage/5/grade", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fact_id: f.id, explanation: draft }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        const updated = [...facts];
-        updated[currentIdx] = {
-          ...f,
-          kid_explanation: draft,
-          ai_grade: data.grade,
-          ai_feedback: data.feedback,
-        };
-        setFacts(updated);
-      }
-    } finally {
-      setGrading(false);
-    }
+  function pick(factId: string, optionIdx: number) {
+    if (revealed[factId]) return;
+    setPicks((prev) => ({ ...prev, [factId]: optionIdx }));
   }
 
-  function nextFact() {
-    setDraft("");
+  function reveal(factId: string) {
+    setRevealed((prev) => ({ ...prev, [factId]: true }));
+  }
+
+  function next() {
     setCurrentIdx((i) => i + 1);
   }
 
   async function finish() {
-    setAdvancing(true);
+    setSubmitting(true);
     try {
-      const r = await fetch("/api/stage/5/advance", { method: "POST" });
-      const d = await r.json();
-      if (r.ok) {
-        setDoneBadge(d.earned_badge);
-        setDone(true);
-      }
+      const res = await fetch("/api/stage/5/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ picks }),
+      });
+      const data = await res.json();
+      if (res.ok) setDone(data);
     } finally {
-      setAdvancing(false);
+      setSubmitting(false);
     }
   }
 
-  if (!facts) {
+  if (!items) {
     return (
       <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center text-zinc-500">
-        Loading your triangulated facts...
+        <div className="text-2xl">🕵️</div>
+        <div className="mt-2">Generating 4 versions of each fact (1 real, 3 AI-flavoured fakes)...</div>
+        <div className="mt-1 text-xs">(takes 20-30s — this is the trickiest one to fake well)</div>
       </div>
     );
   }
 
-  if (!facts.length) {
-    return (
-      <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
-        No triangulated facts to explain. You may need to redo Stage 4.
-      </div>
-    );
+  if (!items.length) {
+    return <div className="text-red-600">No items to compare. Refresh.</div>;
   }
 
   if (done) {
+    const allPerfect = done.earned_badge;
     return (
       <div className="rounded-2xl border border-amber-300 bg-amber-50 p-8 text-center">
-        <div className="text-5xl">{doneBadge ? "🏅" : "📋"}</div>
+        <div className="text-5xl">{allPerfect ? "🏅" : "🎓"}</div>
         <h2 className="mt-3 text-xl font-semibold">
-          {doneBadge ? "Badge unlocked: Wordsmith" : "Stage 5 complete"}
+          {allPerfect ? "Badge unlocked: Hallucination Hunter" : "Stage 5 complete"}
         </h2>
         <p className="mt-2 text-zinc-700">
-          {doneBadge
-            ? "All your explanations hit Meeting or Exceeding. Real comprehension."
-            : "Some explanations could be sharper. Keep practising paraphrasing."}
+          You spotted <b>{done.correct}/{done.total}</b> accurate versions.
         </p>
         <button
-          onClick={() => router.push(`/m/${shareToken}/stage/6`)}
+          onClick={() => router.push(`/m/${shareToken}/complete`)}
           className="mt-6 rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white"
         >
-          Continue to Spot Hallucinations →
+          See your Research Brief →
         </button>
       </div>
     );
   }
 
-  const current = facts[currentIdx];
-  const allGraded = facts.every((f) => f.ai_grade);
-  const isLast = currentIdx === facts.length - 1;
+  const current = items[currentIdx];
+  const isLast = currentIdx === items.length - 1;
+  const kidPick = picks[current.fact_id];
+  const isRevealed = revealed[current.fact_id];
 
   return (
     <div>
       <div className="rounded-2xl border-2 border-amber-200 bg-white p-6">
         <div className="flex items-start justify-between gap-4">
-          <h2 className="text-2xl font-bold">✍️ Tell me in YOUR words</h2>
+          <h2 className="text-2xl font-bold">🕵️ Spot the FAKE!</h2>
           <div className="text-sm font-bold text-amber-700">
-            {currentIdx + 1} of {facts.length}
+            {currentIdx + 1} of {items.length}
           </div>
         </div>
         <p className="mt-2 text-base text-zinc-700">
-          No copy-pasting! Explain it like you&apos;re telling a friend who&apos;s never heard of
-          this. <b>Bonus points if you say WHY it matters.</b>
+          One of these 4 is the REAL version. The other 3 are <b>fakes</b> — wrong info, weird AI
+          writing, or both. Pick the real one!
+        </p>
+        <p className="mt-2 text-sm text-zinc-500">
+          💡 Watch out for: wrong dates, weird AI words like &quot;moreover&quot; or &quot;delve into&quot;,
+          em-dashes, and fancy-sounding nonsense.
         </p>
       </div>
 
       <div className="mt-4 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
         <div className="text-sm font-bold uppercase tracking-wide text-amber-700">
-          📌 The fact
+          📌 The real fact (you found this in 2+ sources)
         </div>
-        <div className="mt-1 text-lg font-semibold leading-7">{current.plain_text}</div>
+        <div className="mt-1 text-lg font-semibold leading-7">{current.fact_text}</div>
       </div>
 
-      {!current.ai_grade ? (
-        <div className="mt-4">
-          <textarea
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            placeholder="In my own words: this means..."
-            rows={5}
-            className="w-full rounded-xl border-2 border-zinc-300 px-4 py-3 text-lg leading-7 focus:border-amber-500 focus:outline-none"
-          />
+      <div className="mt-4 flex flex-col gap-3">
+        {current.options.map((opt, idx) => {
+          const isPicked = kidPick === idx;
+          const isCorrect = idx === current.correct_index;
+          const showResult = isRevealed;
+          let cardClass = "border-zinc-200 bg-white";
+          if (showResult) {
+            if (isCorrect) cardClass = "border-green-400 bg-green-50";
+            else if (isPicked) cardClass = "border-red-400 bg-red-50";
+            else cardClass = "border-zinc-200 bg-white";
+          } else if (isPicked) {
+            cardClass = "border-amber-500 bg-amber-50 ring-2 ring-amber-200";
+          }
+          return (
+            <button
+              key={idx}
+              onClick={() => pick(current.fact_id, idx)}
+              disabled={isRevealed}
+              className={`rounded-xl border p-4 text-left transition ${cardClass}`}
+            >
+              <div className="flex items-start gap-3">
+                <div className="text-xs font-mono text-zinc-400 mt-0.5">
+                  {String.fromCharCode(65 + idx)}
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm">{opt.text}</div>
+                  {showResult && (
+                    <div className="mt-2 space-y-1">
+                      <span
+                        className={`inline-block rounded px-2 py-0.5 text-[10px] font-mono uppercase ${KIND_LABELS[opt.kind]?.color}`}
+                      >
+                        {KIND_LABELS[opt.kind]?.label}
+                      </span>
+                      <div className="text-xs italic text-zinc-600">{opt.teach_note}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 flex justify-end gap-2">
+        {!isRevealed && kidPick !== undefined && (
           <button
-            onClick={gradeCurrent}
-            disabled={draft.length < 10 || grading}
-            className="mt-3 rounded-full bg-zinc-900 px-6 py-3 text-base font-semibold text-white disabled:opacity-40"
+            onClick={() => reveal(current.fact_id)}
+            className="rounded-full bg-zinc-900 px-5 py-2.5 text-sm text-white"
           >
-            {grading ? "Coach is reading..." : "Ask the coach 🧑‍🏫"}
+            Lock in & reveal →
           </button>
-        </div>
-      ) : (
-        <div className="mt-4 space-y-4">
-          <div className="rounded-xl border border-zinc-200 bg-white p-4">
-            <div className="text-xs font-mono uppercase text-zinc-500">Your explanation</div>
-            <div className="mt-1 text-sm">{current.kid_explanation}</div>
-          </div>
-          <div
-            className={`rounded-xl border p-4 ${GRADE_LABELS[current.ai_grade]?.color || "border-zinc-200"}`}
+        )}
+        {isRevealed && !isLast && (
+          <button
+            onClick={next}
+            className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white"
           >
-            <div className="text-xs font-mono uppercase">
-              {GRADE_LABELS[current.ai_grade]?.label || current.ai_grade}
-            </div>
-            <div className="mt-1 text-sm">{current.ai_feedback}</div>
-          </div>
-          <div className="flex justify-end gap-2">
-            {!isLast ? (
-              <button
-                onClick={nextFact}
-                className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white"
-              >
-                Next fact →
-              </button>
-            ) : (
-              <button
-                onClick={finish}
-                disabled={!allGraded || advancing}
-                className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-40"
-              >
-                {advancing ? "Saving..." : "Finish Stage 5 →"}
-              </button>
-            )}
-          </div>
-        </div>
-      )}
+            Next fact →
+          </button>
+        )}
+        {isRevealed && isLast && (
+          <button
+            onClick={finish}
+            disabled={submitting}
+            className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+          >
+            {submitting ? "Saving..." : "See my final brief →"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

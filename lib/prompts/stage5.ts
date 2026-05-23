@@ -1,32 +1,31 @@
-export function gradeExplanationPrompt(
+export function generateHallucinationOptionsPrompt(
   factText: string,
-  kidExplanation: string,
-  sourceTexts: string[],
+  sourceContext: string,
 ): string {
-  const sources = sourceTexts.map((t, i) => `[Source ${i + 1}] ${t.slice(0, 800)}`).join('\n\n');
-  return `An 11-year-old student is explaining a fact in their own words.
+  return `You are creating an "spot the hallucination" exercise for an 11-year-old learning AI literacy.
 
-The fact: "${factText}"
+The TRUE fact (already verified across 3 sources): "${factText}"
 
-The student's explanation:
-"${kidExplanation}"
+Source context for grounding:
+"${sourceContext.slice(0, 1500)}"
 
-For reference, the original sources said:
-${sources}
+Generate 4 versions of this fact in random order:
+1. CLEAN — accurate paraphrase, natural human writing tone
+2. FACTUAL_ERROR — subtly wrong (wrong date by a century, swapped cause/effect, wrong place/people, invented authority name). Tone is natural.
+3. AI_TELL — factually correct BUT written with cliché AI language (em-dashes, "moreover", "it's important to note that", "delve into", "in essence", "tapestry", overconfident hedging, repetitive structure)
+4. BOTH — has BOTH a factual error AND AI-tell language
 
-Grade the student's explanation on three criteria:
-1. NOT COPY-PASTED — uses their own words, not lifted verbatim from sources
-2. FACTUALLY CONSISTENT — doesn't contradict the sources
-3. SHOWS COMPREHENSION — explains WHY or HOW, not just restates the fact
+Return ONLY JSON in this exact shape (and SHUFFLE the order so clean isn't always first):
+{
+  "options": [
+    {"kind": "clean" | "factual_error" | "ai_tell" | "both", "text": "...", "teach_note": "one short sentence explaining what makes this fake or real"}
+  ]
+}
 
-Award one of these grades:
-- "exceeding" — original phrasing + adds insight or context beyond what's in the sources
-- "meeting" — own words, accurate, shows they understood
-- "approaching" — mostly own words but shallow OR slightly inaccurate
-- "far_from" — looks copy-pasted, factually wrong, or just one or two words
-
-Return ONLY JSON:
-{"grade": "exceeding" | "meeting" | "approaching" | "far_from", "feedback": "one short kid-friendly sentence"}
-
-CRITICAL: Be encouraging. Even "approaching" should feel like "you're close, keep going" not "wrong". Two sentences MAX in feedback.`;
+CRITICAL:
+- Each option should be 1-2 sentences, written like a kid wrote it (simple words)
+- For the "ai_tell" version, EXAGGERATE the AI tone so it's spottable
+- For "factual_error", make the error subtle but real
+- The teach_note for the "clean" one should say "This is the accurate one"
+- The teach_note for fakes should specifically name what's wrong (e.g. "Wrong date — Ottoman raids started in 1395, not 1395 BC" or "Notice 'delve into' and 'in essence' — classic AI filler")`;
 }

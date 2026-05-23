@@ -6,7 +6,6 @@ import { Stage2 } from "@/components/stages/Stage2";
 import { Stage3 } from "@/components/stages/Stage3";
 import { Stage4 } from "@/components/stages/Stage4";
 import { Stage5 } from "@/components/stages/Stage5";
-import { Stage6 } from "@/components/stages/Stage6";
 
 type SessionState = {
   id: string;
@@ -57,35 +56,6 @@ export default function StagePage({
       {stageNum === 3 && <Stage3 shareToken={shareToken} />}
       {stageNum === 4 && <Stage4 shareToken={shareToken} />}
       {stageNum === 5 && <Stage5 shareToken={shareToken} />}
-      {stageNum === 6 && <Stage6 shareToken={shareToken} />}
     </StageShell>
-  );
-}
-
-function StagePlaceholder({ stageNum, shareToken }: { stageNum: number; shareToken: string }) {
-  return (
-    <div className="rounded-3xl border border-dashed border-zinc-300 bg-white p-12 text-center">
-      <div className="text-5xl">🚧</div>
-      <h2 className="mt-3 text-xl font-semibold">Stage {stageNum} — under construction</h2>
-      <p className="mt-2 text-zinc-600">Building this stage next.</p>
-      <div className="mt-6 flex justify-center gap-3">
-        {stageNum > 1 && (
-          <a
-            href={`/m/${shareToken}/stage/${stageNum - 1}`}
-            className="rounded-full border border-zinc-300 px-5 py-2 text-sm"
-          >
-            ← Back
-          </a>
-        )}
-        {stageNum < 6 && (
-          <a
-            href={`/m/${shareToken}/stage/${stageNum + 1}`}
-            className="rounded-full bg-amber-500 px-5 py-2 text-sm font-semibold text-white"
-          >
-            Skip to {stageNum + 1} →
-          </a>
-        )}
-      </div>
-    </div>
   );
 }

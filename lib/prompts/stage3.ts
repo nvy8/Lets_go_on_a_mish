@@ -1,37 +1,58 @@
-type JudgeInput = Array<{ id: string; url: string; domain: string; title: string; snippet: string; fetched_ok: boolean }>;
+type SourceForExtract = { id: string; url?: string; domain: string; title: string; text: string };
 
-export function judgeSourcesPrompt(topic: string, sources: JudgeInput): string {
+export function extractFactsPrompt(topic: string, sources: SourceForExtract[]): string {
   const list = sources
     .map(
       (s, i) =>
-        `${i + 1}. [id: ${s.id}] [${s.domain}] "${s.title}"\n   URL: ${s.url}\n   Snippet: ${s.snippet.slice(0, 300)}\n   Page loaded successfully: ${s.fetched_ok ? 'yes' : 'NO (suspicious — URL may not exist or page failed)'}\n`,
+        `[SOURCE ${i + 1}] id=${s.id} | ${s.domain} | "${s.title}"\n${s.text.slice(0, 2500)}\n`,
     )
-    .join('\n');
+    .join('\n---\n\n');
 
-  return `You are a research-literacy coach for an 11-year-old. You're evaluating 10 search-result candidates for the topic: "${topic}".
+  return `You are extracting candidate facts from research sources for an 11-year-old student investigating: "${topic}".
 
-Sources to evaluate:
+Read these 3 sources carefully:
+
 ${list}
 
-For each source, decide:
-- "legit" = trustworthy (well-known publisher, authoritative domain, factually sound)
-- "sus" = NOT trustworthy (sketchy blog, broken URL, hallucinated-looking, sensationalist, low-quality writing)
+Extract exactly 10 candidate facts that could appear across the sources. Mix:
+- ~5 facts that appear in ALL 3 sources (clearly triangulated)
+- ~3 facts that appear in 2 of 3 sources
+- ~2 facts that appear in only 1 source
 
-Also pick the TOP 3 sources the student should use for deep research (must all be legit).
+For each fact:
+- Plain language a kid can understand (≤15 words)
+- A factual claim (e.g. "Walls were 2-3 metres thick"), not an opinion
+- Note which sources it appears in by source id
 
-Return ONLY JSON in this exact shape:
+Return ONLY JSON:
 {
-  "judgments": [
-    {"id": "...", "verdict": "legit" | "sus", "one_line_reason": "..."}
-  ],
-  "top_3_ids": ["...", "...", "..."]
+  "facts": [
+    {"id": "f1", "plain_text": "...", "appears_in": ["sourceId1", "sourceId2"]}
+  ]
 }
 
-Rules for judgments:
-- The reason MUST be one short sentence (under 18 words) a kid can understand
-- If a URL didn't load, that's a strong sus signal — call it out
-- Sensational blog tone ("AMAZING", "no.1 guide", "click here") = sus
-- Made-up-sounding authorities ("Klaus Werner", invented historians) = sus
-- Well-known domains (Wikipedia, Britannica, UNESCO, Smithsonian, major .edu) = legit by default unless content is clearly wrong
-- top_3_ids must contain exactly 3 ids, all of which appear in judgments with verdict "legit"`;
+Use ids "f1" through "f10". Use the exact source ids provided above in the appears_in array.`;
+}
+
+export function verifyClickPrompt(factText: string, sourceTitle: string, sourceText: string): string {
+  return `A student is reading a source and claims it contains a specific fact.
+
+Source: "${sourceTitle}"
+Source text (excerpt):
+"""
+${sourceText.slice(0, 2500)}
+"""
+
+Student's claim — this source contains the fact: "${factText}"
+
+Does this source actually support or mention this fact (even paraphrased)?
+
+Return ONLY JSON:
+{"supported": true | false, "reason": "one short sentence"}
+
+Rules:
+- true = the source clearly contains this information (exact or paraphrased)
+- false = the source does NOT contain this fact, even loosely
+- Be lenient on paraphrasing but strict on the actual claim being present
+- One sentence reason, kid-friendly`;
 }

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     {
       $set: {
         'notepad.hallucinations': updatedItems,
-        current_stage: 6, // stay on 6, just unlock complete page
+        current_stage: 5, // stay on 5, just unlock complete page
         'notepad.stage6_score': { correct: correctCount, total: items.length },
         last_active_at: new Date(),
       },

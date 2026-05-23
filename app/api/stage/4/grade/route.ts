@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentSession } from '@/lib/auth';
 import { connect, COLLECTIONS } from '@/lib/db';
 import { runClaudeJSON } from '@/lib/llm';
-import { gradeExplanationPrompt } from '@/lib/prompts/stage5';
+import { gradeExplanationPrompt } from '@/lib/prompts/stage4';
 import type { FactEntry, SourceEntry } from '@/lib/types';
 
 type GradeResp = {

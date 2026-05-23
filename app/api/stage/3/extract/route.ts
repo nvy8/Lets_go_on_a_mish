@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getCurrentSession } from '@/lib/auth';
 import { connect, COLLECTIONS } from '@/lib/db';
 import { runClaudeJSON } from '@/lib/llm';
-import { extractFactsPrompt } from '@/lib/prompts/stage4';
+import { extractFactsPrompt } from '@/lib/prompts/stage3';
 import type { SourceEntry, FactEntry } from '@/lib/types';
 
 type ExtractResp = {

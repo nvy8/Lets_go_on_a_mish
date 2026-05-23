@@ -8,31 +8,27 @@ export async function POST() {
   if (!session) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
 
   const facts: FactEntry[] = session.notepad?.facts || [];
-  const updatedFacts = facts.map((f) => {
-    const verifiedCount = Object.values(f.source_clicks_verified || {}).filter(
-      Boolean,
-    ).length;
-    return { ...f, triangulated: verifiedCount >= 2 };
-  });
+  const triangulated = facts.filter((f) => f.triangulated);
+  const allGraded = triangulated.every((f) => f.ai_grade);
+  if (!allGraded) {
+    return NextResponse.json({ error: 'Grade all facts first' }, { status: 400 });
+  }
 
-  const triangulatedCount = updatedFacts.filter((f) => f.triangulated).length;
-  const earnedBadge = triangulatedCount >= 2;
+  const allMeetingPlus = triangulated.every(
+    (f) => f.ai_grade === 'meeting' || f.ai_grade === 'exceeding',
+  );
 
   const db = await connect();
   await db.collection(COLLECTIONS.sessions).updateOne(
     { _id: session._id },
     {
       $set: {
-        'notepad.facts': updatedFacts,
         current_stage: 5,
         last_active_at: new Date(),
       },
-      ...(earnedBadge ? { $addToSet: { badges_earned: 'Triangulator' } } : {}),
+      ...(allMeetingPlus ? { $addToSet: { badges_earned: 'Wordsmith' } } : {}),
     },
   );
 
-  return NextResponse.json({
-    triangulated_count: triangulatedCount,
-    earned_badge: earnedBadge,
-  });
+  return NextResponse.json({ earned_badge: allMeetingPlus });
 }

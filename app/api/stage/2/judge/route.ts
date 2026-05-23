@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentSession } from '@/lib/auth';
 import { connect, COLLECTIONS } from '@/lib/db';
 import { runClaudeJSON } from '@/lib/llm';
-import { judgeSourcesPrompt } from '@/lib/prompts/stage3';
+import { judgeSourcesPrompt } from '@/lib/prompts/stage2';
 import type { SourceEntry } from '@/lib/types';
 
 type Judgment = { id: string; verdict: 'legit' | 'sus'; one_line_reason: string };
