@@ -30,10 +30,16 @@ export type SourceEntry = {
   ai_reasoning?: string;
 };
 
+export type EvidencePiece = {
+  source_id: string;
+  snippet: string;
+};
+
 export type FactEntry = {
   id: string;
   plain_text: string;
-  source_clicks: { [sourceId: string]: boolean };
+  evidence?: EvidencePiece[];
+  source_clicks: { [sourceId: string]: 'yes' | 'no' };
   source_clicks_verified: { [sourceId: string]: boolean };
   triangulated?: boolean;
   kid_explanation?: string;
@@ -57,7 +63,7 @@ export type Notepad = {
   hallucinations?: HallucinationResult[];
 };
 
-export type StageNumber = 1 | 2 | 3 | 4 | 5 | 6;
+export type StageNumber = 1 | 2 | 3 | 4 | 5;
 
 export type Session = {
   _id: ObjectId;
