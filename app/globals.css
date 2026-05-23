@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    color-scheme: only light;
+    --background: #fafafa;
+    --foreground: #18181b;
+  }
+
+  html {
+    color-scheme: only light;
+    background: #fafafa;
+  }
+
+  body {
+    background: #fafafa;
+    color: #18181b;
+    font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  input,
+  textarea,
+  select {
+    color: #18181b;
+    background-color: #ffffff;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #71717a;
+    opacity: 1;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #18181b;
+    -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+    caret-color: #18181b;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
