@@ -3,41 +3,52 @@
 @layer base {
   :root {
     color-scheme: only light;
-    --background: #fafafa;
-    --foreground: #18181b;
+    --background: #fdfbf7;
+    --foreground: #2d2d2d;
+    --pencil: #2d2d2d;
+    --paper: #fdfbf7;
+    --muted: #e5e0d8;
   }
 
   html {
     color-scheme: only light;
-    background: #fafafa;
+    background: #fdfbf7;
   }
 
   body {
-    background: #fafafa;
-    color: #18181b;
+    background: #fdfbf7;
+    color: #2d2d2d;
     font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
   }
 
   input,
   textarea,
   select {
-    color: #18181b;
+    color: #2d2d2d;
     background-color: #ffffff;
   }
 
   input::placeholder,
   textarea::placeholder {
-    color: #71717a;
+    color: rgba(45, 45, 45, 0.4);
     opacity: 1;
   }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus {
-    -webkit-text-fill-color: #18181b;
+    -webkit-text-fill-color: #2d2d2d;
     -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
-    caret-color: #18181b;
+    caret-color: #2d2d2d;
   }
+}
+
+/* Hand-drawn paper grain — opt-in via class so dense screens (teacher
+   dashboard tables, mission detail) can stay clean if needed. */
+.bg-paper-grain {
+  background-color: #fdfbf7;
+  background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 @theme inline {

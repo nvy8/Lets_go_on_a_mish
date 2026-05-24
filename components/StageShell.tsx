@@ -1,5 +1,7 @@
 "use client";
 import { ReactNode } from "react";
+import { Award } from "lucide-react";
+import { COLOR, RADIUS, SHADOW, KALAM, pencilAlpha } from "@/lib/design-tokens";
 
 const STAGE_NAMES = [
   "",
@@ -26,41 +28,89 @@ export function StageShell({
   badges: string[];
   children: ReactNode;
 }) {
+  const progressPct = (stageNum / TOTAL_STAGES) * 100;
+
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-8">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <div className="text-xs font-semibold tracking-wide text-amber-700">
+          <div
+            className="inline-block px-3 py-1 text-xs border-2 -rotate-1"
+            style={{
+              fontFamily: "var(--font-kalam)",
+              fontWeight: 700,
+              backgroundColor: COLOR.red,
+              color: "white",
+              borderColor: COLOR.pencil,
+              borderRadius: RADIUS.tag,
+              boxShadow: SHADOW.sm,
+            }}
+          >
             Stage {stageNum} of {TOTAL_STAGES}
           </div>
-          <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{STAGE_NAMES[stageNum]}</h1>
-          <p className="mt-1 text-base text-zinc-600">{missionTopic}</p>
+          <h1
+            className="mt-3 text-3xl sm:text-4xl leading-tight"
+            style={{ ...KALAM, color: COLOR.pencil }}
+          >
+            {STAGE_NAMES[stageNum]}
+          </h1>
+          <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
+            {missionTopic}
+          </p>
         </div>
-        <div className="shrink-0 text-right text-sm text-zinc-600">
-          <div className="font-semibold">{displayName}</div>
-          <div className="text-zinc-500">{missionTitle}</div>
+        <div
+          className="shrink-0 text-right text-sm"
+          style={{ color: pencilAlpha("cc") }}
+        >
+          <div style={{ ...KALAM, fontSize: "1.05rem", color: COLOR.pencil }}>
+            {displayName}
+          </div>
+          <div style={{ color: pencilAlpha("80") }}>{missionTitle}</div>
         </div>
       </div>
 
-      <div className="mt-4 flex items-center gap-3">
-        <div className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-200">
+      <div className="mt-5 flex items-center gap-3">
+        <div
+          className="h-3 flex-1 overflow-hidden border-2"
+          style={{
+            borderColor: COLOR.pencil,
+            backgroundColor: "white",
+            borderRadius: "20px 8px 16px 6px / 8px 20px 6px 16px",
+          }}
+          aria-label={`Progress: stage ${stageNum} of ${TOTAL_STAGES}`}
+        >
           <div
-            className="h-full bg-amber-500 transition-all duration-500 ease-out"
-            style={{ width: `${(stageNum / TOTAL_STAGES) * 100}%` }}
-            aria-label={`Progress: stage ${stageNum} of ${TOTAL_STAGES}`}
+            className="h-full transition-all duration-500 ease-out"
+            style={{
+              width: `${progressPct}%`,
+              backgroundColor: COLOR.red,
+            }}
           />
         </div>
-        <div className="flex gap-1">
-          {badges.map((b) => (
-            <span
-              key={b}
-              title={b}
-              aria-label={`Badge earned: ${b}`}
-              className="inline-flex h-7 items-center rounded-full bg-amber-100 px-2 text-sm font-medium text-amber-900"
-            >
-              🏅 {b}
-            </span>
-          ))}
+        <div className="flex flex-wrap gap-2">
+          {badges.map((b, i) => {
+            const tilt = i % 2 === 0 ? "rotate-2" : "-rotate-2";
+            return (
+              <span
+                key={b}
+                title={b}
+                aria-label={`Badge earned: ${b}`}
+                className={`inline-flex items-center gap-1 px-2 py-1 text-xs border-2 ${tilt}`}
+                style={{
+                  ...KALAM,
+                  fontSize: "0.85rem",
+                  backgroundColor: COLOR.postIt,
+                  color: COLOR.pencil,
+                  borderColor: COLOR.pencil,
+                  borderRadius: RADIUS.chip,
+                  boxShadow: SHADOW.sm,
+                }}
+              >
+                <Award size={14} strokeWidth={2.5} color={COLOR.red} />
+                {b}
+              </span>
+            );
+          })}
         </div>
       </div>
 

@@ -2,6 +2,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { HDCard } from "@/components/handdrawn/HDCard";
+import { HDButton } from "@/components/handdrawn/HDButton";
+import { HDInput } from "@/components/handdrawn/HDInput";
+import { COLOR, RADIUS, KALAM, pencilAlpha, PAPER_BG } from "@/lib/design-tokens";
 
 export default function TeacherLogin() {
   const router = useRouter();
@@ -32,55 +37,78 @@ export default function TeacherLogin() {
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center px-6 py-16">
-      <div className="w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm">
-        <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-700">
-          ← back
+    <main
+      className="flex flex-1 items-center justify-center px-6 py-16"
+      style={PAPER_BG}
+    >
+      <HDCard className="w-full max-w-md p-8" decoration="tape">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1 text-sm hover:opacity-70"
+          style={{ color: pencilAlpha("99") }}
+        >
+          <ArrowLeft size={16} strokeWidth={2.5} />
+          back
         </Link>
-        <h1 className="mt-4 text-2xl font-semibold">
+        <h1
+          className="mt-4 text-3xl"
+          style={{ ...KALAM, color: COLOR.pencil }}
+        >
           {mode === "login" ? "Teacher login" : "Create teacher account"}
         </h1>
-        <p className="mt-1 text-sm text-zinc-600">
+        <p
+          className="mt-1 text-sm"
+          style={{ color: pencilAlpha("cc") }}
+        >
           {mode === "login" ? "Welcome back." : "No school email required."}
         </p>
 
         <form onSubmit={submit} className="mt-6 flex flex-col gap-3">
-          <input
+          <HDInput
             type="email"
             required
             placeholder="you@school.org"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm focus:border-zinc-900 focus:outline-none"
+            className="text-base"
           />
-          <input
+          <HDInput
             type="password"
             required
             minLength={8}
             placeholder="Password (min 8 chars)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm focus:border-zinc-900 focus:outline-none"
+            className="text-base"
           />
           {error && (
-            <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+            <div
+              className="px-3 py-2 text-sm border-[3px]"
+              style={{
+                borderColor: COLOR.red,
+                backgroundColor: "white",
+                borderRadius: RADIUS.notice,
+                color: COLOR.red,
+              }}
+            >
+              {error}
+            </div>
           )}
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-2 rounded-full bg-zinc-900 px-6 py-2.5 text-sm text-white hover:bg-zinc-800 disabled:opacity-50"
-          >
-            {loading ? "..." : mode === "login" ? "Log in" : "Create account"}
-          </button>
+          <div className="mt-2">
+            <HDButton type="submit" variant="primary" size="md" disabled={loading}>
+              {loading ? "..." : mode === "login" ? "Log in" : "Create account"}
+            </HDButton>
+          </div>
         </form>
 
         <button
           onClick={() => setMode(mode === "login" ? "register" : "login")}
-          className="mt-4 w-full text-center text-sm text-zinc-500 hover:text-zinc-700"
+          className="mt-4 w-full text-center text-sm underline"
+          style={{ color: pencilAlpha("99") }}
         >
           {mode === "login" ? "No account? Register" : "Have an account? Log in"}
         </button>
-      </div>
+      </HDCard>
     </main>
   );
 }

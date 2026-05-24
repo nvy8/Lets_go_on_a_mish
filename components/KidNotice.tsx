@@ -1,38 +1,68 @@
 import { ReactNode } from "react";
+import {
+  Lightbulb,
+  CheckCircle2,
+  AlertTriangle,
+  HelpCircle,
+  Search,
+} from "lucide-react";
+import { COLOR, RADIUS, SHADOW } from "@/lib/design-tokens";
 
 export type KidNoticeTone = "info" | "success" | "warning" | "error" | "guidance";
 
-const TONE_STYLES: Record<
-  KidNoticeTone,
-  { container: string; icon: string; iconLabel: string; role: "status" | "alert" }
-> = {
+type ToneStyle = {
+  bg: string;
+  border: string;
+  text: string;
+  iconColor: string;
+  Icon: typeof Lightbulb;
+  iconLabel: string;
+  role: "status" | "alert";
+};
+
+const TONE_STYLES: Record<KidNoticeTone, ToneStyle> = {
   info: {
-    container: "border-sky-200 bg-sky-50 text-sky-900",
-    icon: "💡",
+    bg: "#eaf1fb", // pale ballpoint wash
+    border: COLOR.blue,
+    text: COLOR.pencil,
+    iconColor: COLOR.blue,
+    Icon: Lightbulb,
     iconLabel: "info",
     role: "status",
   },
   success: {
-    container: "border-green-300 bg-green-50 text-green-900",
-    icon: "✓",
+    bg: COLOR.postItGreen,
+    border: COLOR.pencil,
+    text: COLOR.pencil,
+    iconColor: "#2f7a2f",
+    Icon: CheckCircle2,
     iconLabel: "success",
     role: "status",
   },
   warning: {
-    container: "border-amber-300 bg-amber-50 text-amber-900",
-    icon: "⚠️",
+    bg: COLOR.postIt,
+    border: COLOR.pencil,
+    text: COLOR.pencil,
+    iconColor: COLOR.red,
+    Icon: AlertTriangle,
     iconLabel: "warning",
     role: "alert",
   },
   error: {
-    container: "border-red-300 bg-red-50 text-red-900",
-    icon: "🤔",
+    bg: "#ffffff",
+    border: COLOR.red,
+    text: COLOR.pencil,
+    iconColor: COLOR.red,
+    Icon: HelpCircle,
     iconLabel: "needs attention",
     role: "alert",
   },
   guidance: {
-    container: "border-amber-200 bg-amber-50 text-amber-900",
-    icon: "🔍",
+    bg: COLOR.postIt,
+    border: COLOR.pencil,
+    text: COLOR.pencil,
+    iconColor: COLOR.pencil,
+    Icon: Search,
     iconLabel: "tip",
     role: "status",
   },
@@ -49,17 +79,35 @@ export function KidNotice({
   children: ReactNode;
   action?: ReactNode;
 }) {
-  const styles = TONE_STYLES[tone];
+  const s = TONE_STYLES[tone];
+  const Icon = s.Icon;
   return (
     <div
-      role={styles.role}
-      className={`flex items-start gap-3 rounded-xl border-2 p-4 ${styles.container}`}
+      role={s.role}
+      className="flex items-start gap-3 border-[3px] p-4"
+      style={{
+        backgroundColor: s.bg,
+        borderColor: s.border,
+        color: s.text,
+        borderRadius: RADIUS.notice,
+        boxShadow: tone === "error" ? SHADOW.redSm : SHADOW.sm,
+      }}
     >
-      <span aria-label={styles.iconLabel} className="text-2xl leading-none">
-        {styles.icon}
-      </span>
+      <Icon
+        aria-label={s.iconLabel}
+        size={24}
+        strokeWidth={2.5}
+        color={s.iconColor}
+        className="shrink-0"
+      />
       <div className="flex-1 text-base leading-6">
-        {title && <div className="font-semibold">{title}</div>}
+        {title && (
+          <div
+            style={{ fontFamily: "var(--font-kalam)", fontWeight: 700, fontSize: "1.15rem" }}
+          >
+            {title}
+          </div>
+        )}
         <div className={title ? "mt-1" : ""}>{children}</div>
         {action && <div className="mt-3">{action}</div>}
       </div>

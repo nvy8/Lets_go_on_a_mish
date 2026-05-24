@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
-import { MagnifyingGlass, Eye, ArrowRight, WarningCircle } from "@phosphor-icons/react";
+import { Search, Eye, ArrowRight, AlertCircle } from "lucide-react";
+import { HDCard } from "@/components/handdrawn/HDCard";
+import { HDButton } from "@/components/handdrawn/HDButton";
+import { HDInput } from "@/components/handdrawn/HDInput";
+import { COLOR, RADIUS, SHADOW, KALAM, pencilAlpha, PAPER_BG } from "@/lib/design-tokens";
 
 function validateDisplayName(value: string): string | null {
   const trimmed = value.trim();
@@ -62,47 +66,86 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
 
   if (notFound) {
     return (
-      <main className="flex flex-1 items-center justify-center p-6">
-        <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center">
-          <MagnifyingGlass
-            size={40}
-            weight="duotone"
-            className="mx-auto text-amber-500"
-            aria-hidden="true"
-          />
-          <div className="mt-2 font-semibold">Mission not found</div>
-          <div className="mt-1 text-sm text-zinc-500">Ask your teacher for the correct link.</div>
-        </div>
+      <main className="flex flex-1 items-center justify-center p-6" style={PAPER_BG}>
+        <HDCard className="p-8 text-center max-w-md">
+          <div
+            className="mx-auto inline-flex h-16 w-16 items-center justify-center border-[3px] -rotate-3"
+            style={{
+              borderColor: COLOR.pencil,
+              backgroundColor: COLOR.postIt,
+              borderRadius: RADIUS.oval,
+              boxShadow: SHADOW.md,
+            }}
+          >
+            <Search size={32} strokeWidth={2.5} color={COLOR.pencil} aria-hidden="true" />
+          </div>
+          <div className="mt-4 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
+            Mission not found
+          </div>
+          <div className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
+            Ask your teacher for the correct link.
+          </div>
+        </HDCard>
       </main>
     );
   }
 
   if (!mission) {
-    return <main className="p-12 text-zinc-500">Loading...</main>;
+    return (
+      <main className="flex flex-1 items-center justify-center p-12" style={PAPER_BG}>
+        <div style={{ ...KALAM, color: pencilAlpha("99") }}>Loading…</div>
+      </main>
+    );
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
+    <main className="flex flex-1 items-center justify-center px-6 py-12" style={PAPER_BG}>
+      <HDCard className="w-full max-w-md p-8" decoration="tape">
         <div className="text-center">
-          <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-amber-600 ring-1 ring-amber-200">
-            <MagnifyingGlass size={32} weight="duotone" aria-hidden="true" />
+          <div
+            className="inline-flex h-20 w-20 items-center justify-center border-[3px] -rotate-3"
+            style={{
+              borderColor: COLOR.pencil,
+              backgroundColor: COLOR.postIt,
+              borderRadius: RADIUS.oval,
+              boxShadow: SHADOW.md,
+            }}
+          >
+            <Search size={38} strokeWidth={2.5} color={COLOR.pencil} aria-hidden="true" />
           </div>
-          <div className="mt-3 text-sm font-semibold tracking-wide text-amber-700">
+          <div
+            className="mt-5 inline-block px-3 py-1 text-sm border-2 rotate-1 ml-2"
+            style={{
+              ...KALAM,
+              backgroundColor: COLOR.red,
+              color: "white",
+              borderColor: COLOR.pencil,
+              borderRadius: RADIUS.tag,
+              boxShadow: SHADOW.sm,
+            }}
+          >
             Sleuth mission
           </div>
-          <h1 className="mt-1 text-2xl font-semibold">{mission.title}</h1>
-          <p className="mt-2 text-zinc-600">{mission.topic}</p>
+          <h1 className="mt-4 text-3xl leading-tight" style={{ ...KALAM, color: COLOR.pencil }}>
+            {mission.title}
+          </h1>
+          <p className="mt-3 text-base" style={{ color: pencilAlpha("cc") }}>
+            {mission.topic}
+          </p>
         </div>
 
         <form onSubmit={join} className="mt-8 flex flex-col gap-3">
-          <label htmlFor="kid-display-name" className="text-base font-semibold text-zinc-700">
+          <label
+            htmlFor="kid-display-name"
+            className="text-lg"
+            style={{ ...KALAM, color: COLOR.pencil }}
+          >
             Pick a display name
           </label>
-          <p className="-mt-2 text-sm text-zinc-500">
+          <p className="-mt-2 text-sm" style={{ color: pencilAlpha("99") }}>
             No last names. No emails. Pick something fun.
           </p>
-          <input
+          <HDInput
             id="kid-display-name"
             placeholder="e.g. MaxR or DragonHunter"
             value={displayName}
@@ -112,22 +155,26 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
             aria-label="Display name"
             aria-invalid={nameWarning ? true : undefined}
             aria-describedby={nameWarning ? "kid-display-name-warning" : "kid-display-name-privacy"}
-            className={`rounded-xl border-2 px-4 py-3 text-lg focus:outline-none focus:ring-2 ${
-              nameWarning
-                ? "border-amber-400 focus:border-amber-500 focus:ring-amber-200"
-                : "border-zinc-300 focus:border-amber-500 focus:ring-amber-200"
-            }`}
+            invalid={!!nameWarning}
           />
           {nameWarning && (
             <div
               id="kid-display-name-warning"
               role="alert"
-              className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+              className="flex items-start gap-2 px-3 py-2 text-sm border-[3px]"
+              style={{
+                borderColor: COLOR.pencil,
+                backgroundColor: COLOR.postIt,
+                borderRadius: RADIUS.notice,
+                boxShadow: SHADOW.sm,
+                color: COLOR.pencil,
+              }}
             >
-              <WarningCircle
-                size={18}
-                weight="bold"
-                className="mt-0.5 shrink-0 text-amber-600"
+              <AlertCircle
+                size={20}
+                strokeWidth={2.5}
+                color={COLOR.red}
+                className="mt-0.5 shrink-0"
                 aria-hidden="true"
               />
               <span>{nameWarning}</span>
@@ -135,35 +182,51 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
           )}
           <div
             id="kid-display-name-privacy"
-            className="flex items-start gap-2 rounded-xl bg-zinc-50 px-3 py-2 text-sm text-zinc-600"
+            className="flex items-start gap-2 px-3 py-2 text-sm border-2 border-dashed"
+            style={{
+              borderColor: pencilAlpha("4d"),
+              borderRadius: RADIUS.notice,
+              backgroundColor: COLOR.paper,
+              color: pencilAlpha("b3"),
+            }}
           >
             <Eye
               size={18}
-              weight="bold"
-              className="mt-0.5 shrink-0 text-zinc-500"
+              strokeWidth={2.5}
+              className="mt-0.5 shrink-0"
+              style={{ color: pencilAlpha("99") }}
               aria-hidden="true"
             />
             <span>Your teacher can see your name and your work on this mission.</span>
           </div>
           {error && (
-            <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+            <div
+              className="px-3 py-2 text-sm border-[3px]"
+              style={{
+                borderColor: COLOR.red,
+                backgroundColor: "white",
+                borderRadius: RADIUS.notice,
+                color: COLOR.red,
+                boxShadow: SHADOW.sm,
+              }}
+            >
+              {error}
+            </div>
           )}
-          <button
-            type="submit"
-            disabled={!canSubmit}
-            className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
-          >
-            {joining ? (
-              "Starting…"
-            ) : (
-              <>
-                Start mission
-                <ArrowRight size={20} weight="bold" aria-hidden="true" />
-              </>
-            )}
-          </button>
+          <div className="mt-3">
+            <HDButton type="submit" variant="primary" size="lg" disabled={!canSubmit}>
+              {joining ? (
+                "Starting…"
+              ) : (
+                <>
+                  Start mission
+                  <ArrowRight size={22} strokeWidth={2.5} aria-hidden="true" />
+                </>
+              )}
+            </HDButton>
+          </div>
         </form>
-      </div>
+      </HDCard>
     </main>
   );
 }
