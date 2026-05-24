@@ -122,10 +122,12 @@ export default function TeacherDashboard() {
                   />
                 </motion.div>
               </motion.div>
-              <HDButton variant="primary" size="md" onClick={() => setShowForm(true)}>
-                <Plus size={18} strokeWidth={3} />
-                New Mish
-              </HDButton>
+              <Link href="/teacher/missions/new">
+                <HDButton variant="primary" size="md">
+                  <Plus size={18} strokeWidth={3} />
+                  New Mish
+                </HDButton>
+              </Link>
             </div>
           ) : (
             <HDCard className="p-6">
