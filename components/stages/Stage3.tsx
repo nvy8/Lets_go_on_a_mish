@@ -2,26 +2,31 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-type SourceDoc = { id: string; url?: string; domain: string; title: string; text: string };
+type EvidencePiece = { source_id: string; snippet: string };
 type Fact = {
   id: string;
   plain_text: string;
-  source_clicks: Record<string, boolean>;
+  evidence: EvidencePiece[];
+  source_clicks: Record<string, "yes" | "no">;
   source_clicks_verified: Record<string, boolean>;
 };
-type ClickState = "idle" | "checking" | "ok" | "rejected";
+type ClientSource = { id: string; url?: string; domain: string; title: string };
+type Feedback = { correct: boolean; verified: boolean; hint?: string };
 
 export function Stage3({ shareToken }: { shareToken: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [sources, setSources] = useState<SourceDoc[]>([]);
   const [facts, setFacts] = useState<Fact[]>([]);
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [clickState, setClickState] = useState<Record<string, ClickState>>({});
-  const [toast, setToast] = useState<string | null>(null);
-  const [advancing, setAdvancing] = useState(false);
-  const [focusedFactId, setFocusedFactId] = useState<string | null>(null);
-  const [summary, setSummary] = useState<{
+  const [sources, setSources] = useState<ClientSource[]>([]);
+
+  const [factIdx, setFactIdx] = useState(0);
+  const [sourceIdx, setSourceIdx] = useState(0);
+
+  const [phase, setPhase] = useState<"ask" | "feedback" | "fact_summary">("ask");
+  const [feedback, setFeedback] = useState<Feedback | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [finalSummary, setFinalSummary] = useState<{
     triangulated_count: number;
     earned_badge: boolean;
   } | null>(null);
@@ -30,96 +35,13 @@ export function Stage3({ shareToken }: { shareToken: string }) {
     (async () => {
       const r = await fetch("/api/stage/3/extract", { method: "POST" });
       const data = await r.json();
-      if (data.sources && data.facts) {
-        setSources(data.sources);
+      if (data.facts && data.sources) {
         setFacts(data.facts);
+        setSources(data.sources);
       }
       setLoading(false);
     })();
   }, []);
-
-  function clickKey(factId: string, sourceId: string) {
-    return `${factId}::${sourceId}`;
-  }
-
-  async function handleClick(factId: string, sourceId: string) {
-    const key = clickKey(factId, sourceId);
-    if (clickState[key] === "checking" || clickState[key] === "ok") return;
-
-    // Optimistic
-    setClickState((prev) => ({ ...prev, [key]: "checking" }));
-    setFacts((prev) =>
-      prev.map((f) =>
-        f.id === factId
-          ? { ...f, source_clicks: { ...f.source_clicks, [sourceId]: true } }
-          : f,
-      ),
-    );
-
-    try {
-      const res = await fetch("/api/stage/3/verify-click", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fact_id: factId, source_id: sourceId }),
-      });
-      const data = await res.json();
-
-      if (data.supported) {
-        setClickState((prev) => ({ ...prev, [key]: "ok" }));
-        setFacts((prev) =>
-          prev.map((f) =>
-            f.id === factId
-              ? {
-                  ...f,
-                  source_clicks_verified: {
-                    ...f.source_clicks_verified,
-                    [sourceId]: true,
-                  },
-                }
-              : f,
-          ),
-        );
-      } else {
-        setClickState((prev) => ({ ...prev, [key]: "rejected" }));
-        setFacts((prev) =>
-          prev.map((f) =>
-            f.id === factId
-              ? {
-                  ...f,
-                  source_clicks: { ...f.source_clicks, [sourceId]: false },
-                }
-              : f,
-          ),
-        );
-        setToast(data.reason || "Hmm — that fact isn't in this source. Look again.");
-        setTimeout(() => setToast(null), 4000);
-        setTimeout(() => {
-          setClickState((prev) => {
-            const next = { ...prev };
-            if (next[key] === "rejected") delete next[key];
-            return next;
-          });
-        }, 1500);
-      }
-    } catch {
-      setClickState((prev) => {
-        const next = { ...prev };
-        delete next[key];
-        return next;
-      });
-    }
-  }
-
-  async function advance() {
-    setAdvancing(true);
-    try {
-      const r = await fetch("/api/stage/3/advance", { method: "POST" });
-      const data = await r.json();
-      setSummary(data);
-    } finally {
-      setAdvancing(false);
-    }
-  }
 
   if (loading) {
     return (
@@ -131,27 +53,34 @@ export function Stage3({ shareToken }: { shareToken: string }) {
           aria-hidden="true"
           className="mx-auto h-44 w-auto"
         />
-        <div className="mt-4 text-lg text-zinc-700">Your coach is reading all 3 sources and pulling out candidate facts…</div>
-        <div className="mt-1 text-sm text-zinc-500">(takes 10-20s — this is the hardest stage)</div>
+        <div className="mt-4 text-lg text-zinc-700">
+          Your coach is reading all 3 websites and picking 5 facts to check…
+        </div>
+        <div className="mt-1 text-sm text-zinc-500">(takes 15-20 seconds)</div>
       </div>
     );
   }
 
-  if (summary) {
+  if (!facts.length || !sources.length) {
+    return <div className="text-red-600">Failed to load. Refresh.</div>;
+  }
+
+  if (finalSummary) {
     return (
-      <div className="rounded-2xl border border-amber-300 bg-amber-50 p-8 text-center">
-        <div className="text-5xl">{summary.earned_badge ? "🏅" : "📋"}</div>
-        <h2 className="mt-3 text-xl font-semibold">
-          {summary.earned_badge
+      <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 p-8 text-center">
+        <div className="text-6xl">{finalSummary.earned_badge ? "🏅" : "📋"}</div>
+        <h2 className="mt-3 text-2xl font-bold">
+          {finalSummary.earned_badge
             ? "Badge unlocked: Triangulator"
             : "Stage 3 complete"}
         </h2>
-        <p className="mt-2 text-zinc-700">
-          You triangulated <b>{summary.triangulated_count}</b> facts across all 3 sources.
+        <p className="mt-3 text-base text-zinc-700">
+          You triangulated <b>{finalSummary.triangulated_count}</b> out of {facts.length} facts
+          across at least 2 sites.
         </p>
         <button
           onClick={() => router.push(`/m/${shareToken}/stage/4`)}
-          className="mt-6 rounded-full bg-amber-500 px-6 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
+          className="mt-6 rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
         >
           Continue to Explain →
         </button>
@@ -159,177 +88,213 @@ export function Stage3({ shareToken }: { shareToken: string }) {
     );
   }
 
-  if (!sources.length || !facts.length) {
-    return <div className="text-red-600">Failed to load. Refresh.</div>;
+  const currentFact = facts[factIdx];
+  const evidenceList = (currentFact.evidence || []).filter((e) =>
+    sources.find((s) => s.id === e.source_id),
+  );
+  const currentEvidence = evidenceList[sourceIdx];
+  const currentSource = sources.find((s) => s.id === currentEvidence?.source_id);
+
+  async function submitAnswer(answer: "yes" | "no") {
+    if (!currentFact || !currentEvidence) return;
+    setSubmitting(true);
+    try {
+      const r = await fetch("/api/stage/3/verify-click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fact_id: currentFact.id,
+          source_id: currentEvidence.source_id,
+          kid_answer: answer,
+        }),
+      });
+      const data: Feedback = await r.json();
+      setFacts((prev) =>
+        prev.map((f) =>
+          f.id === currentFact.id
+            ? {
+                ...f,
+                source_clicks: { ...f.source_clicks, [currentEvidence.source_id]: answer },
+                source_clicks_verified: {
+                  ...f.source_clicks_verified,
+                  [currentEvidence.source_id]: data.verified,
+                },
+              }
+            : f,
+        ),
+      );
+      setFeedback(data);
+      setPhase("feedback");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
-  const currentSource = sources[currentIdx];
-  const isLastSource = currentIdx === sources.length - 1;
-  const triangulatedCount = facts.filter(
-    (f) =>
-      Object.values(f.source_clicks_verified).filter(Boolean).length >= 2,
-  ).length;
+  function nextStep() {
+    setFeedback(null);
+    if (sourceIdx < evidenceList.length - 1) {
+      setSourceIdx(sourceIdx + 1);
+      setPhase("ask");
+    } else {
+      setPhase("fact_summary");
+    }
+  }
+
+  async function nextFact() {
+    if (factIdx < facts.length - 1) {
+      setFactIdx(factIdx + 1);
+      setSourceIdx(0);
+      setFeedback(null);
+      setPhase("ask");
+    } else {
+      const r = await fetch("/api/stage/3/advance", { method: "POST" });
+      const data = await r.json();
+      setFinalSummary(data);
+    }
+  }
+
+  if (phase === "fact_summary") {
+    const verifiedForFact = Object.values(currentFact.source_clicks_verified || {}).filter(
+      Boolean,
+    ).length;
+    const isTriangulated = verifiedForFact >= 2;
+    return (
+      <div className="mx-auto max-w-2xl">
+        <div className="text-center text-sm font-bold tracking-wide text-amber-700">
+          Fact {factIdx + 1} of {facts.length}
+        </div>
+        <div
+          className={`mt-3 rounded-3xl border-2 p-8 text-center ${
+            isTriangulated ? "border-green-300 bg-green-50" : "border-zinc-300 bg-white"
+          }`}
+        >
+          <div className="text-5xl">{isTriangulated ? "🎯" : "🔍"}</div>
+          <h2 className="mt-3 text-2xl font-bold">
+            You found this fact in {verifiedForFact} out of {evidenceList.length} sites!
+          </h2>
+          <div className="mt-4 rounded-xl bg-white border border-zinc-200 p-4 text-left">
+            <div className="text-sm font-semibold tracking-wide text-zinc-600">📌 The fact</div>
+            <div className="mt-1 text-base font-semibold">{currentFact.plain_text}</div>
+          </div>
+          {isTriangulated ? (
+            <p className="mt-4 text-base text-green-800">
+              ✓ Triangulated — you found it in at least 2 sites. That&apos;s a fact you can trust!
+            </p>
+          ) : (
+            <p className="mt-4 text-base text-zinc-700">
+              Hmm — not enough sources backed this one up. Be careful before trusting it.
+            </p>
+          )}
+          <button
+            onClick={nextFact}
+            className="mt-6 rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-zinc-950 hover:bg-amber-400"
+          >
+            {factIdx < facts.length - 1 ? "Next fact →" : "See my score →"}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const triangulatedSoFar = facts.filter((f) => {
+    const v = Object.values(f.source_clicks_verified || {}).filter(Boolean).length;
+    return v >= 2;
+  }).length;
 
   return (
-    <div className="relative">
-      {toast && (
-        <div
-          role="alert"
-          className="fixed left-1/2 top-20 z-50 flex max-w-md -translate-x-1/2 items-start gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-base text-amber-900 shadow-lg animate-sleuth-pop-in"
-        >
-          <span aria-hidden="true">🤔</span>
-          <span>{toast}</span>
+    <div className="mx-auto max-w-2xl">
+      <div className="flex items-center justify-between text-sm">
+        <div className="font-bold tracking-wide text-amber-700">
+          Fact {factIdx + 1} of {facts.length} · Site {sourceIdx + 1} of {evidenceList.length}
         </div>
-      )}
+        <div className="text-zinc-500">
+          Triangulated so far: <b className="text-amber-700">{triangulatedSoFar}</b>
+        </div>
+      </div>
 
-      <div className="mb-4 rounded-2xl border-2 border-amber-200 bg-white p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <div className="text-sm font-bold tracking-wide text-amber-700">
-              📖 Reading website {currentIdx + 1} of {sources.length}
-            </div>
-            <div className="mt-1 text-xl font-bold leading-tight">{currentSource.title}</div>
-            <div className="text-sm text-zinc-500">{currentSource.domain}</div>
-          </div>
-          <div className="text-right text-sm">
-            <div className="text-zinc-500">You&apos;ve found</div>
-            <div className="text-2xl font-bold text-amber-700">
-              {triangulatedCount} / {facts.length}
-            </div>
-            <div className="text-xs text-zinc-500">facts in 2+ sites</div>
-          </div>
+      <div className="mt-3 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
+        <div className="text-sm font-bold tracking-wide text-amber-700">📌 The fact</div>
+        <div className="mt-1 text-xl font-bold leading-snug">{currentFact.plain_text}</div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border-2 border-zinc-200 bg-white p-5">
+        <div className="text-sm font-bold tracking-wide text-zinc-600">
+          🌐 What this site said
         </div>
-        {currentSource.url && (
+        <div className="mt-1 text-sm font-mono text-zinc-600">{currentSource?.domain}</div>
+        <div className="mt-3 rounded-lg bg-zinc-50 p-4 text-base leading-7 text-zinc-900">
+          {currentEvidence?.snippet}
+        </div>
+        {currentSource?.url && (
           <a
             href={currentSource.url}
             target="_blank"
             rel="noopener"
-            className="mt-3 inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700"
+            className="mt-3 inline-block text-sm text-blue-700 underline"
           >
-            🔗 Open this website in a new tab
+            🔗 Open the full website
           </a>
         )}
-        <div className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">
-          <b>How to play:</b> Read the text below. Whenever you spot one of the facts on the right,
-          tap the <span className="font-mono">{currentIdx + 1}</span> next to it. Find each fact in
-          at least 2 websites to triangulate it. 🧩
-        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {/* SOURCE TEXT — 2/3 cols */}
-        <div className="md:col-span-2">
-          <div className="max-h-[65vh] overflow-y-auto rounded-2xl border-2 border-zinc-200 bg-white p-6 shadow-sm">
-            <h3 className="text-2xl font-bold">{currentSource.title}</h3>
-            <div className="mt-1 text-sm text-zinc-500">{currentSource.domain}</div>
-            <div className="mt-4 whitespace-pre-wrap text-base leading-8 text-zinc-900">
-              {currentSource.text || (
-                <span className="italic text-zinc-500">
-                  Couldn&apos;t auto-load this website&apos;s text. Open it in a new tab using the
-                  blue button above to read it directly.
-                </span>
-              )}
-            </div>
+      {phase === "ask" && (
+        <div className="mt-5">
+          <div className="text-center text-base font-semibold text-zinc-700">
+            Does this snippet really say the fact above?
           </div>
-          <div className="mt-3 flex justify-between gap-2">
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <button
-              disabled={currentIdx === 0}
-              onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))}
-              className="rounded-full border-2 border-zinc-300 px-5 py-2.5 text-base font-semibold hover:bg-zinc-50 disabled:border-zinc-200 disabled:text-zinc-300 disabled:cursor-not-allowed"
+              onClick={() => submitAnswer("yes")}
+              disabled={submitting}
+              className="flex-1 rounded-full bg-green-500 px-6 py-4 text-lg font-bold text-white hover:bg-green-600 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
             >
-              ← Previous website
+              ✓ Yes, I see it!
             </button>
-            {!isLastSource ? (
-              <button
-                onClick={() => setCurrentIdx((i) => i + 1)}
-                className="rounded-full bg-zinc-900 px-5 py-2.5 text-base font-semibold text-white"
-              >
-                Next website →
-              </button>
-            ) : (
-              <button
-                onClick={advance}
-                disabled={advancing}
-                className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-zinc-950 hover:bg-amber-400 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
-              >
-                {advancing ? "Saving..." : "I'm done — check my facts →"}
-              </button>
+            <button
+              onClick={() => submitAnswer("no")}
+              disabled={submitting}
+              className="flex-1 rounded-full bg-red-500 px-6 py-4 text-lg font-bold text-white hover:bg-red-600 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed"
+            >
+              ✗ No, not quite
+            </button>
+          </div>
+        </div>
+      )}
+
+      {phase === "feedback" && feedback && (
+        <div className="mt-5">
+          <div
+            className={`rounded-2xl border-2 p-5 ${
+              feedback.correct
+                ? "border-green-400 bg-green-50"
+                : "border-amber-400 bg-amber-50"
+            }`}
+          >
+            <div className="text-xl font-bold">
+              {feedback.correct ? "✓ Nice eye!" : "🤔 Look again"}
+            </div>
+            {feedback.hint && (
+              <div className="mt-2 text-base text-zinc-800">{feedback.hint}</div>
+            )}
+            {feedback.correct && feedback.verified && (
+              <div className="mt-2 text-sm text-green-800">
+                That counts as one site backing the fact!
+              </div>
+            )}
+            {feedback.correct && !feedback.verified && (
+              <div className="mt-2 text-sm text-zinc-700">
+                Correct — and you noticed this site doesn&apos;t really back the fact. Sharp.
+              </div>
             )}
           </div>
+          <button
+            onClick={nextStep}
+            className="mt-4 w-full rounded-full bg-zinc-900 px-6 py-3 text-base font-bold text-white hover:bg-zinc-800"
+          >
+            {sourceIdx < evidenceList.length - 1 ? "Next site →" : "See my score for this fact →"}
+          </button>
         </div>
-
-        {/* FACTS SIDEBAR — 1/3 cols */}
-        <div className="md:col-span-1">
-          <div className="sticky top-4 max-h-[80vh] overflow-y-auto rounded-2xl border-2 border-amber-200 bg-amber-50 p-4">
-            <div className="mb-3 text-base font-bold tracking-wide text-amber-900">
-              ✨ {facts.length} facts to find
-            </div>
-            <div className="text-xs text-amber-700 mb-3">
-              Tap <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-white border border-zinc-400 text-xs font-mono">{currentIdx + 1}</span> when you spot a fact in this website.
-            </div>
-            <div className="flex flex-col gap-3">
-              {facts.map((f) => {
-                const verifiedCount = Object.values(f.source_clicks_verified).filter(Boolean).length;
-                const triangulated = verifiedCount >= 2;
-                const isFocused = focusedFactId === f.id;
-                return (
-                  <div
-                    key={f.id}
-                    onClick={() => setFocusedFactId(isFocused ? null : f.id)}
-                    className={`cursor-pointer rounded-xl border-2 bg-white p-3 transition ${
-                      triangulated
-                        ? "border-green-400 shadow-sm"
-                        : isFocused
-                        ? "border-amber-400 ring-2 ring-amber-200"
-                        : "border-zinc-200"
-                    }`}
-                  >
-                    <div className="text-sm font-semibold leading-snug text-zinc-900">
-                      {triangulated && <span className="mr-1">🎯</span>}
-                      {f.plain_text}
-                    </div>
-                    <div className="mt-2 flex items-center gap-2">
-                      {sources.map((s, idx) => {
-                        const key = clickKey(f.id, s.id);
-                        const state = clickState[key];
-                        const verified = f.source_clicks_verified[s.id];
-                        const isCurrentSource = s.id === currentSource.id;
-                        return (
-                          <button
-                            key={s.id}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (isCurrentSource) handleClick(f.id, s.id);
-                            }}
-                            disabled={!isCurrentSource || verified || state === "checking"}
-                            title={`Website ${idx + 1}: ${s.domain}`}
-                            className={`flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold transition ${
-                              verified
-                                ? "bg-green-500 text-white shadow"
-                                : state === "checking"
-                                ? "bg-amber-400 text-white animate-pulse"
-                                : state === "rejected"
-                                ? "bg-red-500 text-white animate-sleuth-shake"
-                                : isCurrentSource
-                                ? "border-2 border-amber-400 bg-white text-amber-700 hover:bg-amber-100"
-                                : "border-2 border-zinc-200 bg-zinc-50 text-zinc-300"
-                            }`}
-                          >
-                            {verified ? "✓" : state === "rejected" ? "🤔" : idx + 1}
-                          </button>
-                        );
-                      })}
-                      <div className="ml-auto text-xs font-bold text-zinc-500">
-                        {verifiedCount}/2+
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

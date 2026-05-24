@@ -4,55 +4,40 @@ export function extractFactsPrompt(topic: string, sources: SourceForExtract[]): 
   const list = sources
     .map(
       (s, i) =>
-        `[SOURCE ${i + 1}] id=${s.id} | ${s.domain} | "${s.title}"\n${s.text.slice(0, 2500)}\n`,
+        `[SOURCE ${i + 1}] id=${s.id} | ${s.domain} | "${s.title}"\n${s.text.slice(0, 3500)}\n`,
     )
     .join('\n---\n\n');
 
-  return `You are extracting candidate facts from research sources for an 11-year-old student investigating: "${topic}".
+  return `You are creating a "spot-the-fact" mini-game for an 11-year-old student researching: "${topic}".
 
 Read these 3 sources carefully:
 
 ${list}
 
-Extract exactly 10 candidate facts that could appear across the sources. Mix:
-- ~5 facts that appear in ALL 3 sources (clearly triangulated)
-- ~3 facts that appear in 2 of 3 sources
-- ~2 facts that appear in only 1 source
+Extract exactly 5 candidate facts that the student should learn to triangulate across sources.
 
-For each fact:
-- Plain language a kid can understand (≤15 words)
-- A factual claim (e.g. "Walls were 2-3 metres thick"), not an opinion
-- Note which sources it appears in by source id
+For EACH fact, also pick the most topically-relevant 2-3 sentence snippet from EACH of the 3 sources — even if the source does not actually support the fact. Then honestly mark whether each snippet actually supports the fact.
 
-Return ONLY JSON:
+Constraints (this matters for the game to work):
+- Each fact MUST have "supports": true for at LEAST 2 of the 3 sources (so triangulation is achievable)
+- At least 2 of the 5 facts should have a "supports": false snippet somewhere (to give the student a "trick" snippet that's on-topic but doesn't actually back the fact — they have to read to spot the difference)
+- Snippets must be VERBATIM 2-3 consecutive sentences from the source text — do NOT paraphrase
+- Facts in plain language for a kid (≤15 words), factual claims not opinions
+
+Return ONLY this JSON shape:
 {
   "facts": [
-    {"id": "f1", "plain_text": "...", "appears_in": ["sourceId1", "sourceId2"]}
+    {
+      "id": "f1",
+      "plain_text": "...",
+      "evidence": [
+        {"source_id": "<source id 1>", "snippet": "...", "supports": true},
+        {"source_id": "<source id 2>", "snippet": "...", "supports": true},
+        {"source_id": "<source id 3>", "snippet": "...", "supports": false}
+      ]
+    }
   ]
 }
 
-Use ids "f1" through "f10". Use the exact source ids provided above in the appears_in array.`;
-}
-
-export function verifyClickPrompt(factText: string, sourceTitle: string, sourceText: string): string {
-  return `A student is reading a source and claims it contains a specific fact.
-
-Source: "${sourceTitle}"
-Source text (excerpt):
-"""
-${sourceText.slice(0, 2500)}
-"""
-
-Student's claim — this source contains the fact: "${factText}"
-
-Does this source actually support or mention this fact (even paraphrased)?
-
-Return ONLY JSON:
-{"supported": true | false, "reason": "one short sentence"}
-
-Rules:
-- true = the source clearly contains this information (exact or paraphrased)
-- false = the source does NOT contain this fact, even loosely
-- Be lenient on paraphrasing but strict on the actual claim being present
-- One sentence reason, kid-friendly`;
+Use fact ids "f1" through "f5". Use the exact source ids provided above. Evidence array must contain one entry per source (always 3 entries, in source order).`;
 }
