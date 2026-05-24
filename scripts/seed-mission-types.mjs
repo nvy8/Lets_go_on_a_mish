@@ -72,7 +72,67 @@ const SOURCES_VETTING = {
   is_builtin: true,
 };
 
-const BUILTINS = [SOURCES_VETTING];
+const CHORE_CHECK = {
+  slug: 'chore-check',
+  name: 'Chore Check',
+  description:
+    'Parent gives kid a real-world task. Kid taps "I did it!" when done. Honour code — parent honours the reward offline.',
+  icon: 'check-circle',
+  audience: 'parent',
+  default_badges: [{ slug: 'task-doer', name: 'Task Doer', icon: 'check' }],
+  stages_spec: [
+    {
+      id: 'do-the-task',
+      name: 'Do the task',
+      description: 'Kid sees task description, taps "I did it!" when done.',
+      kind: 'task-checkoff',
+      badge_on_complete: 'task-doer',
+    },
+  ],
+  is_builtin: true,
+};
+
+const DOPAMINE_RESET = {
+  slug: 'dopamine-reset',
+  name: 'Dopamine Reset',
+  description:
+    'Quick 4-step reset — box breathing, gratitude list, a real-world micro-task, and a closing breath.',
+  icon: 'wind',
+  audience: 'both',
+  default_badges: [
+    { slug: 'calm-starter', name: 'Calm Starter', icon: 'wind' },
+    { slug: 'grateful-heart', name: 'Grateful Heart', icon: 'heart' },
+    { slug: 'fresh-air', name: 'Fresh Air', icon: 'tree' },
+    { slug: 'dopamine-resetter', name: 'Dopamine Resetter', icon: 'sparkles' },
+  ],
+  stages_spec: [
+    { id: 'breathe-in', name: 'Breathe in', description: 'Box breathing — 60 seconds', kind: 'breath-timer', config: { seconds: 60 }, badge_on_complete: 'calm-starter' },
+    { id: 'three-things', name: 'Three things', description: 'Write 3 things you are grateful for', kind: 'gratitude-list', badge_on_complete: 'grateful-heart' },
+    { id: 'step-away', name: 'Step away', description: 'Offline 2-min micro-task', kind: 'task-checkoff', config: { task: 'Step outside for 2 minutes' }, badge_on_complete: 'fresh-air' },
+    { id: 'calm-close', name: 'Calm close', description: 'Closing breath — 30 seconds', kind: 'breath-timer', config: { seconds: 30 }, badge_on_complete: 'dopamine-resetter' },
+  ],
+  is_builtin: true,
+};
+
+const READING_DRILL = {
+  slug: 'reading-drill',
+  name: 'Reading Drill',
+  description:
+    'Kid reads a short passage from the knowledge base, answers 3 quick comprehension questions, then explains the main idea in their own words.',
+  icon: 'book-open',
+  audience: 'teacher',
+  default_badges: [
+    { slug: 'careful-reader', name: 'Careful Reader', icon: 'book-open' },
+    { slug: 'wordsmith', name: 'Wordsmith', icon: 'pencil' },
+  ],
+  stages_spec: [
+    { id: 'read', name: 'Read', description: 'Read a short passage + answer 3 MC questions', kind: 'read-then-quiz', badge_on_complete: 'careful-reader' },
+    { id: 'explain', name: 'Explain in your own words', description: 'Summarize the main idea', kind: 'explain-grade', badge_on_complete: 'wordsmith' },
+  ],
+  is_builtin: true,
+};
+
+const BUILTINS = [SOURCES_VETTING, CHORE_CHECK, DOPAMINE_RESET, READING_DRILL];
 
 const client = new MongoClient(uri);
 try {

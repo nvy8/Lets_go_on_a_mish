@@ -3,6 +3,9 @@
 import { useEffect, useState, use } from "react";
 import { StageShell } from "@/components/StageShell";
 import { SourcesVettingRunner } from "@/components/types/SourcesVettingRunner";
+import { ChoreCheckRunner } from "@/components/types/ChoreCheckRunner";
+import { DopamineResetRunner } from "@/components/types/DopamineResetRunner";
+import { ReadingDrillRunner } from "@/components/types/ReadingDrillRunner";
 import { getTypeMeta } from "@/components/types/registry";
 import { KALAM, pencilAlpha, PAPER_BG } from "@/lib/design-tokens";
 
@@ -87,9 +90,21 @@ export default function StagePage({
           {session.mission.mission_type_slug === 'sources-vetting' && (
             <SourcesVettingRunner stageNum={stageNum} shareToken={shareToken} />
           )}
-          {session.mission.mission_type_slug !== 'sources-vetting' && (
-            <NewTypePlaceholder typeSlug={session.mission.mission_type_slug} />
+          {session.mission.mission_type_slug === 'chore-check' && (
+            <ChoreCheckRunner
+              shareToken={shareToken}
+              mission={{ title: session.mission.title, topic: session.mission.topic }}
+            />
           )}
+          {session.mission.mission_type_slug === 'dopamine-reset' && (
+            <DopamineResetRunner stageNum={stageNum} shareToken={shareToken} />
+          )}
+          {session.mission.mission_type_slug === 'reading-drill' && (
+            <ReadingDrillRunner stageNum={stageNum} shareToken={shareToken} />
+          )}
+          {!['sources-vetting', 'chore-check', 'dopamine-reset', 'reading-drill'].includes(
+            session.mission.mission_type_slug,
+          ) && <NewTypePlaceholder typeSlug={session.mission.mission_type_slug} />}
         </StageShell>
       </div>
     </div>
