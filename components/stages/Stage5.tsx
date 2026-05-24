@@ -227,7 +227,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
           const isCorrect = idx === current.correct_index;
           const showResult = isRevealed;
           let bg = "white";
-          let borderColor = COLOR.pencil;
+          let borderColor: string = COLOR.pencil;
           if (showResult) {
             if (isCorrect) bg = COLOR.postItGreen;
             else if (isPicked) {

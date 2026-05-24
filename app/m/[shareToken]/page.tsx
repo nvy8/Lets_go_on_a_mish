@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Eye, ArrowRight, AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { Search, Eye, ArrowRight, AlertCircle, Sparkles } from "lucide-react";
 import { HDCard } from "@/components/handdrawn/HDCard";
 import { HDButton } from "@/components/handdrawn/HDButton";
 import { HDInput } from "@/components/handdrawn/HDInput";
@@ -99,9 +100,25 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center px-6 py-12" style={PAPER_BG}>
-      <HDCard className="w-full max-w-md p-8" decoration="tape">
-        <div className="text-center">
+    <main className="relative flex flex-1 items-center justify-center px-6 py-12 overflow-hidden" style={PAPER_BG}>
+      <HDCard className="relative w-full max-w-md p-8" decoration="tape">
+        <div className="relative text-center">
+          {/* Sparkles flanking the mascot */}
+          <motion.div
+            className="pointer-events-none absolute left-1/2 top-0 -translate-x-[70px]"
+            animate={{ rotate: [0, 12, -8, 0], scale: [1, 1.2, 1] }}
+            transition={{ duration: 2.2, repeat: Infinity }}
+          >
+            <Sparkles size={20} color={COLOR.red} strokeWidth={2.5} />
+          </motion.div>
+          <motion.div
+            className="pointer-events-none absolute left-1/2 top-2 translate-x-[50px]"
+            animate={{ rotate: [0, -10, 14, 0], scale: [1, 1.15, 1] }}
+            transition={{ duration: 2.6, repeat: Infinity, delay: 0.4 }}
+          >
+            <Sparkles size={18} color={COLOR.blue} strokeWidth={2.5} />
+          </motion.div>
+
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/svg/brand/mascot-sleuth.svg"
@@ -120,7 +137,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
               boxShadow: SHADOW.sm,
             }}
           >
-            Sleuth mission
+            Sleuth Mission
           </div>
           <h1 className="mt-4 text-3xl leading-tight" style={{ ...KALAM, color: COLOR.pencil }}>
             {mission.title}
@@ -215,7 +232,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
                 "Starting…"
               ) : (
                 <>
-                  Start mission
+                  Let&apos;s go on a mission
                   <ArrowRight size={22} strokeWidth={2.5} aria-hidden="true" />
                 </>
               )}
