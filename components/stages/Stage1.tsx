@@ -1,6 +1,9 @@
+// 
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { ArrowRight, MessageCircleQuestion, Lightbulb, Sparkles, Pencil } from "lucide-react";
 import { KidNotice } from "@/components/KidNotice";
 import { HDCard } from "@/components/handdrawn/HDCard";
@@ -100,7 +103,29 @@ export function Stage1({ shareToken }: { shareToken: string }) {
   // PHASE 1: pick the strongest
   if (phase === "pick") {
     return (
-      <HDCard className="p-6">
+      <HDCard className="relative p-6">
+        {/* Thinking mascot peeking over the top-right corner */}
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -10, rotate: 14 }}
+          animate={{ opacity: 1, y: 0, rotate: 8 }}
+          transition={{ duration: 0.5, ease: "backOut", delay: 0.15 }}
+          className="pointer-events-none absolute -top-12 -right-4 hidden sm:block"
+        >
+          <motion.div
+            animate={{ rotate: [8, 12, 8], y: [0, -3, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src="/scraped/grid_mojojojo_optimized.webp"
+              alt=""
+              width={96}
+              height={96}
+              style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.12))" }}
+            />
+          </motion.div>
+        </motion.div>
+
         <h2 className="flex items-center gap-2 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
           <MessageCircleQuestion size={28} strokeWidth={2.5} color={COLOR.red} />
           Which question is best?

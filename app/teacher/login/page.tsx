@@ -1,7 +1,10 @@
+// 
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { HDCard } from "@/components/handdrawn/HDCard";
 import { HDButton } from "@/components/handdrawn/HDButton";
@@ -38,10 +41,41 @@ export default function TeacherLogin() {
 
   return (
     <main
-      className="flex flex-1 items-center justify-center px-6 py-16"
+      className="relative flex flex-1 items-center justify-center px-6 py-16 overflow-hidden"
       style={PAPER_BG}
     >
-      <HDCard className="w-full max-w-md p-8" decoration="tape">
+      {/* Faded sketch background — matches the rest of the app */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/scraped/page_homepage_sketch-lines.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.07]"
+      />
+
+      <HDCard className="relative w-full max-w-md p-8" decoration="tape">
+        {/* Friendly teacher mascot sitting on top of the login card */}
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -10, rotate: 8 }}
+          animate={{ opacity: 1, y: 0, rotate: 4 }}
+          transition={{ duration: 0.55, ease: "backOut", delay: 0.15 }}
+          className="pointer-events-none absolute -top-16 -right-4"
+        >
+          <motion.div
+            animate={{ rotate: [4, 8, 4], y: [0, -4, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src="/scraped/grid_mojojojo_optimized.webp"
+              alt=""
+              width={110}
+              height={110}
+              style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.15))" }}
+            />
+          </motion.div>
+        </motion.div>
+
         <Link
           href="/"
           className="inline-flex items-center gap-1 text-sm hover:opacity-70"

@@ -1,3 +1,4 @@
+// 
 "use client";
 import { useEffect, useState, use } from "react";
 import { StageShell } from "@/components/StageShell";
@@ -6,6 +7,7 @@ import { Stage2 } from "@/components/stages/Stage2";
 import { Stage3 } from "@/components/stages/Stage3";
 import { Stage4 } from "@/components/stages/Stage4";
 import { Stage5 } from "@/components/stages/Stage5";
+import { KALAM, pencilAlpha, PAPER_BG } from "@/lib/design-tokens";
 
 type SessionState = {
   id: string;
@@ -37,25 +39,45 @@ export default function StagePage({
   }, []);
 
   if (error) {
-    return <main className="p-12 text-zinc-500">{error}</main>;
+    return (
+      <main className="flex flex-1 items-center justify-center p-12" style={PAPER_BG}>
+        <div style={{ ...KALAM, color: pencilAlpha("cc") }}>{error}</div>
+      </main>
+    );
   }
   if (!session || !session.mission) {
-    return <main className="p-12 text-zinc-500">Loading...</main>;
+    return (
+      <main className="flex flex-1 items-center justify-center p-12" style={PAPER_BG}>
+        <div style={{ ...KALAM, color: pencilAlpha("99") }}>Loading…</div>
+      </main>
+    );
   }
 
   return (
-    <StageShell
-      stageNum={stageNum}
-      displayName={session.display_name}
-      missionTitle={session.mission.title}
-      missionTopic={session.mission.topic}
-      badges={session.badges_earned}
-    >
-      {stageNum === 1 && <Stage1 shareToken={shareToken} />}
-      {stageNum === 2 && <Stage2 shareToken={shareToken} />}
-      {stageNum === 3 && <Stage3 shareToken={shareToken} />}
-      {stageNum === 4 && <Stage4 shareToken={shareToken} />}
-      {stageNum === 5 && <Stage5 shareToken={shareToken} />}
-    </StageShell>
+    <div className="relative flex-1 overflow-hidden" style={PAPER_BG}>
+      {/* Faint hand-drawn doodle behind every stage — same as the Complete page */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/scraped/page_homepage_sketch-lines.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.06]"
+      />
+      <div className="relative">
+        <StageShell
+          stageNum={stageNum}
+          displayName={session.display_name}
+          missionTitle={session.mission.title}
+          missionTopic={session.mission.topic}
+          badges={session.badges_earned}
+        >
+          {stageNum === 1 && <Stage1 shareToken={shareToken} />}
+          {stageNum === 2 && <Stage2 shareToken={shareToken} />}
+          {stageNum === 3 && <Stage3 shareToken={shareToken} />}
+          {stageNum === 4 && <Stage4 shareToken={shareToken} />}
+          {stageNum === 5 && <Stage5 shareToken={shareToken} />}
+        </StageShell>
+      </div>
+    </div>
   );
 }

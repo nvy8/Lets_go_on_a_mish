@@ -1,6 +1,9 @@
+// 
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   Check,
@@ -359,7 +362,37 @@ export function Stage3({ shareToken }: { shareToken: string }) {
       )}
 
       {phase === "feedback" && feedback && (
-        <div className="mt-5">
+        <div className="mt-5 relative">
+          {/* Reaction mascot — celebrates on correct, "hmm" on miss */}
+          <AnimatePresence>
+            <motion.div
+              key={feedback.correct ? "yay" : "hmm"}
+              aria-hidden="true"
+              initial={{ opacity: 0, y: -8, scale: 0.6, rotate: -12 }}
+              animate={{ opacity: 1, y: 0, scale: 1, rotate: -6 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ duration: 0.45, ease: "backOut" }}
+              className="pointer-events-none absolute -top-12 -left-3 hidden sm:block"
+            >
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Image
+                  src={
+                    feedback.correct
+                      ? "/scraped/grid_plushies_optimized.webp"
+                      : "/scraped/grid_mojojojo_optimized.webp"
+                  }
+                  alt=""
+                  width={84}
+                  height={84}
+                  style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.15))" }}
+                />
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+
           <HDCard
             variant={feedback.correct ? "postItGreen" : "postIt"}
             className="p-5"

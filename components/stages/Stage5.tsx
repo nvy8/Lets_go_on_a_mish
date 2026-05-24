@@ -1,6 +1,9 @@
+// 
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   ShieldQuestion,
@@ -168,7 +171,50 @@ export function Stage5({ shareToken }: { shareToken: string }) {
 
   return (
     <div>
-      <HDCard className="p-6">
+      <HDCard className="relative p-6">
+        {/* Real-vs-fake mascot pair: detective (real) on the left, "plush" (fake) on the right */}
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -8, rotate: -16 }}
+          animate={{ opacity: 1, y: 0, rotate: -8 }}
+          transition={{ duration: 0.5, ease: "backOut", delay: 0.15 }}
+          className="pointer-events-none absolute -top-12 -left-3 hidden sm:block"
+        >
+          <motion.div
+            animate={{ y: [0, -4, 0], rotate: [-8, -5, -8] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src="/scraped/grid_plushies_optimized.webp"
+              alt=""
+              width={88}
+              height={88}
+              style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.15))" }}
+            />
+          </motion.div>
+        </motion.div>
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -8, rotate: 16 }}
+          animate={{ opacity: 1, y: 0, rotate: 10 }}
+          transition={{ duration: 0.5, ease: "backOut", delay: 0.3 }}
+          className="pointer-events-none absolute -top-12 -right-3 hidden sm:block"
+          style={{ filter: "grayscale(0.3) opacity(0.85)" }}
+        >
+          <motion.div
+            animate={{ y: [0, -3, 0], rotate: [10, 14, 10] }}
+            transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src="/scraped/grid_plushies_optimized.webp"
+              alt=""
+              width={84}
+              height={84}
+              style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.12))" }}
+            />
+          </motion.div>
+        </motion.div>
+
         <div className="flex items-start justify-between gap-4">
           <h2
             className="flex items-center gap-2 text-2xl"
@@ -220,7 +266,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
           const isCorrect = idx === current.correct_index;
           const showResult = isRevealed;
           let bg = "white";
-          let borderColor = COLOR.pencil;
+          let borderColor: string = COLOR.pencil;
           if (showResult) {
             if (isCorrect) bg = COLOR.postItGreen;
             else if (isPicked) {
