@@ -127,7 +127,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         >
           <Image
-            src="/scraped/grid_plushies_optimized.webp"
+            src="/scraped/features-2022_feature5_optimized.webp"
             alt=""
             width={130}
             height={130}

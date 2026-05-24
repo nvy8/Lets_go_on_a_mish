@@ -238,7 +238,7 @@ export function Stage2({ shareToken }: { shareToken: string }) {
             transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
-              src="/scraped/grid_mojojojo_optimized.webp"
+              src="/scraped/features-2022_feature5_optimized.webp"
               alt=""
               width={120}
               height={120}

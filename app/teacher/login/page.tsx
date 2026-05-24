@@ -67,7 +67,7 @@ export default function TeacherLogin() {
             transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
-              src="/scraped/grid_mojojojo_optimized.webp"
+              src="/scraped/features-2022_feature5_optimized.webp"
               alt=""
               width={110}
               height={110}
