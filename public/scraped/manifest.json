@@ -1,0 +1,314 @@
+{
+  "scraped_from": "classdojo.com",
+  "scraped_at": "2026-05-24T10:24:25.969597Z",
+  "warning": "TEMP HACKATHON ASSETS - Class Dojo IP - REPLACE BEFORE LAUNCH",
+  "total_assets": 51,
+  "assets": [
+    {
+      "filename": "classdojo-logo.svg",
+      "source_url": "https://static.classdojo.com/img/classdojo-logo.svg",
+      "kind": "svg",
+      "label": "logo"
+    },
+    {
+      "filename": "user-badges_teacher.svg",
+      "source_url": "https://static.classdojo.com/img/page_home/user-badges/teacher.svg",
+      "kind": "svg",
+      "label": "teacher, badge"
+    },
+    {
+      "filename": "user-badges_parent.svg",
+      "source_url": "https://static.classdojo.com/img/page_home/user-badges/parent.svg",
+      "kind": "svg",
+      "label": "parent, badge"
+    },
+    {
+      "filename": "user-badges_student.svg",
+      "source_url": "https://static.classdojo.com/img/page_home/user-badges/student.svg",
+      "kind": "svg",
+      "label": "student, badge"
+    },
+    {
+      "filename": "user-badges_school-leader.svg",
+      "source_url": "https://static.classdojo.com/img/page_home/user-badges/school-leader.svg",
+      "kind": "svg",
+      "label": "school, badge"
+    },
+    {
+      "filename": "user-badges_district-badge_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/page_home/user-badges/district-badge_optimized.webp",
+      "kind": "img",
+      "label": "badge"
+    },
+    {
+      "filename": "features-2022_feature1_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/page_home/features-2022/feature1_optimized.webp",
+      "kind": "img",
+      "label": "feature"
+    },
+    {
+      "filename": "features-2022_feature2_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/page_home/features-2022/feature2_optimized.webp",
+      "kind": "img",
+      "label": "feature"
+    },
+    {
+      "filename": "features-2022_feature3_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/page_home/features-2022/feature3_optimized.webp",
+      "kind": "img",
+      "label": "feature"
+    },
+    {
+      "filename": "features-2022_feature4_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/page_home/features-2022/feature4_optimized.webp",
+      "kind": "img",
+      "label": "feature"
+    },
+    {
+      "filename": "features-2022_feature5_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/page_home/features-2022/feature5_optimized.webp",
+      "kind": "img",
+      "label": "feature"
+    },
+    {
+      "filename": "grid_teachercostumes_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid/teachercostumes_optimized.webp",
+      "kind": "img",
+      "label": "teacher"
+    },
+    {
+      "filename": "grid_plushies_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid/plushies_optimized.webp",
+      "kind": "img",
+      "label": "plush"
+    },
+    {
+      "filename": "grid_mojojojo_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid/mojojojo_optimized.webp",
+      "kind": "img",
+      "label": "mojo"
+    },
+    {
+      "filename": "grid-images_mojodrawing_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/mojodrawing_optimized.webp",
+      "kind": "img",
+      "label": "mojo, drawing"
+    },
+    {
+      "filename": "grid-images_mojoplush_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/mojoplush_optimized.webp",
+      "kind": "img",
+      "label": "mojo, plush"
+    },
+    {
+      "filename": "grid-images_diploma_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/diploma_optimized.webp",
+      "kind": "img",
+      "label": "diploma"
+    },
+    {
+      "filename": "grid-images_stickers_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/stickers_optimized.webp",
+      "kind": "img",
+      "label": "sticker"
+    },
+    {
+      "filename": "grid-images_projector_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/projector_optimized.webp",
+      "kind": "img",
+      "label": "projector"
+    },
+    {
+      "filename": "grid-images_homework_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/homework_optimized.webp",
+      "kind": "img",
+      "label": "homework"
+    },
+    {
+      "filename": "grid-images_selfie_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/selfie_optimized.webp",
+      "kind": "img",
+      "label": "selfie"
+    },
+    {
+      "filename": "grid-images_christmascard_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/christmascard_optimized.webp",
+      "kind": "img",
+      "label": "christmas"
+    },
+    {
+      "filename": "grid-images_thanks_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/grid-images/thanks_optimized.webp",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "rocket_optimized.webp",
+      "source_url": "https://static.classdojo.com/img-optimized/img/careers/rocket_optimized.webp",
+      "kind": "img",
+      "label": "rocket"
+    },
+    {
+      "filename": "page_homepage_sketch-lines.svg",
+      "source_url": "https://static.classdojo.com/img/page_homepage/sketch-lines.svg",
+      "kind": "svg",
+      "label": "sketch"
+    },
+    {
+      "filename": "54c08346-3ed8-4692-874e-b2c28fccacb3..svg",
+      "source_url": "https://static.classdojo.com/uploads/54c08346-3ed8-4692-874e-b2c28fccacb3..svg",
+      "kind": "svg",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "91ead617-d33b-486c-a115-cb25af2afeeb.svg",
+      "source_url": "https://static.classdojo.com/uploads/91ead617-d33b-486c-a115-cb25af2afeeb.svg",
+      "kind": "svg",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "2d7308f2-84ea-4cf1-92c9-b9609c4912bb.svg",
+      "source_url": "https://static.classdojo.com/uploads/2d7308f2-84ea-4cf1-92c9-b9609c4912bb.svg",
+      "kind": "svg",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "e4c412d3-5613-4a48-9fcf-e4b1db18a5b2.svg",
+      "source_url": "https://static.classdojo.com/uploads/e4c412d3-5613-4a48-9fcf-e4b1db18a5b2.svg",
+      "kind": "svg",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "c69a30b4ef3340bd343f31e2e5d20910_0ad8d_header-left.webp",
+      "source_url": "https://www.classdojo.com/static/c69a30b4ef3340bd343f31e2e5d20910/0ad8d/header-left.webp",
+      "kind": "img",
+      "label": "header"
+    },
+    {
+      "filename": "d7bde334a43fc2dde6e76d24fa1994fb_0ad8d_header-right.webp",
+      "source_url": "https://www.classdojo.com/static/d7bde334a43fc2dde6e76d24fa1994fb/0ad8d/header-right.webp",
+      "kind": "img",
+      "label": "header"
+    },
+    {
+      "filename": "13182b684bdd8cdf73678a13e8fda9f8_6a8ed_section1-left.webp",
+      "source_url": "https://www.classdojo.com/static/13182b684bdd8cdf73678a13e8fda9f8/6a8ed/section1-left.webp",
+      "kind": "img",
+      "label": "section"
+    },
+    {
+      "filename": "b02d05ab644b15b670a452d40055c4c1_bfd9f_section1-right.webp",
+      "source_url": "https://www.classdojo.com/static/b02d05ab644b15b670a452d40055c4c1/bfd9f/section1-right.webp",
+      "kind": "img",
+      "label": "section"
+    },
+    {
+      "filename": "033dd1e0b2f2d75b4b7ad023b3cb718e_4a839_section4-main-img.webp",
+      "source_url": "https://www.classdojo.com/static/033dd1e0b2f2d75b4b7ad023b3cb718e/4a839/section4-main-img.webp",
+      "kind": "img",
+      "label": "section"
+    },
+    {
+      "filename": "ceacb30f8f19ebb30f9510c316ed7590_3aee4_section4-img-left-bottom.webp",
+      "source_url": "https://www.classdojo.com/static/ceacb30f8f19ebb30f9510c316ed7590/3aee4/section4-img-left-bottom.webp",
+      "kind": "img",
+      "label": "section"
+    },
+    {
+      "filename": "69eb17938b797c6481dd66e65af8b4ce_3aee4_section4-img-right-bottom.webp",
+      "source_url": "https://www.classdojo.com/static/69eb17938b797c6481dd66e65af8b4ce/3aee4/section4-img-right-bottom.webp",
+      "kind": "img",
+      "label": "section"
+    },
+    {
+      "filename": "8a984deadfaf3bf7d58e913a06ac50af_7572c_section5-number-1.webp",
+      "source_url": "https://www.classdojo.com/static/8a984deadfaf3bf7d58e913a06ac50af/7572c/section5-number-1.webp",
+      "kind": "img",
+      "label": "section, number"
+    },
+    {
+      "filename": "0f3e3ec267fb664b5ca18f6192e2bfe4_7572c_section5-number-2.webp",
+      "source_url": "https://www.classdojo.com/static/0f3e3ec267fb664b5ca18f6192e2bfe4/7572c/section5-number-2.webp",
+      "kind": "img",
+      "label": "section, number"
+    },
+    {
+      "filename": "2306f452eb07303da132a515fa105451_7572c_section5-number-3.webp",
+      "source_url": "https://www.classdojo.com/static/2306f452eb07303da132a515fa105451/7572c/section5-number-3.webp",
+      "kind": "img",
+      "label": "section, number"
+    },
+    {
+      "filename": "201cb2468e86e626c0015b81e1e4cfd0_037ff_bottom-section-bg.webp",
+      "source_url": "https://www.classdojo.com/static/201cb2468e86e626c0015b81e1e4cfd0/037ff/bottom-section-bg.webp",
+      "kind": "img",
+      "label": "section"
+    },
+    {
+      "filename": "b6d416364f65e5736c57c3d7250aa238_b62bf_bottom-section-mascots.webp",
+      "source_url": "https://www.classdojo.com/static/b6d416364f65e5736c57c3d7250aa238/b62bf/bottom-section-mascots.webp",
+      "kind": "img",
+      "label": "mascot, section"
+    },
+    {
+      "filename": "33ff5984-f5cb-4d9a-aa7a-fbbbc9382d7a.png",
+      "source_url": "https://static.classdojo.com/uploads/33ff5984-f5cb-4d9a-aa7a-fbbbc9382d7a.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "dd8bb1fd-2bd8-49ca-b677-532d753b24b1.png",
+      "source_url": "https://static.classdojo.com/uploads/dd8bb1fd-2bd8-49ca-b677-532d753b24b1.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "bbbcc6ee-871d-4ce6-8b7f-9477cca36663.png",
+      "source_url": "https://static.classdojo.com/uploads/bbbcc6ee-871d-4ce6-8b7f-9477cca36663.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "20b9033d-52fe-4abd-a547-7fbeae232854.png",
+      "source_url": "https://static.classdojo.com/uploads/20b9033d-52fe-4abd-a547-7fbeae232854.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "40f7ddac-0d85-4ac2-9e43-5b53fe44024a.png",
+      "source_url": "https://static.classdojo.com/uploads/40f7ddac-0d85-4ac2-9e43-5b53fe44024a.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "37b76f6c-87f0-4537-94c6-de049c80ee66.png",
+      "source_url": "https://static.classdojo.com/uploads/37b76f6c-87f0-4537-94c6-de049c80ee66.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "c1f9bbdf-a3f1-4cb9-865d-7a8282dbe5e9.png",
+      "source_url": "https://static.classdojo.com/uploads/c1f9bbdf-a3f1-4cb9-865d-7a8282dbe5e9.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "4df6c057-f6ee-41cf-b40d-83a713315be8.png",
+      "source_url": "https://static.classdojo.com/uploads/4df6c057-f6ee-41cf-b40d-83a713315be8.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "bbfca117-b935-45b7-a3f7-9905f4254b88.png",
+      "source_url": "https://static.classdojo.com/uploads/bbfca117-b935-45b7-a3f7-9905f4254b88.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    },
+    {
+      "filename": "d1239b6f-407a-416b-a4a0-893dc748a10d.png",
+      "source_url": "https://static.classdojo.com/uploads/d1239b6f-407a-416b-a4a0-893dc748a10d.png",
+      "kind": "img",
+      "label": "illustration/asset"
+    }
+  ]
+}
