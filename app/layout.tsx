@@ -20,7 +20,7 @@ const kalam = Kalam({
 });
 
 export const metadata: Metadata = {
-  title: "Sleuth — Research with friction",
+  title: "Mish — Research with friction",
   description: "Teach kids real research skills + AI literacy. 6 gated stages, no shortcuts.",
 };
 

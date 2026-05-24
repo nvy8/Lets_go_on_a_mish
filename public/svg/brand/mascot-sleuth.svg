@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="sleuthTitle">
-  <title id="sleuthTitle">Friendly sleuth with magnifying glass</title>
+  <title id="sleuthTitle">Friendly Mish with magnifying glass</title>
   <!-- shadow under feet -->
   <ellipse cx="100" cy="182" rx="46" ry="6" fill="#2d2d2d" opacity="0.12"/>
   <!-- body / coat -->

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="celebTitle">
-  <title id="celebTitle">Sleuth cheering with confetti</title>
+  <title id="celebTitle">Mish cheering with confetti</title>
   <ellipse cx="100" cy="184" rx="42" ry="6" fill="#2d2d2d" opacity="0.12"/>
   <!-- confetti -->
   <rect x="22" y="36" width="8" height="8" fill="#f7b100" transform="rotate(20 26 40)"/>

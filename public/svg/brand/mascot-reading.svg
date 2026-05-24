@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="readTitle">
-  <title id="readTitle">Sleuth reading a clue book</title>
+  <title id="readTitle">Mish reading a clue book</title>
   <ellipse cx="100" cy="184" rx="48" ry="5" fill="#2d2d2d" opacity="0.12"/>
   <!-- body -->
   <path d="M56 178 C56 138 70 116 100 116 C130 116 144 138 144 178 Z" fill="#a8551f" stroke="#2d2d2d" stroke-width="3.5"/>

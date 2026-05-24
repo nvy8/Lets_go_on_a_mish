@@ -41,7 +41,7 @@ export default function Home() {
           className="text-7xl sm:text-8xl leading-none"
           style={{ ...KALAM, color: COLOR.pencil }}
         >
-          Sleuth
+          Mish
           <span
             className="inline-block ml-2"
             style={{ color: COLOR.red, transform: "rotate(8deg)", display: "inline-block" }}
