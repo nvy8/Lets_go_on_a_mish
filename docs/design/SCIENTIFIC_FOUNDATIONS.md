@@ -213,7 +213,7 @@ The contemporary replacement for the older CRAAP test, which over-emphasizes on-
 - Stage 3 surfaces N facts in a sidebar (typically 4-6), under the limit. ✅
 - Animation budget is intentionally tiny (4 microinteractions per [DESIGN_IMPROVEMENTS_FOR_KIDS.md §7](DESIGN_IMPROVEMENTS_FOR_KIDS.md)). ✅
 
-**Anti-pattern.** Edtech dashboards with 20 widgets (ClassDojo-style). Decorative motion on reading surfaces.
+**Anti-pattern.** Edtech dashboards with 20 widgets. Decorative motion on reading surfaces.
 
 **Sources.** Sweller (1988), *Cognitive Science*. Cowan (2001), *Behavioral and Brain Sciences*.
 
@@ -274,13 +274,13 @@ Each of these is a thing many edtechs *do* and Sleuth deliberately *does not*. T
 | Anti-pattern | Effect on minors | Source | Sleuth status |
 |---|---|---|---|
 | **Variable-ratio rewards / loot box** | Cultivates compulsive behavior; banned in age-appropriate codes | Schüll (2012); ICO UK Age-Appropriate Design Code (2021); 5Rights Foundation | ✅ Not present. Badges are deterministic and tied to demonstrated skill. |
-| **Streaks / "don't break the chain"** | Loss-aversion-driven anxiety; "30-second engagement" pattern that produces zero learning | Kahneman & Tversky (1979) on loss aversion; *Wired* (2024) "The Hidden Cost of Duolingo Streaks" | ✅ Not present. No daily counter, no flame icon. |
+| **Streaks / "don't break the chain"** | Loss-aversion-driven anxiety; "30-second engagement" pattern that produces zero learning | Kahneman & Tversky (1979) on loss aversion; press coverage of streak-mechanic harms (2024) | ✅ Not present. No daily counter, no flame icon. |
 | **Infinite scroll / autoplay-next** | Destroys metacognitive control over time | Tristan Harris / CHT | ✅ Not present. Mission ends on the Complete page; no "next mission" autoload. |
 | **Manipulative push notifications** | Attention fragmentation, ~23 min recovery time per interruption | Mark, *UC Irvine* (2018) | ✅ Not present. Sleuth has no notification surface at all. |
 | **Confirmshaming / fake countdowns / fake "N kids online now"** | Manipulates minors emotionally; banned in ICO code | Brignull, *deceptive.design*; Gray et al. (2018), CHI | ✅ Not present. |
 | **Public leaderboards** | Chronic demotivation + adolescent social-comparison harm | Hanus & Fox (2015); Haidt (2024), caveat Orben & Przybylski (2019) | ✅ Not present. |
 
-These are *active* design refusals, not accidents. When evaluating a future feature, "but Duolingo does this" is not an argument — the citations above are.
+These are *active* design refusals, not accidents. When evaluating a future feature, "but $POPULAR_APP does this" is not an argument — the citations above are.
 
 ---
 

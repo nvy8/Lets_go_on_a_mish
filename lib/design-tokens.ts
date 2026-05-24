@@ -13,7 +13,7 @@ export const COLOR = {
   postItGreen: "#d8f5c4", // post-it light green (success / verified)
   postItPink: "#ffd4d4", // post-it pink (highlights / wrong picks)
   ink: "#1a1a1a",        // dark ink for text on light bg
-  // — Kid-flow warm palette (ClassDojo-inspired) —
+  // — Kid-flow warm palette —
   gold: "#f7b100",       // primary celebratory accent — buttons, stars, focus
   goldSoft: "#fff1c2",   // gold tinted background wash
   lavender: "#d3d7ec",   // soft lavender-gray — secondary surfaces / disabled

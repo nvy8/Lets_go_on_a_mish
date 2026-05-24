@@ -247,8 +247,8 @@ This example shows what to do when you **want** the kids to hit a famous misconc
 | Week | Title | Topic | Knowledge base hint |
 |:---:|---|---|---|
 | 1 | *Why is the sky blue?* | Why does the sky look blue during the day but orange at sunset? | "Trusted: NASA SpacePlace, Met Office. **Watch for**: 'reflects the ocean' is a popular wrong answer — the kid should catch it in Stage 4." |
-| 1 | *Why do mirrors flip left-right but not up-down?* | The 'mirror paradox' explained | "Trusted: Physics Girl, Veritasium summaries. Misconception: mirrors don't actually flip anything." |
-| 2 | *Why is grass green?* | Chlorophyll and what light plants reflect | "Trusted: Khan Academy Bio, NASA Earth Observatory. Misconception: 'plants like green' — actually they REJECT green." |
+| 1 | *Why do mirrors flip left-right but not up-down?* | The 'mirror paradox' explained | "Trusted: reputable physics-education channels. Misconception: mirrors don't actually flip anything." |
+| 2 | *Why is grass green?* | Chlorophyll and what light plants reflect | "Trusted: established educational biology resources, NASA Earth Observatory. Misconception: 'plants like green' — actually they REJECT green." |
 | 2 | *Why do rainbows have those specific colors?* | Spectrum, refraction, why 7 bands | "Trusted: NOAA SciJinks, Met Office. Misconception: rainbows have 7 distinct bands — actually a continuous spectrum." |
 
 ### Step 3 — Run the first mission
