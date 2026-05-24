@@ -196,7 +196,7 @@ export default function CompletePage({
               className="mt-2 text-6xl leading-tight sm:text-7xl"
               style={{ ...KALAM, color: COLOR.red }}
             >
-              Mission complete!
+              Mish complete!
             </motion.h1>
 
             <motion.p

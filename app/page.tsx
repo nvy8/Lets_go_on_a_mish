@@ -168,7 +168,7 @@ export default function Home() {
       <section className="mt-24 max-w-3xl text-center">
         <HDCard className="p-8" decoration="tape">
           <p className="text-xl" style={{ ...KALAM, color: COLOR.pencil }}>
-            One mission. Five gates. A real PDF brief at the end.
+            One Mish. Five gates. A real PDF brief at the end.
           </p>
           <p
             className="mt-3 text-base"
