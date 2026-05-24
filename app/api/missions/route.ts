@@ -1,18 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { randomBytes } from 'node:crypto';
-import { connect, COLLECTIONS } from '@/lib/db';
+import { connect, COLLECTIONS, ObjectId } from '@/lib/db';
 import { getCurrentTeacher } from '@/lib/auth';
+
+function parseObjectId(id: unknown): ObjectId | null {
+  if (typeof id !== 'string') return null;
+  try {
+    return new ObjectId(id);
+  } catch {
+    return null;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const teacher = await getCurrentTeacher();
   if (!teacher) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
 
   try {
-    const { title, topic, knowledge_base_text } = await req.json();
+    const body = await req.json();
+    const { title, topic, knowledge_base_text, project_id, week_number } = body;
     if (!title || !topic) {
       return NextResponse.json({ error: 'title and topic required' }, { status: 400 });
     }
+
     const db = await connect();
+
+    // Optional project assignment. If provided, verify the teacher owns it.
+    let projectObjectId: ObjectId | null = null;
+    let nextPosition: number | undefined;
+    if (project_id !== undefined && project_id !== null && project_id !== '') {
+      projectObjectId = parseObjectId(project_id);
+      if (!projectObjectId) {
+        return NextResponse.json({ error: 'Invalid project_id' }, { status: 400 });
+      }
+      const owned = await db
+        .collection(COLLECTIONS.projects)
+        .findOne({ _id: projectObjectId, teacher_id: teacher._id });
+      if (!owned) {
+        return NextResponse.json({ error: 'Project not found' }, { status: 404 });
+      }
+      // Append to the end of the project.
+      const last = await db
+        .collection(COLLECTIONS.missions)
+        .find({ project_id: projectObjectId })
+        .sort({ position: -1 })
+        .limit(1)
+        .toArray();
+      nextPosition = ((last[0]?.position as number) ?? 0) + 1;
+    }
+
+    const validWeek =
+      typeof week_number === 'number' && week_number > 0 && week_number <= 52
+        ? Math.floor(week_number)
+        : undefined;
+
     const share_token = randomBytes(12).toString('base64url');
     const result = await db.collection(COLLECTIONS.missions).insertOne({
       teacher_id: teacher._id,
@@ -21,6 +62,8 @@ export async function POST(req: NextRequest) {
       knowledge_base_text: knowledge_base_text || '',
       share_token,
       created_at: new Date(),
+      ...(projectObjectId ? { project_id: projectObjectId, position: nextPosition } : {}),
+      ...(validWeek !== undefined ? { week_number: validWeek } : {}),
     });
     return NextResponse.json({
       ok: true,
@@ -32,14 +75,21 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const teacher = await getCurrentTeacher();
   if (!teacher) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
 
+  const url = new URL(req.url);
+  const standaloneOnly = url.searchParams.get('standalone') === '1';
+
   const db = await connect();
+  const query: Record<string, unknown> = { teacher_id: teacher._id };
+  if (standaloneOnly) {
+    query.$or = [{ project_id: { $exists: false } }, { project_id: null }];
+  }
   const missions = await db
     .collection(COLLECTIONS.missions)
-    .find({ teacher_id: teacher._id })
+    .find(query)
     .sort({ created_at: -1 })
     .toArray();
 
@@ -50,6 +100,9 @@ export async function GET() {
       topic: m.topic,
       share_token: m.share_token,
       created_at: m.created_at,
+      project_id: m.project_id ? m.project_id.toString() : null,
+      position: m.position ?? null,
+      week_number: m.week_number ?? null,
     })),
   });
 }

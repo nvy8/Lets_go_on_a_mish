@@ -8,6 +8,19 @@ export type Teacher = {
   last_login: Date;
 };
 
+export type Project = {
+  _id: ObjectId;
+  teacher_id: ObjectId;
+  name: string;
+  description?: string;
+  // Optional scheduling hint — purely metadata, not enforced.
+  // Lets the teacher say "this is a 6-week unit" so the project page
+  // can group missions by week.
+  week_count?: number;
+  created_at: Date;
+  archived_at?: Date; // soft-delete; archived projects hide from default lists
+};
+
 export type Mission = {
   _id: ObjectId;
   teacher_id: ObjectId;
@@ -16,6 +29,12 @@ export type Mission = {
   knowledge_base_text?: string;
   share_token: string;
   created_at: Date;
+  // Optional project membership. Null/missing = standalone mission.
+  project_id?: ObjectId | null;
+  // Ordering within the project. Lower position renders first.
+  position?: number;
+  // Optional week hint when grouped under a multi-week project.
+  week_number?: number;
 };
 
 export type SourceEntry = {

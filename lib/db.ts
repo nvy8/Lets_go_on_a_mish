@@ -18,6 +18,7 @@ const DB_NAME = 'TEMP_HACKATHON';
 
 export const COLLECTIONS = {
   teachers: 'teachers',
+  projects: 'projects',
   missions: 'missions',
   sessions: 'sessions',
 } as const;
@@ -45,8 +46,10 @@ export async function connect(): Promise<Db> {
 async function ensureIndexes(db: Db) {
   try {
     await db.collection(COLLECTIONS.teachers).createIndex({ email: 1 }, { unique: true });
+    await db.collection(COLLECTIONS.projects).createIndex({ teacher_id: 1, archived_at: 1 });
     await db.collection(COLLECTIONS.missions).createIndex({ share_token: 1 }, { unique: true });
     await db.collection(COLLECTIONS.missions).createIndex({ teacher_id: 1 });
+    await db.collection(COLLECTIONS.missions).createIndex({ project_id: 1, position: 1 });
     await db.collection(COLLECTIONS.sessions).createIndex({ session_token: 1 }, { unique: true });
     await db.collection(COLLECTIONS.sessions).createIndex({ mission_id: 1 });
     await db.collection(COLLECTIONS.sessions).createIndex(
