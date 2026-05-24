@@ -2,19 +2,26 @@
 "use client";
 import { useEffect, useState, use } from "react";
 import { StageShell } from "@/components/StageShell";
-import { Stage1 } from "@/components/stages/Stage1";
-import { Stage2 } from "@/components/stages/Stage2";
-import { Stage3 } from "@/components/stages/Stage3";
-import { Stage4 } from "@/components/stages/Stage4";
-import { Stage5 } from "@/components/stages/Stage5";
+import { SourcesVettingRunner } from "@/components/types/SourcesVettingRunner";
+import { getTypeMeta } from "@/components/types/registry";
 import { KALAM, pencilAlpha, PAPER_BG } from "@/lib/design-tokens";
+
+type MissionMeta = {
+  id: string;
+  title: string;
+  topic: string;
+  mission_type_slug: string;
+  audience_role: 'teacher' | 'parent';
+  timer_seconds?: number;
+};
 
 type SessionState = {
   id: string;
   display_name: string;
   current_stage: number;
   badges_earned: string[];
-  mission: { id: string; title: string; topic: string } | null;
+  started_at?: string;
+  mission: MissionMeta | null;
 };
 
 export default function StagePage({
@@ -53,9 +60,10 @@ export default function StagePage({
     );
   }
 
+  const typeMeta = getTypeMeta(session.mission.mission_type_slug);
+
   return (
     <div className="relative flex-1 overflow-hidden" style={PAPER_BG}>
-      {/* Faint hand-drawn doodle behind every stage — same as the Complete page */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/scraped/page_homepage_sketch-lines.svg"
@@ -70,14 +78,34 @@ export default function StagePage({
           missionTitle={session.mission.title}
           missionTopic={session.mission.topic}
           badges={session.badges_earned}
+          stageNames={typeMeta.stageNames}
+          totalStages={typeMeta.totalStages}
+          timerSeconds={session.mission.timer_seconds}
+          startedAt={session.started_at}
         >
-          {stageNum === 1 && <Stage1 shareToken={shareToken} />}
-          {stageNum === 2 && <Stage2 shareToken={shareToken} />}
-          {stageNum === 3 && <Stage3 shareToken={shareToken} />}
-          {stageNum === 4 && <Stage4 shareToken={shareToken} />}
-          {stageNum === 5 && <Stage5 shareToken={shareToken} />}
+          {/* Dispatch by mission type */}
+          {session.mission.mission_type_slug === 'sources-vetting' && (
+            <SourcesVettingRunner stageNum={stageNum} shareToken={shareToken} />
+          )}
+          {session.mission.mission_type_slug !== 'sources-vetting' && (
+            <NewTypePlaceholder typeSlug={session.mission.mission_type_slug} />
+          )}
         </StageShell>
       </div>
+    </div>
+  );
+}
+
+function NewTypePlaceholder({ typeSlug }: { typeSlug: string }) {
+  return (
+    <div className="rounded-2xl border-2 border-dashed border-zinc-300 bg-white p-12 text-center">
+      <div className="text-5xl">🚧</div>
+      <h2 className="mt-3 text-xl font-semibold">
+        Mission type <code>{typeSlug}</code> — under construction
+      </h2>
+      <p className="mt-2 text-zinc-600">
+        Coming in Phase B of the platform refactor.
+      </p>
     </div>
   );
 }

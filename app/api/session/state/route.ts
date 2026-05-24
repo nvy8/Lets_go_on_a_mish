@@ -16,8 +16,16 @@ export async function GET() {
       current_stage: session.current_stage,
       badges_earned: session.badges_earned,
       notepad: session.notepad,
+      started_at: session.started_at,
       mission: mission
-        ? { id: mission._id.toString(), title: mission.title, topic: mission.topic }
+        ? {
+            id: mission._id.toString(),
+            title: mission.title,
+            topic: mission.topic,
+            mission_type_slug: mission.mission_type_slug || 'sources-vetting',
+            audience_role: mission.audience_role || 'teacher',
+            timer_seconds: mission.timer_seconds,
+          }
         : null,
     },
   });
