@@ -1,7 +1,7 @@
 # Sleuth — Design improvements for primary-school learners (ages 6-15)
 
-Source guidelines: [design-audit/kids-app-design-guidelines.md](design-audit/kids-app-design-guidelines.md)
-Cross-referenced against: [DESIGN_REVIEW.md](DESIGN_REVIEW.md) (rendered audit at 5 viewports) and the current code on `dev-tudor`.
+Source guidelines: [design-audit/kids-app-design-guidelines.md](../../design-audit/kids-app-design-guidelines.md)
+Cross-referenced against: [DESIGN_REVIEW.md](../reviews/DESIGN_REVIEW.md) (rendered audit at 5 viewports) and the current code on `dev-tudor`.
 Status: **proposal only — no code changes pending an explicit go-ahead per file.**
 
 ---
@@ -197,7 +197,7 @@ The one exception worth considering: **embed Geist in the PDF export** so the ki
 
 ### 4.3 Disabled CTA visibly disabled
 
-**Today.** Disabled primary CTA is the amber pill at `opacity-50`. Reads as faded-enabled, not disabled (see DESIGN_REVIEW.md §C8 and the kid-join screenshot at [design-audit/05-kid-join-iphone14-390.png](design-audit/05-kid-join-iphone14-390.png)).
+**Today.** Disabled primary CTA is the amber pill at `opacity-50`. Reads as faded-enabled, not disabled (see DESIGN_REVIEW.md §C8 and the kid-join screenshot at [design-audit/05-kid-join-iphone14-390.png](../../design-audit/05-kid-join-iphone14-390.png)).
 
 **Proposal.**
 ```diff

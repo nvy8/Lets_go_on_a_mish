@@ -44,3 +44,7 @@ next-env.d.ts
 .env.local
 .env*.local
 design-audit/*
+
+# Local-only demo / presentation credentials (never commit)
+DEMO_CREDENTIALS.local.md
+*.local.md

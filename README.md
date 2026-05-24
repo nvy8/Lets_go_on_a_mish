@@ -92,6 +92,16 @@ Each stage uses real Claude Sonnet calls (5-15 seconds per stage). Stage 4's ver
 - Voice/audio coach (kept silent for in-class use)
 - Payments
 
+## Documentation
+
+All internal docs live under [`docs/`](docs/). Start at [docs/README.md](docs/README.md) for the index. Highlights:
+
+- [docs/AUTHENTICATION.md](docs/AUTHENTICATION.md) — auth model, cookies, JWT, env vars, how to enumerate live users.
+- [docs/ATTRIBUTIONS.md](docs/ATTRIBUTIONS.md) — third-party assets & license status (read before shipping).
+- [docs/reviews/](docs/reviews/) — code & design audits.
+- [docs/design/](docs/design/) — design proposals derived from the kids-app guidelines.
+- [docs/changelog/](docs/changelog/) — narrative logs of larger implementation passes.
+
 ## Deployment notes
 
 Vercel will NOT work out of the box because the `claude` CLI isn't installable in their serverless runtime. To demo remotely, run `npm run dev` on a host with the Claude CLI installed and expose via ngrok:

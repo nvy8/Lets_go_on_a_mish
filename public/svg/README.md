@@ -1,6 +1,6 @@
 # SVG assets
 
-> **⚠️ Read [ATTRIBUTIONS.md](../../ATTRIBUTIONS.md) before shipping.** The illustrations under [`illustrations/`](illustrations/) come from [blush.design](https://blush.design/) under a license that **is not currently active**. They are fine for local development and hackathon demos. They must be either re-licensed or replaced before a public release.
+> **⚠️ Read [ATTRIBUTIONS.md](../../docs/ATTRIBUTIONS.md) before shipping.** The illustrations under [`illustrations/`](illustrations/) come from [blush.design](https://blush.design/) under a license that **is not currently active**. They are fine for local development and hackathon demos. They must be either re-licensed or replaced before a public release.
 
 Static SVGs served from `/svg/...`. Reference them from any component or page:
 
@@ -22,7 +22,7 @@ import Image from "next/image";
 | `brand/` | Logo, primary brand mark, app icon. **One per surface, used everywhere.** | `magnifier.svg`, `sleuth-wordmark.svg` |
 | `badges/` | The 5 achievement stamps shown in the StageShell + complete page. Two-color: zinc-950 + amber-500. | `query-designer.svg`, `url-detective.svg`, `triangulator.svg`, `wordsmith.svg`, `hallucination-hunter.svg` |
 | `icons/` | Functional pictograms for buttons, status chips, KidNotice tones. Should usually have no baked-in fill (uses `currentColor`) so they can take any text color. | `check.svg`, `cross.svg`, `info.svg`, `eye.svg`, `chevron-right.svg` |
-| `illustrations/` | Larger decorative scenes — empty states, loading placeholders, complete-page hero. **Use sparingly per the kid-app guidelines** (illustrations should support comprehension, not distract). See [ATTRIBUTIONS.md](../../ATTRIBUTIONS.md) for sourcing + license status of every file here. | `kid-brainstorming.svg`, `kid-study.svg`, `kid-performing.svg` |
+| `illustrations/` | Larger decorative scenes — empty states, loading placeholders, complete-page hero. **Use sparingly per the kid-app guidelines** (illustrations should support comprehension, not distract). See [ATTRIBUTIONS.md](../../docs/ATTRIBUTIONS.md) for sourcing + license status of every file here. | `kid-brainstorming.svg`, `kid-study.svg`, `kid-performing.svg` |
 
 ## Choosing a slot for a new SVG
 

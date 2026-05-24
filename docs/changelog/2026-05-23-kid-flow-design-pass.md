@@ -1,7 +1,7 @@
 # Implementation log — kid-flow design improvements
 
 Date: 2026-05-23
-Scope: §2.1, §2.4, §3.1–§3.3, §4.1–§4.3, §5.1, §5.2, §7 (partial) of [DESIGN_IMPROVEMENTS_FOR_KIDS.md](DESIGN_IMPROVEMENTS_FOR_KIDS.md) + the Stage 3 split-screen responsive break from [DESIGN_REVIEW.md](DESIGN_REVIEW.md).
+Scope: §2.1, §2.4, §3.1–§3.3, §4.1–§4.3, §5.1, §5.2, §7 (partial) of [DESIGN_IMPROVEMENTS_FOR_KIDS.md](../design/DESIGN_IMPROVEMENTS_FOR_KIDS.md) + the Stage 3 split-screen responsive break from [DESIGN_REVIEW.md](../reviews/DESIGN_REVIEW.md).
 Status: shipped to working tree, **not committed**. Dev server up at http://localhost:3002.
 
 ---
@@ -106,7 +106,7 @@ Status: shipped to working tree, **not committed**. Dev server up at http://loca
 | Privacy notice on kid join | none | 👀 + one sentence | matches child-rights guideline |
 | Reduced-motion support | partial (only Tailwind defaults) | global override on all custom + pulse animations | full |
 
-Screenshots of the after state in [design-audit/after/](design-audit/after/).
+Screenshots of the after state in [design-audit/after/](../../design-audit/after/).
 
 ---
 
@@ -128,8 +128,8 @@ Screenshots of the after state in [design-audit/after/](design-audit/after/).
 
 1. **`TOTAL_STAGES = 5` in StageShell, README says 6.** The app is actually a 5-stage app — the README is outdated. Confirmed by the components directory: Stage1–Stage5 exist, no Stage6.tsx. The display now correctly reads "Stage N of 5".
 2. **Stage component file numbers don't match API route numbers.** `Stage2.tsx` actually hits `/api/stage/2/judge` + `/previews` (which are at `/api/stage/3/*` in the backend); `Stage3.tsx` calls `/api/stage/3/extract` + `/verify-click` (which are at `/api/stage/4/*` in the backend); `Stage5.tsx` calls `/api/stage/5/init` + `/submit` (where `/submit` doesn't exist; hallucination items come from `/api/stage/6/init`). This is a pre-existing routing inconsistency, out of scope for the design pass — flagging for a future fix session.
-3. **Stage 3 source-judging exposes `origin: 'web' | 'ai'`** on each candidate (Stage 2 in the new numbering), letting kids ace the URL Detective badge by filtering origin in devtools. Already covered as **#3 Critical** in [CODE_REVIEW.md](CODE_REVIEW.md). Not a design fix; flagging again because I touched the surrounding component.
-4. **Empty-state card still renders below the open create-mission form on the teacher dashboard.** Already in [DESIGN_REVIEW.md](DESIGN_REVIEW.md) §4 → "Teacher dashboard." Out of kid-flow scope; deferred.
+3. **Stage 3 source-judging exposes `origin: 'web' | 'ai'`** on each candidate (Stage 2 in the new numbering), letting kids ace the URL Detective badge by filtering origin in devtools. Already covered as **#3 Critical** in [CODE_REVIEW.md](../reviews/CODE_REVIEW.md). Not a design fix; flagging again because I touched the surrounding component.
+4. **Empty-state card still renders below the open create-mission form on the teacher dashboard.** Already in [DESIGN_REVIEW.md](../reviews/DESIGN_REVIEW.md) §4 → "Teacher dashboard." Out of kid-flow scope; deferred.
 
 ---
 
@@ -141,6 +141,6 @@ Screenshots of the after state in [design-audit/after/](design-audit/after/).
    - Wire `framer-motion` button-tap + badge-pop-in microinteractions (§7).
    - Embed Geist in PDF (§3.4).
    - Design + ship the 5 badge SVG stamps (§6.2).
-   - Or pivot to the runtime issue from [DESIGN_REVIEW.md §8](DESIGN_REVIEW.md) — `Claude CLI spawn` fails on Windows, blocking any real Stage 1+ demo.
+   - Or pivot to the runtime issue from [DESIGN_REVIEW.md §8](../reviews/DESIGN_REVIEW.md) — `Claude CLI spawn` fails on Windows, blocking any real Stage 1+ demo.
 
 No code committed. Dev server still running. Mongo container `sleuth-mongo` still running.

@@ -15,8 +15,8 @@ Read off the landing page via `getComputedStyle` (Tailwind v4 emits OKLCH, value
 
 | Token | Value | Source |
 |---|---|---|
-| Sans font | `Geist` (with `Geist Fallback, system-ui, -apple-system, "Segoe UI", sans-serif`) | `next/font/google` in [app/layout.tsx:5](app/layout.tsx:5) |
-| Mono font | `Geist Mono` | [app/layout.tsx:10](app/layout.tsx:10) |
+| Sans font | `Geist` (with `Geist Fallback, system-ui, -apple-system, "Segoe UI", sans-serif`) | `next/font/google` in [app/layout.tsx:5](../../app/layout.tsx:5) |
+| Mono font | `Geist Mono` | [app/layout.tsx:10](../../app/layout.tsx:10) |
 | Base size | 16px | body |
 | Hero H1 (`text-6xl`) | 60px / line-height 60px / weight 600 / tracking -1.5px | `app/page.tsx:10` |
 | Section H1 (`text-2xl`–`text-3xl`) | 24–30px / weight 600 | dashboard, login, stage shell |
@@ -24,13 +24,13 @@ Read off the landing page via `getComputedStyle` (Tailwind v4 emits OKLCH, value
 | Body text (`text-base`) | 16px / 24px | most surfaces |
 | Small label (`text-sm`) | 14px / 20px | metadata, captions |
 | Stage number label (`text-sm font-mono`) | 14px Geist Mono | landing cards, stage shell |
-| Mission title in stage shell | 12px Geist Mono | [components/StageShell.tsx:41](components/StageShell.tsx:41) |
+| Mission title in stage shell | 12px Geist Mono | [components/StageShell.tsx:41](../../components/StageShell.tsx:41) |
 
 ### Colors
 
 | Role | Hex | Tailwind class | Notes |
 |---|---|---|---|
-| Page background | `#fafafa` | zinc-50 / `--background` | Set on html + body in [app/globals.css:7](app/globals.css:7) |
+| Page background | `#fafafa` | zinc-50 / `--background` | Set on html + body in [app/globals.css:7](../../app/globals.css:7) |
 | Foreground / H1 | `#18181b` | zinc-950 / `--foreground` | |
 | Body paragraph | `#52525c` | zinc-600 | |
 | Secondary text | `#3f3f46` | zinc-700 | |
@@ -64,11 +64,11 @@ The palette is coherent: a dark zinc neutral foundation + a single amber accent 
 
 | # | Issue | Where | Severity |
 |---|---|---|---|
-| F1 | Mono used for the **mission title** in the stage shell header reads like log output, not a human title. At 768px the title wraps to a second mono line in the top-right and feels brittle. | [components/StageShell.tsx:41](components/StageShell.tsx:41) | Medium |
-| F2 | "Stage 1 of 6" uppercase + `tracking-wide` chip uses a sans face but in the landing cards the same metaphor uses **mono** — `text-sm font-mono text-amber-600`. The two treatments don't match across surfaces. | [app/page.tsx:50](app/page.tsx:50) vs [components/StageShell.tsx:34](components/StageShell.tsx:34) | Low |
-| F3 | Section-callout labels alternate between `font-mono uppercase` (complete page "BADGES EARNED", "RESEARCH QUESTION") and plain `uppercase tracking-wide` (mission detail "Class link", "Drop this in Google Classroom" — though that one's not even uppercase). Inconsistent metadata typography. | [app/m/[shareToken]/complete/page.tsx:56](app/m/[shareToken]/complete/page.tsx:56), [app/teacher/missions/[id]/page.tsx](app/teacher/missions/[id]/page.tsx) | Low |
-| F4 | The hero `text-6xl` (60px) is set globally — at iPad portrait (768px) it dominates ~30% of the viewport height before any content. Consider `text-5xl sm:text-6xl` for marketing screens specifically (landing has `text-5xl sm:text-6xl` already; mission detail H1 jumps straight to `text-3xl` with no responsive step). | [app/teacher/missions/[id]/page.tsx](app/teacher/missions/[id]/page.tsx), [app/m/[shareToken]/complete/page.tsx:49](app/m/[shareToken]/complete/page.tsx:49) (`text-4xl` on a one-word "Mission complete") | Low |
-| F5 | No explicit font weight on the kid join page heading — uses `font-semibold` everywhere which is the de facto brand weight. The PDF uses `helvetica` (jsPDF default), so the exported brief won't look like the on-screen brand at all. | [lib/pdf.ts:22](lib/pdf.ts:22) | Medium |
+| F1 | Mono used for the **mission title** in the stage shell header reads like log output, not a human title. At 768px the title wraps to a second mono line in the top-right and feels brittle. | [components/StageShell.tsx:41](../../components/StageShell.tsx:41) | Medium |
+| F2 | "Stage 1 of 6" uppercase + `tracking-wide` chip uses a sans face but in the landing cards the same metaphor uses **mono** — `text-sm font-mono text-amber-600`. The two treatments don't match across surfaces. | [app/page.tsx:50](../../app/page.tsx:50) vs [components/StageShell.tsx:34](../../components/StageShell.tsx:34) | Low |
+| F3 | Section-callout labels alternate between `font-mono uppercase` (complete page "BADGES EARNED", "RESEARCH QUESTION") and plain `uppercase tracking-wide` (mission detail "Class link", "Drop this in Google Classroom" — though that one's not even uppercase). Inconsistent metadata typography. | [app/m/[shareToken]/complete/page.tsx:56](../../app/m/[shareToken]/complete/page.tsx:56), [app/teacher/missions/[id]/page.tsx](../../app/teacher/missions/[id]/page.tsx) | Low |
+| F4 | The hero `text-6xl` (60px) is set globally — at iPad portrait (768px) it dominates ~30% of the viewport height before any content. Consider `text-5xl sm:text-6xl` for marketing screens specifically (landing has `text-5xl sm:text-6xl` already; mission detail H1 jumps straight to `text-3xl` with no responsive step). | [app/teacher/missions/[id]/page.tsx](../../app/teacher/missions/[id]/page.tsx), [app/m/[shareToken]/complete/page.tsx:49](../../app/m/[shareToken]/complete/page.tsx:49) (`text-4xl` on a one-word "Mission complete") | Low |
+| F5 | No explicit font weight on the kid join page heading — uses `font-semibold` everywhere which is the de facto brand weight. The PDF uses `helvetica` (jsPDF default), so the exported brief won't look like the on-screen brand at all. | [lib/pdf.ts:22](../../lib/pdf.ts:22) | Medium |
 
 ---
 
@@ -99,9 +99,9 @@ Either fix is one Tailwind class change per button and would propagate across al
 
 | # | Issue | Where |
 |---|---|---|
-| C8 | Disabled primary CTA is `opacity-50` on the same amber — looks like a faded enabled button rather than a "you can't click this yet" affordance. See the kid-join screenshot — the button reads as already-clickable. | [app/m/[shareToken]/page.tsx:93](app/m/[shareToken]/page.tsx:93), every stage submit button |
-| C9 | Stage 4 "rejected" verify button uses `bg-red-500 animate-pulse text-white` — kids will read a pulsing red as "danger, undo!" rather than "that fact isn't in this source". Tone is too punitive for a learning moment. | [components/stages/Stage4.tsx:302](components/stages/Stage4.tsx:302) |
-| C10 | Mission detail "Class link" callout uses bg-amber-50 + border-amber-200, but other amber callouts (Stage 4 instructions, kid-join lead) use bg-amber-100 / border-amber-200 / border-amber-300 inconsistently. Three amber-surface treatments visible across the app. | [app/teacher/missions/[id]/page.tsx](app/teacher/missions/[id]/page.tsx), [components/stages/Stage4.tsx:175](components/stages/Stage4.tsx:175), [components/stages/Stage6.tsx:111](components/stages/Stage6.tsx:111) |
+| C8 | Disabled primary CTA is `opacity-50` on the same amber — looks like a faded enabled button rather than a "you can't click this yet" affordance. See the kid-join screenshot — the button reads as already-clickable. | [app/m/[shareToken]/page.tsx:93](../../app/m/[shareToken]/page.tsx:93), every stage submit button |
+| C9 | Stage 4 "rejected" verify button uses `bg-red-500 animate-pulse text-white` — kids will read a pulsing red as "danger, undo!" rather than "that fact isn't in this source". Tone is too punitive for a learning moment. | [components/stages/Stage4.tsx:302](../../components/stages/Stage4.tsx:302) |
+| C10 | Mission detail "Class link" callout uses bg-amber-50 + border-amber-200, but other amber callouts (Stage 4 instructions, kid-join lead) use bg-amber-100 / border-amber-200 / border-amber-300 inconsistently. Three amber-surface treatments visible across the app. | [app/teacher/missions/[id]/page.tsx](../../app/teacher/missions/[id]/page.tsx), [components/stages/Stage4.tsx:175](../../components/stages/Stage4.tsx:175), [components/stages/Stage6.tsx:111](../../components/stages/Stage6.tsx:111) |
 
 ---
 
@@ -123,12 +123,12 @@ Either fix is one Tailwind class change per button and would propagate across al
 ### Teacher dashboard — `/teacher/dashboard`
 
 - Form, when open, spans the full `max-w-4xl` container. Mission title and topic inputs stretch to ~1100px on a 1280 viewport — that's wider than necessary for readability and looks like a config form, not a brand surface. Consider a `max-w-2xl` inner constraint on the form.
-- The "No missions yet" empty-state card stays visible **below** the create form while the form is open (see [03-teacher-dashboard-form-desktop.png](design-audit/03-teacher-dashboard-form-desktop.png)). Either hide the empty state while `showForm`, or only show it when `missions.length === 0 && !showForm`.
+- The "No missions yet" empty-state card stays visible **below** the create form while the form is open (see [03-teacher-dashboard-form-desktop.png](../../design-audit/03-teacher-dashboard-form-desktop.png)). Either hide the empty state while `showForm`, or only show it when `missions.length === 0 && !showForm`.
 - Card hover state: only `hover:border-zinc-400` — quiet but works. No keyboard focus indicator on the card link.
 
 ### Mission detail — `/teacher/missions/[id]`
 
-- Desktop: huge whitespace below the share-link callout (see [04-mission-detail-desktop.png](design-audit/04-mission-detail-desktop.png)). The page does one job (show the share link) so density feels off. Consider adding "missions you've created earlier" context, recent-joins, or just trimming the empty space with a tighter container.
+- Desktop: huge whitespace below the share-link callout (see [04-mission-detail-desktop.png](../../design-audit/04-mission-detail-desktop.png)). The page does one job (show the share link) so density feels off. Consider adding "missions you've created earlier" context, recent-joins, or just trimming the empty space with a tighter container.
 - Mobile: share URL truncates with ellipsis inside the input — fine, the Copy button does the work. The "Drop this in Google Classroom" hint wraps to two lines naturally.
 
 ### Kid join — `/m/[shareToken]`
@@ -141,7 +141,7 @@ Either fix is one Tailwind class change per button and would propagate across al
 - The shell is consistent: stage label / title / topic on the left, display-name + mission title (mono) on the right, progress bar across.
 - Mobile (390): the right-aligned `text-right` block (display name + mono mission title) crowds against the topic subtitle if the mission title is long. The `flex items-start justify-between` doesn't wrap. With "Year 6 — Transylvanian Churches" mono-rendered in the top-right corner, mobile width is tight.
 - The progress bar is amber-500 on zinc-200, height `h-2`. Fine.
-- **Error state at Stage 1** (when LLM init fails — which it did in my run, see §8): bare red text "Failed to load examples. Refresh the page." No icon, no card, no retry button. See [06-stage1-shell-ipad-768.png](design-audit/06-stage1-shell-ipad-768.png). Kids will sit on this.
+- **Error state at Stage 1** (when LLM init fails — which it did in my run, see §8): bare red text "Failed to load examples. Refresh the page." No icon, no card, no retry button. See [06-stage1-shell-ipad-768.png](../../design-audit/06-stage1-shell-ipad-768.png). Kids will sit on this.
 
 ### Complete page — `/m/[shareToken]/complete`
 
@@ -180,7 +180,7 @@ Either fix is one Tailwind class change per button and would propagate across al
 | B4 | Page max-widths vary (sm / md / 2xl / 3xl / 4xl / 5xl). The visual width hierarchy isn't intentional — the kid-join (max-w-md) is narrower than the teacher login (max-w-sm), the mission detail uses max-w-4xl with very little content. A 3-tier system would help: marketing wide, form narrow, app medium. | Low |
 | B5 | PDF brand drift (F5). The deliverable a teacher/parent sees is helvetica; the on-screen brand is Geist. Either embed Geist in the PDF (jsPDF supports custom fonts) or accept the divergence and color-match more aggressively. | Medium |
 | B6 | Border radius scale is intentional and used consistently (8 / 12 / 16 / 24 / pill). ✅ |
-| B7 | No design tokens layer — colors are inlined as Tailwind classes everywhere. If the amber gets re-decided, every `bg-amber-500` / `text-amber-600` / `border-amber-200` has to be hand-edited. Consider declaring `--color-primary-500` etc. in `@theme inline` in [globals.css](app/globals.css). | Low |
+| B7 | No design tokens layer — colors are inlined as Tailwind classes everywhere. If the amber gets re-decided, every `bg-amber-500` / `text-amber-600` / `border-amber-200` has to be hand-edited. Consider declaring `--color-primary-500` etc. in `@theme inline` in [globals.css](../../app/globals.css). | Low |
 
 ---
 
@@ -193,13 +193,13 @@ Not a full WCAG audit — but observed while measuring:
 - **A3.** Touch target size: pill buttons at `py-2.5` to `py-3` are ~44px tall which hits the 44×44px iOS guideline. The Stage 4 source-toggle buttons at `h-9 w-9` (36×36) are below it.
 - **A4.** Stage shell badges use `🏅 {b}` emoji + text — fine, but the emoji itself isn't announced consistently across screen readers and the badge has no `aria-label`. Add `aria-label={`Badge: ${b}`}`.
 - **A5.** Color is the only signal for some states: Stage 6 picks use color alone (green/red borders) to indicate correct/wrong. Add an icon or text label inside the card.
-- **A6.** `color-scheme: only light` is set in [globals.css:5](app/globals.css:5) — explicit choice to disable dark mode. Fine, but worth noting that this is opinionated. Kids on parent devices with dark mode forced will still see the light UI.
+- **A6.** `color-scheme: only light` is set in [globals.css:5](../../app/globals.css:5) — explicit choice to disable dark mode. Fine, but worth noting that this is opinionated. Kids on parent devices with dark mode forced will still see the light UI.
 
 ---
 
 ## 8. Runtime issue observed during the audit (not visual, but caught the audit)
 
-Stage 1 init returned **500 in 326ms** both times I tried it — far faster than the 60s LLM timeout, so the Claude CLI exited non-zero on the spawn. Likely a Windows-specific OAuth / stdio path issue with `claude --print` invoked from `child_process.spawn` in [lib/llm.ts:19](lib/llm.ts:19). The error message isn't echoed in the server log (because [llm.ts:39](lib/llm.ts:39) only includes stderr in the rejected Promise, which the route then JSON-serializes back to the client as `error` — same pattern flagged as #11 in [CODE_REVIEW.md](CODE_REVIEW.md)). All 6 stages depend on this; **without it the app can't be demoed**. Worth a separate investigation pass — happy to do that next if you want.
+Stage 1 init returned **500 in 326ms** both times I tried it — far faster than the 60s LLM timeout, so the Claude CLI exited non-zero on the spawn. Likely a Windows-specific OAuth / stdio path issue with `claude --print` invoked from `child_process.spawn` in [lib/llm.ts:19](../../lib/llm.ts:19). The error message isn't echoed in the server log (because [llm.ts:39](../../lib/llm.ts:39) only includes stderr in the rejected Promise, which the route then JSON-serializes back to the client as `error` — same pattern flagged as #11 in [CODE_REVIEW.md]([CODE_REVIEW.md](CODE_REVIEW.md))). All 6 stages depend on this; **without it the app can't be demoed**. Worth a separate investigation pass — happy to do that next if you want.
 
 ---
 
