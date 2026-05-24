@@ -8,15 +8,54 @@ export type Teacher = {
   last_login: Date;
 };
 
-export type Mission = {
-  _id: ObjectId;
-  teacher_id: ObjectId;
-  title: string;
-  topic: string;
-  knowledge_base_text?: string;
-  share_token: string;
-  created_at: Date;
+// ─────────────────────────────────────────────────────────────────────────────
+// Mission TYPES (the templates) — first-class documents
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type StagePrimitive =
+  | 'pick-then-write'      // current Stage 1 pattern (Sharpen your question)
+  | 'judge-list'           // current Stage 2 pattern (Investigate sources)
+  | 'find-evidence'        // current Stage 3 pattern (Triangulate facts)
+  | 'explain-grade'        // current Stage 4 pattern (Explain in own words)
+  | 'multiple-choice'      // current Stage 5 pattern (Spot Hallucinations)
+  | 'task-checkoff'        // NEW: kid sees description, taps "I did it"
+  | 'breath-timer'         // NEW: animated breathing exercise on a timer
+  | 'read-then-quiz'       // NEW: read passage, AI-graded quiz
+  | 'gratitude-list';      // NEW: write 3 things, AI gentle feedback
+
+export type BadgeDefinition = {
+  slug: string;            // stable id, e.g. "url-detective"
+  name: string;            // kid-facing label, e.g. "URL Detective"
+  icon: string;            // lucide icon name or asset path
 };
+
+export type StageSpec = {
+  id: string;              // stable within mission type, e.g. "query-design"
+  name: string;            // kid-facing stage name
+  description: string;     // 1-line teacher/parent description
+  kind: StagePrimitive;    // dispatch key for renderer + handler
+  prompts?: Record<string, string>;     // prompt templates with {placeholders}
+  config?: Record<string, unknown>;     // primitive-specific config
+  badge_on_complete?: string;           // badge slug awarded if completed well
+};
+
+export type MissionType = {
+  _id: ObjectId;
+  slug: string;            // unique, e.g. "sources-vetting"
+  name: string;            // teacher/parent-facing
+  description: string;     // shows in wizard type-picker grid
+  icon: string;            // lucide icon name or asset path
+  audience: 'teacher' | 'parent' | 'both';
+  default_badges: BadgeDefinition[];
+  stages_spec: StageSpec[];
+  is_builtin: boolean;     // true for seeded; false for user-created via orchestrator
+  created_at: Date;
+  created_by?: ObjectId;   // teacher who created (for user-created types)
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Existing notepad/session sub-types — preserved unchanged
+// ─────────────────────────────────────────────────────────────────────────────
 
 export type SourceEntry = {
   id: string;
@@ -61,9 +100,38 @@ export type Notepad = {
   verified_source_ids?: string[];
   facts?: FactEntry[];
   hallucinations?: HallucinationResult[];
+  // ── new primitive notepads (loose typing — each primitive owns its own slice)
+  [key: string]: unknown;
 };
 
-export type StageNumber = 1 | 2 | 3 | 4 | 5;
+// ─────────────────────────────────────────────────────────────────────────────
+// Mission INSTANCES (existing — extended with type ref + wizard config)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type RewardsConfig = {
+  points_per_completion?: number;
+  badges_offered: string[];        // badge slugs from mission_type.default_badges or custom
+};
+
+export type Mission = {
+  _id: ObjectId;
+  teacher_id: ObjectId;
+  title: string;
+  topic: string;
+  knowledge_base_text?: string;
+  share_token: string;
+  created_at: Date;
+  // ── platform refactor additions (all optional for backward compat)
+  mission_type_id?: ObjectId;                // foreign key to MissionType; if absent, defaults to 'sources-vetting'
+  audience_role?: 'teacher' | 'parent';      // who created this instance
+  timer_seconds?: number;                    // optional soft countdown
+  rewards_config?: RewardsConfig;            // badges offered + points
+  custom_badge_definitions?: BadgeDefinition[]; // per-mission badge overrides
+  extracted_facts?: string[];                // populated by PDF extraction orchestrator
+};
+
+// StageNumber widened from literal to number (mission types can have any stage count)
+export type StageNumber = number;
 
 export type Session = {
   _id: ObjectId;
@@ -74,4 +142,7 @@ export type Session = {
   notepad: Notepad;
   created_at: Date;
   last_active_at: Date;
+  // ── timer tracking
+  started_at?: Date;       // when kid first lands on stage 1
+  completed_at?: Date;     // when finishing last stage
 };

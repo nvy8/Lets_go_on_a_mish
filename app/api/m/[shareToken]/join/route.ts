@@ -29,6 +29,7 @@ export async function POST(
       notepad: {},
       created_at: now,
       last_active_at: now,
+      started_at: now,  // kid clicked join — timer starts
     });
 
     const token = signSessionToken(result.insertedId.toString(), mission._id.toString());

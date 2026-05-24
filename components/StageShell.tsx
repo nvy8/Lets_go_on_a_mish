@@ -1,9 +1,10 @@
 "use client";
-import { ReactNode } from "react";
-import { Award } from "lucide-react";
+import { ReactNode, useEffect, useState } from "react";
+import { Award, Clock } from "lucide-react";
 import { COLOR, RADIUS, SHADOW, KALAM, pencilAlpha } from "@/lib/design-tokens";
 
-const STAGE_NAMES = [
+// Default stage names (Sources Vetting) — used if no per-type names passed in.
+const DEFAULT_STAGE_NAMES = [
   "",
   "Sharpen your question",
   "Investigate",
@@ -11,7 +12,7 @@ const STAGE_NAMES = [
   "Explain",
   "Spot Hallucinations",
 ];
-const TOTAL_STAGES = 5;
+const DEFAULT_TOTAL = 5;
 
 export function StageShell({
   stageNum,
@@ -20,6 +21,10 @@ export function StageShell({
   missionTopic,
   badges,
   children,
+  stageNames,
+  totalStages,
+  timerSeconds,
+  startedAt,
 }: {
   stageNum: number;
   displayName: string;
@@ -27,8 +32,14 @@ export function StageShell({
   missionTopic: string;
   badges: string[];
   children: ReactNode;
+  stageNames?: string[];
+  totalStages?: number;
+  timerSeconds?: number;
+  startedAt?: string;
 }) {
-  const progressPct = (stageNum / TOTAL_STAGES) * 100;
+  const names = stageNames || DEFAULT_STAGE_NAMES;
+  const total = totalStages || DEFAULT_TOTAL;
+  const progressPct = Math.min(100, (stageNum / total) * 100);
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-8">
@@ -46,13 +57,13 @@ export function StageShell({
               boxShadow: SHADOW.sm,
             }}
           >
-            Stage {stageNum} of {TOTAL_STAGES}
+            Stage {stageNum} of {total}
           </div>
           <h1
             className="mt-3 text-3xl sm:text-4xl leading-tight"
             style={{ ...KALAM, color: COLOR.pencil }}
           >
-            {STAGE_NAMES[stageNum]}
+            {names[stageNum] || `Stage ${stageNum}`}
           </h1>
           <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
             {missionTopic}
@@ -66,6 +77,9 @@ export function StageShell({
             {displayName}
           </div>
           <div style={{ color: pencilAlpha("80") }}>{missionTitle}</div>
+          {timerSeconds && startedAt && (
+            <SoftTimer timerSeconds={timerSeconds} startedAt={startedAt} />
+          )}
         </div>
       </div>
 
@@ -77,7 +91,7 @@ export function StageShell({
             backgroundColor: "white",
             borderRadius: "20px 8px 16px 6px / 8px 20px 6px 16px",
           }}
-          aria-label={`Progress: stage ${stageNum} of ${TOTAL_STAGES}`}
+          aria-label={`Progress: stage ${stageNum} of ${total}`}
         >
           <div
             className="h-full transition-all duration-500 ease-out"
@@ -116,5 +130,37 @@ export function StageShell({
 
       <div className="mt-8">{children}</div>
     </main>
+  );
+}
+
+function SoftTimer({ timerSeconds, startedAt }: { timerSeconds: number; startedAt: string }) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const start = new Date(startedAt).getTime();
+  const elapsedSec = Math.max(0, Math.floor((now - start) / 1000));
+  const remaining = timerSeconds - elapsedSec;
+  const overrun = remaining < 0;
+  const display = overrun
+    ? `+${Math.floor(Math.abs(remaining) / 60)}:${String(Math.abs(remaining) % 60).padStart(2, '0')}`
+    : `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, '0')}`;
+  return (
+    <div
+      className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 text-xs border"
+      style={{
+        ...KALAM,
+        fontSize: '0.9rem',
+        color: overrun ? COLOR.red : COLOR.pencil,
+        backgroundColor: overrun ? '#fff0f0' : 'white',
+        borderColor: overrun ? COLOR.red : pencilAlpha('66'),
+        borderRadius: RADIUS.chip,
+      }}
+      title={overrun ? 'Past the time limit — but no rush, keep going!' : 'Time remaining'}
+    >
+      <Clock size={11} strokeWidth={2.5} />
+      {display}
+    </div>
   );
 }
