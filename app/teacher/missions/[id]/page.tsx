@@ -87,7 +87,7 @@ export default function MissionDetail({ params }: { params: Promise<{ id: string
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
               <Image
-                src="/scraped/grid_plushies_optimized.webp"
+                src="/scraped/features-2022_feature5_optimized.webp"
                 alt=""
                 width={100}
                 height={100}

@@ -381,8 +381,8 @@ export function Stage3({ shareToken }: { shareToken: string }) {
                 <Image
                   src={
                     feedback.correct
-                      ? "/scraped/grid_plushies_optimized.webp"
-                      : "/scraped/grid_mojojojo_optimized.webp"
+                      ? "/scraped/features-2022_feature5_optimized.webp"
+                      : "/scraped/features-2022_feature5_optimized.webp"
                   }
                   alt=""
                   width={84}

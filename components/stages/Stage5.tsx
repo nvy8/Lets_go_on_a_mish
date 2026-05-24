@@ -185,7 +185,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
-              src="/scraped/grid_plushies_optimized.webp"
+              src="/scraped/features-2022_feature5_optimized.webp"
               alt=""
               width={88}
               height={88}
@@ -206,7 +206,7 @@ export function Stage5({ shareToken }: { shareToken: string }) {
             transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
-              src="/scraped/grid_plushies_optimized.webp"
+              src="/scraped/features-2022_feature5_optimized.webp"
               alt=""
               width={84}
               height={84}
