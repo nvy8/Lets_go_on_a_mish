@@ -1,7 +1,20 @@
 import { MongoClient, Db, ObjectId } from 'mongodb';
+import dns from 'node:dns';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = 'TEMP_HACKATHON';
+
+// On some Windows hosts Node's default DNS resolver is set to 127.0.0.1
+// (no local resolver listening) → `mongodb+srv://` SRV lookups fail with ECONNREFUSED.
+// Force public resolvers when that happens.
+{
+  const servers = dns.getServers();
+  const onlyLoopback = servers.length > 0 && servers.every((s) => s === '127.0.0.1' || s === '::1');
+  if (onlyLoopback) {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+    console.warn('[DB] Node DNS was pinned to loopback; switched to 8.8.8.8 / 1.1.1.1 for SRV lookups.');
+  }
+}
 
 export const COLLECTIONS = {
   teachers: 'teachers',
