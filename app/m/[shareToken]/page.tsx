@@ -179,7 +179,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
               boxShadow: SHADOW.sm,
             }}
           >
-            Sleuth Mish
+            Mish
           </div>
           <h1 className="mt-4 text-3xl leading-tight" style={{ ...KALAM, color: COLOR.pencil }}>
             {mission.title}

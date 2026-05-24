@@ -37,11 +37,17 @@ export default function Home() {
           <Search size={16} strokeWidth={2.5} />
           For teachers of 9-14 year olds
         </div>
+        <div
+          className="text-2xl sm:text-3xl mb-1"
+          style={{ ...KALAM, color: COLOR.pencil, transform: "rotate(-1deg)" }}
+        >
+          Let&apos;s go on a
+        </div>
         <h1
           className="text-7xl sm:text-8xl leading-none"
           style={{ ...KALAM, color: COLOR.pencil }}
         >
-          Sleuth
+          Mish
           <span
             className="inline-block ml-2"
             style={{ color: COLOR.red, transform: "rotate(8deg)", display: "inline-block" }}

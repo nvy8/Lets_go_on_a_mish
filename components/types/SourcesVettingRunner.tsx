@@ -1,5 +1,5 @@
 "use client";
-// Sources Vetting (the original 5-stage Sleuth research mission).
+// Sources Vetting (the original 5-stage Mish research flow).
 // This runner just dispatches to the existing Stage1-5 components by stage number.
 // Other mission types (chore-check, dopamine-reset, reading-drill) have their own runners.
 

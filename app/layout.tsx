@@ -20,7 +20,7 @@ const kalam = Kalam({
 });
 
 export const metadata: Metadata = {
-  title: "Sleuth — Research with friction",
+  title: "Let's go on a Mish! — for kids 9-14",
   description: "Teach kids real research skills + AI literacy. 6 gated stages, no shortcuts.",
 };
 
