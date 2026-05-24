@@ -266,7 +266,7 @@ export function StudentsSection({ missionId }: { missionId: string }) {
             Your class
           </h2>
           <p className="mt-1 text-sm" style={{ color: pencilAlpha("99") }}>
-            Live view of every kid who joined this mission.
+            Live view of every kid who joined this Mish.
             {lastRefreshedAt && (
               <span className="ml-2">
                 Updated {formatRelative(lastRefreshedAt.toISOString())}.
@@ -366,12 +366,12 @@ export function StudentsSection({ missionId }: { missionId: string }) {
 
       {/* Controls */}
       {hasAnyStudent && (
-        <div className="mt-5 flex flex-wrap items-center gap-3">
-          <div className="relative flex-1 min-w-[200px]">
+        <div className="mt-5 flex flex-col gap-3">
+          <div className="relative w-full">
             <Search
               size={16}
               strokeWidth={2.5}
-              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10"
               style={{ color: pencilAlpha("99") }}
             />
             <HDInput
@@ -379,34 +379,35 @@ export function StudentsSection({ missionId }: { missionId: string }) {
               placeholder="Search nickname…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="text-base pl-9"
+              className="text-base pl-9 w-full"
             />
           </div>
-          <FilterChip
-            label="Everyone"
-            count={summary.total_joined}
-            active={filter === "all"}
-            onClick={() => setFilter("all")}
-          />
-          <FilterChip
-            label="Active now"
-            count={summary.active_now}
-            active={filter === "active_now"}
-            onClick={() => setFilter("active_now")}
-          />
-          <FilterChip
-            label="In progress"
-            count={summary.in_progress}
-            active={filter === "in_progress"}
-            onClick={() => setFilter("in_progress")}
-          />
-          <FilterChip
-            label="Done"
-            count={summary.completed}
-            active={filter === "completed"}
-            onClick={() => setFilter("completed")}
-          />
-          <select
+          <div className="flex flex-wrap items-center gap-3">
+            <FilterChip
+              label="Everyone"
+              count={summary.total_joined}
+              active={filter === "all"}
+              onClick={() => setFilter("all")}
+            />
+            <FilterChip
+              label="Active now"
+              count={summary.active_now}
+              active={filter === "active_now"}
+              onClick={() => setFilter("active_now")}
+            />
+            <FilterChip
+              label="In progress"
+              count={summary.in_progress}
+              active={filter === "in_progress"}
+              onClick={() => setFilter("in_progress")}
+            />
+            <FilterChip
+              label="Done"
+              count={summary.completed}
+              active={filter === "completed"}
+              onClick={() => setFilter("completed")}
+            />
+            <select
             value={sortKey}
             onChange={(e) => setSortKey(e.target.value as SortKey)}
             className="px-3 py-2 text-sm border-[3px]"
@@ -425,6 +426,7 @@ export function StudentsSection({ missionId }: { missionId: string }) {
             <option value="time">Sort: time on task</option>
             <option value="badges">Sort: badges</option>
           </select>
+          </div>
         </div>
       )}
 
@@ -441,7 +443,7 @@ export function StudentsSection({ missionId }: { missionId: string }) {
             className="mx-auto mb-3"
           />
           <div className="text-lg" style={{ ...KALAM, color: COLOR.pencil }}>
-            No one has joined this mission yet.
+            No one has joined this Mish yet.
           </div>
           <div className="mt-1 text-sm">
             Drop the class link above into Google Classroom — kids will show up here as
@@ -780,7 +782,7 @@ function StudentDrilldown({ student, onClose }: { student: StudentRow; onClose: 
             )}
             <span className="text-base" style={{ ...KALAM, color: COLOR.pencil }}>
               {student.completed
-                ? "Finished the mission"
+                ? "Finished the Mish"
                 : `Stage ${student.current_stage} of ${student.total_stages} — ${STAGE_NAMES[student.current_stage]}`}
             </span>
           </div>

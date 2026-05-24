@@ -14,7 +14,7 @@ export async function POST() {
 
   const db = await connect();
   const mission = await db.collection(COLLECTIONS.missions).findOne({ _id: session.mission_id });
-  if (!mission) return NextResponse.json({ error: 'Mission not found' }, { status: 404 });
+  if (!mission) return NextResponse.json({ error: 'Mish not found' }, { status: 404 });
 
   if (session.notepad?.stage1_examples) {
     return NextResponse.json({ examples: session.notepad.stage1_examples });

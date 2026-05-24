@@ -9,7 +9,7 @@ export async function GET() {
 
   const db = await connect();
   const mission = await db.collection(COLLECTIONS.missions).findOne({ _id: session.mission_id });
-  if (!mission) return NextResponse.json({ error: 'Mission not found' }, { status: 404 });
+  if (!mission) return NextResponse.json({ error: 'Mish not found' }, { status: 404 });
 
   const allFacts: FactEntry[] = session.notepad?.facts || [];
   const triangulated = allFacts.filter((f) => f.triangulated);

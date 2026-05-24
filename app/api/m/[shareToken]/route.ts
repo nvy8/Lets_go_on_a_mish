@@ -8,7 +8,7 @@ export async function GET(
   const { shareToken } = await params;
   const db = await connect();
   const mission = await db.collection(COLLECTIONS.missions).findOne({ share_token: shareToken });
-  if (!mission) return NextResponse.json({ error: 'Mission not found' }, { status: 404 });
+  if (!mission) return NextResponse.json({ error: 'Mish not found' }, { status: 404 });
   return NextResponse.json({
     mission: {
       title: mission.title,

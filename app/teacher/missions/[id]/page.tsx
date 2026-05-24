@@ -113,7 +113,7 @@ export default function MissionDetail({ params }: { params: Promise<{ id: string
           style={{ color: pencilAlpha("99") }}
         >
           <ArrowLeft size={14} strokeWidth={2.5} />
-          {mission.project_id && mission.project ? mission.project.name : "all missions"}
+          {mission.project_id && mission.project ? mission.project.name : "all Mishes"}
         </Link>
 
         {/* Project chip — visible above the H1 if this mission belongs to a project */}
@@ -183,8 +183,8 @@ export default function MissionDetail({ params }: { params: Promise<{ id: string
                 className="mt-1 text-xs"
                 style={{ color: pencilAlpha("99") }}
               >
-                Pick &ldquo;Standalone&rdquo; to remove this mission from its current
-                project. The mission and its sessions are preserved either way.
+                Pick &ldquo;Standalone&rdquo; to remove this Mish from its current
+                project. The Mish and its sessions are preserved either way.
               </p>
               <div className="mt-3 flex flex-col gap-3">
                 <label

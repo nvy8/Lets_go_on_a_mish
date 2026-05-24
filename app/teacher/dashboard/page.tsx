@@ -155,10 +155,10 @@ export default function TeacherDashboard() {
               home
             </Link>
             <h1 className="mt-2 text-4xl" style={{ ...KALAM, color: COLOR.pencil }}>
-              Your missions
+              Your Mishes
             </h1>
             <p className="mt-1 text-sm" style={{ color: pencilAlpha("99") }}>
-              Group missions into <b>projects</b> for multi-week units, or run them
+              Group Mishes into <b>projects</b> for multi-week units, or run them
               standalone.
             </p>
           </div>
@@ -190,7 +190,7 @@ export default function TeacherDashboard() {
               onClick={() => setCreateMode(createMode === "mission" ? null : "mission")}
             >
               <FilePlus2 size={18} strokeWidth={3} />
-              {createMode === "mission" ? "Cancel" : "New mission"}
+              {createMode === "mission" ? "Cancel" : "New Mish"}
             </HDButton>
           )}
         </div>
@@ -203,7 +203,7 @@ export default function TeacherDashboard() {
                 Create a project
               </h2>
               <p className="mt-1 text-sm" style={{ color: pencilAlpha("cc") }}>
-                A project is a folder of missions — useful for multi-week units like
+                A project is a folder of Mishes — useful for multi-week units like
                 <i> Year 6 — Geography, 6 weeks</i>.
               </p>
               <div className="mt-4 flex flex-col gap-3">
@@ -245,11 +245,11 @@ export default function TeacherDashboard() {
           <HDCard className="mt-4 p-6">
             <form onSubmit={createMission}>
               <h2 className="text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
-                Create a mission
+                Create a Mish
               </h2>
               <div className="mt-4 flex flex-col gap-3">
                 <HDInput
-                  placeholder="Mission title (e.g. Year 6 — Transylvanian Churches)"
+                  placeholder="Mish title (e.g. Year 6 — Transylvanian Churches)"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
@@ -295,13 +295,13 @@ export default function TeacherDashboard() {
                       <option key={p.id} value={p.id}>
                         {p.name}
                         {p.week_count ? ` · ${p.week_count}-week` : ""} ·{" "}
-                        {p.mission_count} mission{p.mission_count === 1 ? "" : "s"}
+                        {p.mission_count} Mish{p.mission_count === 1 ? "" : "es"}
                       </option>
                     ))}
                 </select>
                 <div>
                   <HDButton type="submit" variant="primary" size="md" disabled={creating}>
-                    {creating ? "Creating…" : "Create mission"}
+                    {creating ? "Creating…" : "Create Mish"}
                   </HDButton>
                 </div>
               </div>
@@ -327,11 +327,11 @@ export default function TeacherDashboard() {
               className="mx-auto mb-3"
             />
             <div className="text-lg" style={{ ...KALAM, color: COLOR.pencil }}>
-              No projects or missions yet.
+              No projects or Mishes yet.
             </div>
             <div className="mt-1 text-sm">
               Start with a <b>project</b> for a multi-week unit, or a single{" "}
-              <b>mission</b> for a one-off lesson.
+              <b>Mish</b> for a one-off lesson.
             </div>
           </div>
         )}
@@ -415,7 +415,7 @@ export default function TeacherDashboard() {
                           borderRadius: RADIUS.chip,
                         }}
                       >
-                        {p.mission_count} mission{p.mission_count === 1 ? "" : "s"}
+                        {p.mission_count} Mish{p.mission_count === 1 ? "" : "es"}
                       </div>
                     </HDCard>
                   </Link>
@@ -427,8 +427,8 @@ export default function TeacherDashboard() {
                 className="mt-3 text-xs"
                 style={{ color: pencilAlpha("99") }}
               >
-                {inProjects.length} mission{inProjects.length === 1 ? "" : "s"} live across
-                your projects. Open a project to see its missions and per-mission roster.
+                {inProjects.length} Mish{inProjects.length === 1 ? "" : "es"} live across
+                your projects. Open a project to see its Mishes and per-Mish roster.
               </p>
             )}
           </section>
@@ -441,7 +441,7 @@ export default function TeacherDashboard() {
             style={{ ...KALAM, color: COLOR.pencil }}
           >
             <FilePlus2 size={24} strokeWidth={2.5} color={COLOR.red} />
-            Standalone missions
+            Standalone Mishes
           </h2>
           {isLoading && (
             <div className="mt-3" style={{ color: pencilAlpha("99") }}>
@@ -458,7 +458,7 @@ export default function TeacherDashboard() {
                 backgroundColor: "white",
               }}
             >
-              No standalone missions. Standalone missions live outside any project — useful
+              No standalone Mishes. Standalone Mishes live outside any project — useful
               for one-off lessons.
             </div>
           )}

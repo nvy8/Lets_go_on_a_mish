@@ -81,7 +81,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
             <Search size={32} strokeWidth={2.5} color={COLOR.pencil} aria-hidden="true" />
           </div>
           <div className="mt-4 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
-            Mission not found
+            Mish not found
           </div>
           <div className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
             Ask your teacher for the correct link.
@@ -137,7 +137,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
               boxShadow: SHADOW.sm,
             }}
           >
-            Sleuth Mission
+            Sleuth Mish
           </div>
           <h1 className="mt-4 text-3xl leading-tight" style={{ ...KALAM, color: COLOR.pencil }}>
             {mission.title}
@@ -210,7 +210,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
               style={{ color: pencilAlpha("99") }}
               aria-hidden="true"
             />
-            <span>Your teacher can see your name and your work on this mission.</span>
+            <span>Your teacher can see your name and your work on this Mish.</span>
           </div>
           {error && (
             <div
@@ -232,7 +232,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
                 "Starting…"
               ) : (
                 <>
-                  Let&apos;s go on a mission
+                  Let&apos;s go on a Mish
                   <ArrowRight size={22} strokeWidth={2.5} aria-hidden="true" />
                 </>
               )}

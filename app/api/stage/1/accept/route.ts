@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
   const db = await connect();
   const mission = await db.collection(COLLECTIONS.missions).findOne({ _id: session.mission_id });
-  if (!mission) return NextResponse.json({ error: 'Mission not found' }, { status: 404 });
+  if (!mission) return NextResponse.json({ error: 'Mish not found' }, { status: 404 });
 
   // Save query immediately and advance stage so kid lands on new Stage 2
   await db.collection(COLLECTIONS.sessions).updateOne(

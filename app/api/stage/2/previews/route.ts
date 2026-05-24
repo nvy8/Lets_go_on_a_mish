@@ -15,7 +15,7 @@ export async function POST() {
   // Fallback: if Stage 1's background search failed, run it here
   if (!candidates.length) {
     const mission = await db.collection(COLLECTIONS.missions).findOne({ _id: session.mission_id });
-    if (!mission) return NextResponse.json({ error: 'Mission not found' }, { status: 404 });
+    if (!mission) return NextResponse.json({ error: 'Mish not found' }, { status: 404 });
     const query = session.notepad?.refined_query || mission.topic;
     try {
       const [web, ai] = await Promise.all([

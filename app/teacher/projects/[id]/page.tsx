@@ -158,7 +158,7 @@ export default function ProjectDetailPage({
   }
 
   async function archiveProject() {
-    if (!confirm("Archive this project? Its missions stay live and reachable for kids; the project just hides from your default list.")) return;
+    if (!confirm("Archive this project? Its Mishes stay live and reachable for kids; the project just hides from your default list.")) return;
     await fetch(`/api/projects/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -240,7 +240,7 @@ export default function ProjectDetailPage({
       groups.push({ label: w === null ? "Unscheduled" : `Week ${w}`, items: byWeek.get(w)! });
     }
   } else {
-    groups.push({ label: "Missions", items: missions });
+    groups.push({ label: "Mishes", items: missions });
   }
 
   return (
@@ -315,7 +315,7 @@ export default function ProjectDetailPage({
         {/* Summary stats */}
         <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatCard
-            label="Missions"
+            label="Mishes"
             value={summary.missions_count}
             icon={<Folder size={18} strokeWidth={2.5} color={COLOR.red} />}
           />
@@ -391,12 +391,12 @@ export default function ProjectDetailPage({
         {/* Add mission */}
         <div className="mt-8 flex items-center justify-between gap-3 flex-wrap">
           <h2 className="text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
-            Missions in this project
+            Mishes in this project
           </h2>
           {!showAddMission && (
             <HDButton variant="primary" size="md" onClick={() => setShowAddMission(true)}>
               <Plus size={18} strokeWidth={3} />
-              Add mission
+              Add Mish
             </HDButton>
           )}
         </div>
@@ -405,11 +405,11 @@ export default function ProjectDetailPage({
           <HDCard className="mt-4 p-6">
             <form onSubmit={addMission}>
               <h3 className="text-xl" style={{ ...KALAM, color: COLOR.pencil }}>
-                Add a mission to this project
+                Add a Mish to this project
               </h3>
               <div className="mt-4 flex flex-col gap-3">
                 <HDInput
-                  placeholder="Mission title (e.g. Lesson 1.1 — Maps and coordinates)"
+                  placeholder="Mish title (e.g. Lesson 1.1 — Maps and coordinates)"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
@@ -440,7 +440,7 @@ export default function ProjectDetailPage({
                 />
                 <div className="flex gap-2">
                   <HDButton type="submit" variant="primary" size="md" disabled={creating}>
-                    {creating ? "Creating…" : "Create mission"}
+                    {creating ? "Creating…" : "Create Mish"}
                   </HDButton>
                   <HDButton
                     type="button"
@@ -469,18 +469,18 @@ export default function ProjectDetailPage({
               className="mx-auto mb-3"
             />
             <div className="text-lg" style={{ ...KALAM, color: COLOR.pencil }}>
-              No missions in this project yet.
+              No Mishes in this project yet.
             </div>
             <div className="mt-1 text-sm">
-              Click <b>Add mission</b> above to create one. You can also reassign an existing
-              mission to this project from its detail page.
+              Click <b>Add Mish</b> above to create one. You can also reassign an existing
+              Mish to this project from its detail page.
             </div>
           </HDCard>
         )}
 
         {groups.map((g) => (
           <div key={g.label} className="mt-6">
-            {(anyWithWeek || g.label !== "Missions") && (
+            {(anyWithWeek || g.label !== "Mishes") && (
               <h3
                 className="flex items-center gap-2 text-lg"
                 style={{ ...KALAM, color: COLOR.red, fontSize: "1.1rem" }}

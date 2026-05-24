@@ -172,7 +172,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     const mission = await db
       .collection(COLLECTIONS.missions)
       .findOne({ _id: missionObjectId, teacher_id: teacher._id });
-    if (!mission) return NextResponse.json({ error: 'Mission not found' }, { status: 404 });
+    if (!mission) return NextResponse.json({ error: 'Mish not found' }, { status: 404 });
 
     const sessions = (await db
       .collection(COLLECTIONS.sessions)

@@ -86,7 +86,7 @@ export default function CompletePage({
             className="mt-5 text-5xl"
             style={{ ...KALAM, color: COLOR.pencil }}
           >
-            Mission complete!
+            Mish complete!
           </h1>
           <p
             className="mt-3 text-lg"
