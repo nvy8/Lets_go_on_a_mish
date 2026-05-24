@@ -18,7 +18,12 @@ export async function POST(req: NextRequest) {
   for (const item of items) {
     if (picks[item.fact_id] === item.correct_index) correctCount++;
   }
-  const earnedBadge = correctCount === items.length;
+  // Guard against awarding the badge for an empty submission. Without the
+  // `items.length > 0` check, a session with zero hallucination items (e.g.
+  // a kid who never triangulated any fact in Stage 3) would receive the
+  // badge for posting `picks: {}` — every facet of the comparison is
+  // vacuously true.
+  const earnedBadge = items.length > 0 && correctCount === items.length;
 
   const updatedItems = items.map((item) => ({
     ...item,
