@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, Copy, CheckCheck, FileText } from "lucide-react";
 import { HDCard } from "@/components/handdrawn/HDCard";
 import { HDButton } from "@/components/handdrawn/HDButton";
+import { StudentsSection } from "@/components/teacher/StudentsSection";
 import { COLOR, RADIUS, KALAM, pencilAlpha, PAPER_BG } from "@/lib/design-tokens";
 
 type Mission = {
@@ -129,6 +130,8 @@ export default function MissionDetail({ params }: { params: Promise<{ id: string
             </pre>
           </HDCard>
         )}
+
+        <StudentsSection missionId={id} />
       </div>
     </main>
   );
