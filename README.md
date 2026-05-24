@@ -27,7 +27,7 @@ Final output: PDF Research Brief with badges + facts + own-words explanations + 
 ## Running locally
 
 ```bash
-cd /home/sebastian/HACKATHON_APP
+cd ~/HACKATHON_APP
 npm install
 # Edit .env.local using .env.local.example as template
 npm run dev

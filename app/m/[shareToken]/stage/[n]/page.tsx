@@ -1,4 +1,3 @@
-// 
 "use client";
 import { useEffect, useState, use } from "react";
 import { StageShell } from "@/components/StageShell";

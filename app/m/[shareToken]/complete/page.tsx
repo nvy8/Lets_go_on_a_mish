@@ -1,5 +1,3 @@
-// 
-// 
 "use client";
 import { useEffect, useState, use } from "react";
 import Link from "next/link";

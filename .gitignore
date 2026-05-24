@@ -48,3 +48,5 @@ design-audit/*
 # Local-only demo / presentation credentials (never commit)
 DEMO_CREDENTIALS.local.md
 *.local.md
+# Local-only ClassDojo IP assets — never commit
+/public/scraped/
