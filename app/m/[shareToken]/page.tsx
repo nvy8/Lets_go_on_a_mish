@@ -1,7 +1,10 @@
+// TEMP HACKATHON DESIGN — uses ClassDojo IP — TODO: REPLACE BEFORE LAUNCH
 "use client";
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Eye, ArrowRight, AlertCircle } from "lucide-react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Search, Eye, ArrowRight, AlertCircle, Sparkles } from "lucide-react";
 import { HDCard } from "@/components/handdrawn/HDCard";
 import { HDButton } from "@/components/handdrawn/HDButton";
 import { HDInput } from "@/components/handdrawn/HDInput";
@@ -99,11 +102,63 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center px-6 py-12" style={PAPER_BG}>
-      <HDCard className="w-full max-w-md p-8" decoration="tape">
-        <div className="text-center">
-          <div
-            className="inline-flex h-20 w-20 items-center justify-center border-[3px] -rotate-3"
+    <main
+      className="relative flex flex-1 items-center justify-center px-6 py-12 overflow-hidden"
+      style={PAPER_BG}
+    >
+      {/* Faded sketch lines doodle in the background */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/scraped/page_homepage_sketch-lines.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.07]"
+      />
+
+      {/* Friendly mascot waving from the top-left, only on >= sm */}
+      <motion.div
+        initial={{ opacity: 0, x: -30, y: -10, rotate: -10 }}
+        animate={{ opacity: 1, x: 0, y: 0, rotate: -6 }}
+        transition={{ duration: 0.6, ease: "backOut", delay: 0.2 }}
+        className="pointer-events-none absolute top-4 left-4 hidden sm:block"
+      >
+        <motion.div
+          animate={{ rotate: [-6, -2, -6], y: [0, -4, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Image
+            src="/scraped/grid_plushies_optimized.webp"
+            alt=""
+            width={130}
+            height={130}
+            style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.12))" }}
+          />
+        </motion.div>
+      </motion.div>
+
+      <HDCard className="relative w-full max-w-md p-8" decoration="tape">
+        <div className="relative text-center">
+          {/* Sparkles flanking the magnifying glass */}
+          <motion.div
+            className="pointer-events-none absolute left-1/2 top-0 -translate-x-[60px]"
+            animate={{ rotate: [0, 12, -8, 0], scale: [1, 1.2, 1] }}
+            transition={{ duration: 2.2, repeat: Infinity }}
+          >
+            <Sparkles size={20} color={COLOR.red} strokeWidth={2.5} />
+          </motion.div>
+          <motion.div
+            className="pointer-events-none absolute left-1/2 top-2 translate-x-[40px]"
+            animate={{ rotate: [0, -10, 14, 0], scale: [1, 1.15, 1] }}
+            transition={{ duration: 2.6, repeat: Infinity, delay: 0.4 }}
+          >
+            <Sparkles size={18} color={COLOR.blue} strokeWidth={2.5} />
+          </motion.div>
+
+          <motion.div
+            initial={{ scale: 0.7, opacity: 0, rotate: -20 }}
+            animate={{ scale: 1, opacity: 1, rotate: -3 }}
+            transition={{ duration: 0.5, ease: "backOut" }}
+            className="inline-flex h-20 w-20 items-center justify-center border-[3px]"
             style={{
               borderColor: COLOR.pencil,
               backgroundColor: COLOR.postIt,
@@ -112,7 +167,7 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
             }}
           >
             <Search size={38} strokeWidth={2.5} color={COLOR.pencil} aria-hidden="true" />
-          </div>
+          </motion.div>
           <div
             className="mt-5 inline-block px-3 py-1 text-sm border-2 rotate-1 ml-2"
             style={{

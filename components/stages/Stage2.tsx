@@ -1,6 +1,9 @@
+// TEMP HACKATHON DESIGN — uses ClassDojo IP — TODO: REPLACE BEFORE LAUNCH
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   ChevronUp,
@@ -221,7 +224,29 @@ export function Stage2({ shareToken }: { shareToken: string }) {
 
   return (
     <div>
-      <HDCard className="p-6" decoration="tape">
+      <HDCard className="relative p-6" decoration="tape">
+        {/* Detective squad mascot perched on the top-right corner of the instruction card */}
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, scale: 0.7, rotate: 18 }}
+          animate={{ opacity: 1, scale: 1, rotate: 10 }}
+          transition={{ duration: 0.55, ease: "backOut", delay: 0.2 }}
+          className="pointer-events-none absolute -top-14 -right-2 hidden sm:block"
+        >
+          <motion.div
+            animate={{ y: [0, -5, 0], rotate: [10, 13, 10] }}
+            transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src="/scraped/grid_mojojojo_optimized.webp"
+              alt=""
+              width={120}
+              height={120}
+              style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.15))" }}
+            />
+          </motion.div>
+        </motion.div>
+
         <h2
           className="flex items-center gap-2 text-2xl"
           style={{ ...KALAM, color: COLOR.pencil }}

@@ -1,7 +1,10 @@
+// TEMP HACKATHON DESIGN — uses ClassDojo IP — TODO: REPLACE BEFORE LAUNCH
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { Plus, ArrowLeft, FolderOpen } from "lucide-react";
 import { HDCard } from "@/components/handdrawn/HDCard";
 import { HDButton } from "@/components/handdrawn/HDButton";
@@ -63,8 +66,15 @@ export default function TeacherDashboard() {
   }
 
   return (
-    <main className="flex-1" style={PAPER_BG}>
-      <div className="mx-auto w-full max-w-4xl px-6 py-12">
+    <main className="relative flex-1 overflow-hidden" style={PAPER_BG}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/scraped/page_homepage_sketch-lines.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.06]"
+      />
+      <div className="relative mx-auto w-full max-w-4xl px-6 py-12">
         <div className="flex items-center justify-between">
           <div>
             <Link
@@ -88,12 +98,35 @@ export default function TeacherDashboard() {
           </button>
         </div>
 
-        <div className="mt-8">
+        <div className="relative mt-8">
           {!showForm ? (
-            <HDButton variant="primary" size="md" onClick={() => setShowForm(true)}>
-              <Plus size={18} strokeWidth={3} />
-              New mission
-            </HDButton>
+            <div className="relative inline-block">
+              {/* Rocket peeking from behind the New Mission button */}
+              <motion.div
+                aria-hidden="true"
+                initial={{ opacity: 0, x: -20, rotate: -20 }}
+                animate={{ opacity: 1, x: 0, rotate: -12 }}
+                transition={{ duration: 0.55, ease: "backOut", delay: 0.2 }}
+                className="pointer-events-none absolute -top-6 -right-12"
+              >
+                <motion.div
+                  animate={{ y: [0, -5, 0], rotate: [-12, -8, -12] }}
+                  transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Image
+                    src="/scraped/rocket_optimized.webp"
+                    alt=""
+                    width={56}
+                    height={56}
+                    style={{ filter: "drop-shadow(2px 3px 0 rgba(0,0,0,0.15))" }}
+                  />
+                </motion.div>
+              </motion.div>
+              <HDButton variant="primary" size="md" onClick={() => setShowForm(true)}>
+                <Plus size={18} strokeWidth={3} />
+                New mission
+              </HDButton>
+            </div>
           ) : (
             <HDCard className="p-6">
               <form onSubmit={createMission}>
@@ -151,7 +184,10 @@ export default function TeacherDashboard() {
             <div style={{ color: pencilAlpha("99") }}>Loading…</div>
           )}
           {missions && missions.length === 0 && !showForm && (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="p-8 text-center border-2 border-dashed"
               style={{
                 borderColor: pencilAlpha("4d"),
@@ -160,14 +196,34 @@ export default function TeacherDashboard() {
                 backgroundColor: "white",
               }}
             >
-              <FolderOpen
-                size={32}
-                strokeWidth={2.5}
-                color={pencilAlpha("66")}
-                className="mx-auto mb-2"
-              />
-              No missions yet. Create your first one.
-            </div>
+              {/* Empty-state mascot: projector — "show your class something" */}
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="mx-auto mb-3"
+                style={{ width: 120, height: 120 }}
+              >
+                <Image
+                  src="/scraped/features-2022_feature5_optimized.webp"
+                  alt=""
+                  width={120}
+                  height={120}
+                  style={{
+                    filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.12))",
+                    margin: "0 auto",
+                  }}
+                />
+              </motion.div>
+              <div className="text-lg" style={{ ...KALAM, color: COLOR.pencil }}>
+                No missions yet
+              </div>
+              <div className="mt-1 text-sm" style={{ color: pencilAlpha("99") }}>
+                Tap <b>New mission</b> to give your class their first research quest.
+              </div>
+              <div className="sr-only">
+                <FolderOpen size={32} strokeWidth={2.5} />
+              </div>
+            </motion.div>
           )}
           {missions?.map((m, i) => {
             const tilt = i % 3 === 0 ? "rotate-1" : i % 3 === 1 ? "-rotate-1" : "";

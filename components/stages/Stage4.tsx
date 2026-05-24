@@ -1,6 +1,9 @@
+// TEMP HACKATHON DESIGN — uses ClassDojo IP — TODO: REPLACE BEFORE LAUNCH
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { ArrowRight, Pencil, Pin, Award, FileText } from "lucide-react";
 import { HDCard } from "@/components/handdrawn/HDCard";
 import { HDButton } from "@/components/handdrawn/HDButton";
@@ -165,7 +168,29 @@ export function Stage4({ shareToken }: { shareToken: string }) {
 
   return (
     <div>
-      <HDCard className="p-6">
+      <HDCard className="relative p-6">
+        {/* Writing mascot peeking at the prompt card */}
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -10, rotate: -14 }}
+          animate={{ opacity: 1, y: 0, rotate: -8 }}
+          transition={{ duration: 0.55, ease: "backOut", delay: 0.2 }}
+          className="pointer-events-none absolute -top-12 -left-3 hidden sm:block"
+        >
+          <motion.div
+            animate={{ rotate: [-8, -4, -8], y: [0, -3, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src="/scraped/grid_plushies_optimized.webp"
+              alt=""
+              width={100}
+              height={100}
+              style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.15))" }}
+            />
+          </motion.div>
+        </motion.div>
+
         <div className="flex items-start justify-between gap-4">
           <h2
             className="flex items-center gap-2 text-2xl"
