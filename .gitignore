@@ -48,3 +48,18 @@ design-audit/*
 # Local-only demo / presentation credentials (never commit)
 DEMO_CREDENTIALS.local.md
 *.local.md
+
+# Test artifacts (Playwright MCP logs, snapshots, screenshots)
+.playwright-mcp/
+e2e-*.png
+e2e-*.jpg
+/screenshots/
+playwright-report/
+test-results/
+
+# Defense-in-depth — never commit secrets / API keys / cluster URIs
+*secret*
+*credentials*
+*.key
+*.pem
+!.env.example
