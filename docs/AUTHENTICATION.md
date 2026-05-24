@@ -58,7 +58,46 @@ Code: [lib/auth.ts:55](../lib/auth.ts)
 ### Logout / me
 
 - `POST /api/teacher/logout` — clears the `sleuth_teacher` cookie.
-- `GET /api/teacher/me` — returns the current teacher (used by the dashboard layout to gate access).
+- `GET /api/teacher/me` — returns the current teacher (used by the dashboard layout to gate access, and by the login page to auto-redirect already-authenticated visitors).
+
+### Auto-redirect from `/teacher/login` when already authenticated
+
+Added 2026-05-24. Before this change, a teacher with a valid `sleuth_teacher` cookie who navigated to `/teacher/login` saw the login form again — confusing, and tempted them to re-enter credentials they didn't need.
+
+Now, on mount, [app/teacher/login/page.tsx](../app/teacher/login/page.tsx) does:
+
+1. `setSessionStatus("checking")` and renders *"Checking your session…"* (so the form never flashes for authenticated users).
+2. `fetch("/api/teacher/me", { cache: "no-store" })`.
+3. If `200 OK`: `router.replace("/teacher/dashboard")` and switches to *"Taking you to your dashboard…"*. Uses `replace` (not `push`) so the browser back-stack does not bounce the user back to login.
+4. If `401`: `setSessionStatus("anon")` and renders the actual login form.
+5. Network failure: defaults to `"anon"` so the user can still try to log in manually.
+
+Successful login + register now also use `router.replace("/teacher/dashboard")` for the same back-stack-safety reason.
+
+### Verification matrix (2026-05-24)
+
+API contracts verified end-to-end with a fresh `autotest-<ts>@sleuth.local` account via curl + cookie jar:
+
+| # | Step | Expected | Observed |
+|---|---|---|---|
+| 1 | `POST /api/teacher/register` (new email + ≥8-char password) | `200`, `Set-Cookie: sleuth_teacher=...; HttpOnly; SameSite=lax; Max-Age=604800` | ✅ |
+| 2 | `GET /api/teacher/me` *with* cookie | `200 { teacher: { id, email } }` | ✅ |
+| 3 | `GET /api/teacher/me` *without* cookie | `401 { teacher: null }` | ✅ |
+| 4 | `POST /api/teacher/logout` *with* cookie | `200 { ok: true }`, cookie cleared | ✅ |
+| 5 | `GET /api/teacher/me` after logout | `401` | ✅ |
+| 6 | `POST /api/teacher/login` (re-login same creds) | `200 { ok, teacherId }`, cookie re-set | ✅ |
+| 7 | `GET /api/teacher/me` after re-login | `200`, same teacher id as register | ✅ |
+
+Client-side auto-redirect — confirm visually in a browser tab (both MCP browsers were unavailable for automated capture):
+
+| # | Step | Expected |
+|---|---|---|
+| A | Open `/teacher/login` while not logged in | Brief *"Checking your session…"* then the login form |
+| B | Submit valid credentials | URL changes to `/teacher/dashboard`, missions list renders, cookie set |
+| C | Hit back button after login | Should land on the page *before* login, not on the login form again (because of `router.replace`) |
+| D | Open `/teacher/login` while authenticated | Brief *"Checking your session…"* then *"Taking you to your dashboard…"*, URL flips to `/teacher/dashboard` automatically |
+| E | Click "Log out" from dashboard | Cookie cleared, back to `/teacher/login`, form renders |
+| F | Visit `/teacher/dashboard` without cookie | Dashboard's existing 401 check redirects to `/teacher/login` |
 
 ### Known issues (already in [reviews/CODE_REVIEW.md](reviews/CODE_REVIEW.md))
 

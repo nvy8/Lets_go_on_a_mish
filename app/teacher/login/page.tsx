@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -8,13 +8,40 @@ import { HDButton } from "@/components/handdrawn/HDButton";
 import { HDInput } from "@/components/handdrawn/HDInput";
 import { COLOR, RADIUS, KALAM, pencilAlpha, PAPER_BG } from "@/lib/design-tokens";
 
+type SessionStatus = "checking" | "anon" | "redirecting";
+
 export default function TeacherLogin() {
   const router = useRouter();
+  const [sessionStatus, setSessionStatus] = useState<SessionStatus>("checking");
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Check existing session on mount — auto-redirect authenticated teachers
+  // straight to the dashboard so they never see the login form again.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/teacher/me", { cache: "no-store" });
+        if (cancelled) return;
+        if (res.ok) {
+          setSessionStatus("redirecting");
+          router.replace("/teacher/dashboard");
+          return;
+        }
+        setSessionStatus("anon");
+      } catch {
+        // Network failure — let the user try to log in manually.
+        if (!cancelled) setSessionStatus("anon");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,12 +55,32 @@ export default function TeacherLogin() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed");
-      router.push("/teacher/dashboard");
+      // Use replace so the back button doesn't bounce the user back to login.
+      router.replace("/teacher/dashboard");
     } catch (err) {
       setError((err as Error).message);
     } finally {
       setLoading(false);
     }
+  }
+
+  // While we're checking the session (or already redirecting), show a quiet
+  // placeholder instead of flashing the login form to authenticated users.
+  if (sessionStatus !== "anon") {
+    return (
+      <main
+        className="flex flex-1 items-center justify-center px-6 py-16"
+        style={PAPER_BG}
+      >
+        <div
+          className="text-base"
+          style={{ ...KALAM, color: pencilAlpha("99") }}
+          aria-live="polite"
+        >
+          {sessionStatus === "checking" ? "Checking your session…" : "Taking you to your dashboard…"}
+        </div>
+      </main>
+    );
   }
 
   return (
