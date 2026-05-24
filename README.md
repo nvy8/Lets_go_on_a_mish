@@ -41,6 +41,29 @@ Required env vars:
 
 The `claude` CLI must be available on the host with valid Claude Code OAuth (Claude Max subscription works). The `runClaude()` wrapper passes `ANTHROPIC_API_KEY=""` to force OAuth fallback even if a stale API key env var is set.
 
+## Seeding demo data
+
+Two scripts populate a fresh database with everything needed for a demo:
+
+```bash
+# 1. Built-in mission types (required once; pre-req for the demo content)
+node --env-file=.env.local scripts/seed-mission-types.mjs
+
+# 2. Demo teacher + 2 projects + 11 missions (idempotent — safe to re-run)
+node --env-file=.env.local scripts/seed-demo-content.mjs
+
+# Optional: override the demo credentials
+node --env-file=.env.local scripts/seed-demo-content.mjs \
+  --email=demo@mish.local --password='MishDemo2026!'
+```
+
+Default demo login: `demo@mish.local` / `MishDemo2026!`. The seed mirrors the content
+in [docs/design/TEACHER_FLOW_EXAMPLES.md](docs/design/TEACHER_FLOW_EXAMPLES.md):
+
+- **Year 4 — Ocean Investigators** (3-week project, 6 missions on marine biology)
+- **Year 6 — Light & Color** (2-week project, 4 missions on light and color misconceptions)
+- **Bee research warm-up** (1 standalone mission)
+
 ## File layout
 
 ```
