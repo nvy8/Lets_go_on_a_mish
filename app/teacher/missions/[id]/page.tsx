@@ -64,7 +64,7 @@ export default function MissionDetail({ params }: { params: Promise<{ id: string
           style={{ color: pencilAlpha("99") }}
         >
           <ArrowLeft size={14} strokeWidth={2.5} />
-          all missions
+          all Mishes
         </Link>
         <h1 className="mt-3 text-4xl" style={{ ...KALAM, color: COLOR.pencil }}>
           {mission.title}

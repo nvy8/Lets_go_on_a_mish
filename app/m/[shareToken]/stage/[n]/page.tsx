@@ -30,7 +30,7 @@ export default function StagePage({
   useEffect(() => {
     fetch("/api/session/state").then(async (r) => {
       if (r.status === 401) {
-        setError("Please join the mission first.");
+        setError("Please join the Mish first.");
         return;
       }
       const data = await r.json();

@@ -86,7 +86,7 @@ export default function TeacherDashboard() {
               home
             </Link>
             <h1 className="mt-2 text-4xl" style={{ ...KALAM, color: COLOR.pencil }}>
-              Your missions
+              Your Mishes
             </h1>
           </div>
           <button
@@ -101,7 +101,7 @@ export default function TeacherDashboard() {
         <div className="relative mt-8">
           {!showForm ? (
             <div className="relative inline-block">
-              {/* Rocket peeking from behind the New Mission button */}
+              {/* Rocket peeking from behind the New Mish button */}
               <motion.div
                 aria-hidden="true"
                 initial={{ opacity: 0, x: -20, rotate: -20 }}
@@ -124,18 +124,18 @@ export default function TeacherDashboard() {
               </motion.div>
               <HDButton variant="primary" size="md" onClick={() => setShowForm(true)}>
                 <Plus size={18} strokeWidth={3} />
-                New mission
+                New Mish
               </HDButton>
             </div>
           ) : (
             <HDCard className="p-6">
               <form onSubmit={createMission}>
                 <h2 className="text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
-                  Create a mission
+                  Create a Mish
                 </h2>
                 <div className="mt-4 flex flex-col gap-3">
                   <HDInput
-                    placeholder="Mission title (e.g. Year 6 — Transylvanian Churches)"
+                    placeholder="Mish title (e.g. Year 6 — Transylvanian Churches)"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
@@ -215,10 +215,10 @@ export default function TeacherDashboard() {
                 />
               </motion.div>
               <div className="text-lg" style={{ ...KALAM, color: COLOR.pencil }}>
-                No missions yet
+                No Mishes yet
               </div>
               <div className="mt-1 text-sm" style={{ color: pencilAlpha("99") }}>
-                Tap <b>New mission</b> to give your class their first research quest.
+                Tap <b>New Mish</b> to send your class on their first one.
               </div>
               <div className="sr-only">
                 <FolderOpen size={32} strokeWidth={2.5} />
