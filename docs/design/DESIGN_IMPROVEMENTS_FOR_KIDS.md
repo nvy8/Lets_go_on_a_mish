@@ -406,3 +406,69 @@ The combined effect: Sleuth becomes legitimately usable by a 9-year-old in a cla
 ## What I'd like from you before any code changes
 
 Per the working agreement, I won't touch a single file until you give the explicit go-ahead. When you're ready, the simplest way to proceed is to pick a section number (e.g., "do §2.1 and §4.3") and I'll implement just those, in a single commit, with the dev server up so we can verify visually before committing.
+
+---
+
+## 13. Iconography & graphic elements — emoji → vector icon system
+
+Added 2026-05-24 after a review of the live kid-join page (`/m/[shareToken]`). The screenshot review surfaced 3 specific weaknesses that generalize across the app.
+
+### 13.1 The problem — what was actually shipped
+
+| # | Element | Before | What was wrong |
+|---|---|---|---|
+| 1 | Hero "magnifying glass" mark at the top of the kid-join card | `🔍` rendered at `text-3xl` inside a `bg-amber-100` circle (and again at `text-4xl` inside the not-found state) | Emoji renders differently on every OS — Windows Segoe UI Emoji, Apple Color Emoji, Android Noto — so the brand mark *shifts visual identity per device*. On Windows specifically it reads as the system 🔍 in flat blue+grey, which fights the amber brand and looks unmistakably "system clipart". Not professional and not on-brand. |
+| 2 | Privacy notice eye | `👀` (U+1F440) inside a zinc-50 notice block | Two-eye emoji is **playful to the point of looking like a meme** ("👀 sus") — wrong register for a safeguarding/transparency notice. Also platform-dependent (Apple's emoji is friendly, Microsoft's is alarmed/wide-eyed). The notice is the one moment the app makes a privacy promise; visual register has to read as serious-but-warm, not a wink. |
+| 3 | Primary CTA arrow | Literal Unicode `→` (U+2192) as part of the button text string `"Start mission →"` | A text glyph, not an icon. Three concrete problems: (a) no vertical optical centering against the surrounding letters — the arrow sits slightly low because U+2192 has no descender; (b) inherits the button text weight clumsily — at `font-bold` the arrow becomes a thin line crossing a thick stem; (c) breaks at line-wrap because it's a character, not a sibling element; (d) impossible to size or color independently of the label. |
+
+All three are the same underlying issue: **using typography (emoji + Unicode glyphs) where the design needs iconography** (proper vector marks with controllable size, weight, color, and accessibility semantics).
+
+### 13.2 The fix — Phosphor Icons as the project's icon system
+
+Added [`@phosphor-icons/react`](https://phosphoricons.com/) as a dependency. Phosphor is:
+
+- **A coherent system with 9000+ icons in 6 weights** (`thin / light / regular / bold / fill / duotone`) — picking a weight per surface is a design lever, not a hack.
+- **Pure SVG, currentColor-aware** — icons take any Tailwind text color (`text-amber-500`, `text-zinc-500`) without per-icon CSS.
+- **Framework-agnostic** with native React bindings — Tree-shakes per-import, so a 3-icon page like kid-join only ships 3 components (~3 KB gzipped).
+- **Properly child-friendly without being childish** — the duotone weight is rounded and warm; the bold weight is confident and readable. The opposite of corporate-Material-thin or kiddie-Comic-Sans.
+- **Consistent stroke geometry across the family** — when we add more icons (Stage shell, badges, Stage 3 source toggles), they all match.
+
+### 13.3 What changed in the kid-join page
+
+Implemented in [app/m/[shareToken]/page.tsx](../../app/m/%5BshareToken%5D/page.tsx):
+
+| Surface | Before | After | Phosphor component & weight | Why this weight |
+|---|---|---|---|---|
+| Hero mark in the amber circle | `🔍` text-3xl | `<MagnifyingGlass size={32} weight="duotone" />` in `text-amber-600` over the `bg-amber-100` circle (added `ring-1 ring-amber-200` for subtle depth) | `duotone` | Two-tone amber gives the mark a polished, branded feel — looks like a brand logo, not a clipart icon. Larger contrast against the soft-amber pill. |
+| Hero mark in the "Mission not found" empty-state card | `🔍` text-4xl | `<MagnifyingGlass size={40} weight="duotone" />` in `text-amber-500` | `duotone` | Same mark in same weight — keeps the brand consistent between the join card and the empty state. |
+| Privacy notice eye | `👀` (`text-sm`) | `<Eye size={18} weight="bold" />` in `text-zinc-500`, top-aligned with `mt-0.5 shrink-0` | `bold` | Single-eye + bold + neutral zinc reads as *attention/transparency*, not *meme*. Smaller than the text rather than competing with it. Top-aligned so multi-line notices stay anchored. |
+| Primary CTA "Start mission" arrow | `"Start mission →"` (text) | `<ArrowRight size={20} weight="bold" />` rendered as a sibling element inside `inline-flex items-center justify-center gap-2`, the label is now plain text | `bold` | Matches the button's `font-bold` weight so the arrow doesn't look anemic next to the label. Independently sized (20px vs 18px label) and independently colored if a future state ever needs it (success-tick, loading-spinner). Optically centered. |
+
+The "Starting…" loading state is rendered as a string (no arrow) so the in-flight CTA doesn't show a stale "go" affordance — also more accessible.
+
+### 13.4 Why this is *better* (not just *different*)
+
+Each of the 3 fixes earns its place on one of the three tests from §12:
+
+- **WCAG / a11y test.** Emoji has inconsistent screen-reader announcements across platforms — VoiceOver says "magnifying glass tilted left", NVDA may say nothing or read the codepoint. Phosphor icons are inline `<svg>` with `aria-hidden="true"` on decorative uses (per Phosphor's own guidance) — they vanish from the accessibility tree entirely, and the surrounding label carries the meaning. Cleaner.
+- **Guideline test.** From [design-audit/kids-app-design-guidelines.md](../../design-audit/kids-app-design-guidelines.md): "Use simple, rounded icon shapes with consistent stroke width." Emoji has neither — every emoji is a separate art style. Phosphor enforces both by construction.
+- **Pedagogy test.** "Research with friction" demands the kid takes the screen seriously. An app full of OS emoji reads as a *toy*. The Phosphor duotone hero, the bold zinc eye, the bold amber arrow all read as a *tool*. Same warmth, more credibility — exactly the "child friendly but not childish" register the brief asked for.
+
+### 13.5 What still needs to follow
+
+The kid-join page is the only surface updated in this pass. The same pattern should propagate before launch (one more focused commit each):
+
+- **StageShell:** the topic-line magnifier (today still `🔍` in [components/StageShell.tsx](../../components/StageShell.tsx)) → `MagnifyingGlass weight="duotone"`. The "Stage X of N" chip → keep text-only (no icon). Badge chip 🏅 → either a Phosphor `Medal weight="fill"` or, better, the custom badge SVG stamps from §6.2.
+- **Stage CTAs across Stage 1-5:** every `"... →"` button uses the same text-arrow anti-pattern → migrate each to `<ArrowRight size={20} weight="bold" />` sibling. ~12 buttons.
+- **Stage 5 ("Spot the fake"):** `🕵️` detective emoji → Phosphor `Detective weight="duotone"` or keep emoji only on the *single* emotional reveal moment (per §6.1's "emoji on emotional beats only" rule).
+- **KidNotice tones:** the component currently maps tones to emoji (`💡 / ✓ / ⚠ / 🤔 / 🔍`). Migrate to Phosphor (`Lightbulb / CheckCircle / Warning / Question / MagnifyingGlass`), all `weight="bold"`, color from tone token. One change touches every notice surface in the app.
+- **Complete page:** trophy `🏆` → Phosphor `Trophy weight="duotone"` in amber. Consistency with the new hero mark.
+
+This is one focused follow-up commit per area (~10 minutes each). The kid-join change established the convention and the dependency — propagation is mechanical from here.
+
+### 13.6 What this does *not* change
+
+- **No emoji removed from "celebration" moments** ("Nice eye!", "Almost — look again", complete-page trophy hero) — those are deliberate emotional beats per §6.1. The rule is "icons for structure, emoji for emotion", not "no emoji ever".
+- **No new colors or tokens introduced** — Phosphor icons take `currentColor` so they slot into the existing amber/zinc system unchanged.
+- **No motion added** — the duotone hero is static. §7's four-microinteraction budget is untouched.
+- **No bundle-size concern** — Phosphor tree-shakes; the 3 icons used add ~3 KB gzipped.

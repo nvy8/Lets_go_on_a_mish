@@ -22,6 +22,7 @@ Point-in-time audits of the codebase. Findings only — no fixes applied unless 
 
 | Doc | Purpose |
 |---|---|
+| [design/SCIENTIFIC_FOUNDATIONS.md](design/SCIENTIFIC_FOUNDATIONS.md) | Research base — pedagogy, critical-thinking frameworks (SIFT, lateral reading), motivation theory, cognition, anti-patterns, child-safety regulation. Includes a Sleuth-surface application map to cite when changing copy or microinteractions. |
 | [design/DESIGN_IMPROVEMENTS_FOR_KIDS.md](design/DESIGN_IMPROVEMENTS_FOR_KIDS.md) | Proposal for kid-flow improvements derived from the kids-app design guidelines. Cross-referenced against the visual audit. |
 
 ## Changelog
@@ -31,6 +32,9 @@ Chronological log of larger implementation passes. One file per pass — append,
 | Date | Doc | Summary |
 |---|---|---|
 | 2026-05-23 | [changelog/2026-05-23-kid-flow-design-pass.md](changelog/2026-05-23-kid-flow-design-pass.md) | Kid-flow accessibility + design pass (contrast, tap targets, labels, sentence case, KidNotice component, Stage 3 responsive break). |
+| 2026-05-24 | [changelog/2026-05-24-iconography-pass.md](changelog/2026-05-24-iconography-pass.md) | Kid-join iconography — replaced emoji + Unicode arrow with Phosphor Icons (`MagnifyingGlass` / `Eye` / `ArrowRight`). Established the icon system convention. |
+| 2026-05-24 | [changelog/2026-05-24-stage1-copy-research-aligned.md](changelog/2026-05-24-stage1-copy-research-aligned.md) | Stage 1 copy aligned to SCIENTIFIC_FOUNDATIONS — title `Query Design → Sharpen your question`, loading copy reframed around SIFT-Stop and Mayer signaling. |
+| 2026-05-24 | [changelog/2026-05-24-kid-join-pii-validation.md](changelog/2026-05-24-kid-join-pii-validation.md) | Reverted the v3 hero brand-mark experiment back to the iconography-pass styling (user-rejected). Added client-side PII validation on the display-name input — `@` blocks as email, 7+ consecutive digits blocks as phone, both with friendly inline warnings and disabled submit. |
 
 ## Conventions
 

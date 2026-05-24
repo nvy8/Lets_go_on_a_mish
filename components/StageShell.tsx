@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 const STAGE_NAMES = [
   "",
-  "Query Design",
+  "Sharpen your question",
   "Investigate",
   "Triangulate",
   "Explain",

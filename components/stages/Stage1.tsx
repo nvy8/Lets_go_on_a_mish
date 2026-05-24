@@ -66,8 +66,12 @@ export function Stage1({ shareToken }: { shareToken: string }) {
           aria-hidden="true"
           className="mx-auto h-44 w-auto"
         />
-        <div className="mt-4 text-lg text-zinc-700">Your coach is writing some examples…</div>
-        <div className="mt-1 text-sm text-zinc-500">(takes about 5 seconds)</div>
+        <div className="mt-4 text-lg text-zinc-700">
+          Your coach is drafting 3 questions for you to compare.
+        </div>
+        <div className="mt-1 text-sm text-zinc-500">
+          Take a breath — researchers always pause before they search.
+        </div>
       </div>
     );
   }
