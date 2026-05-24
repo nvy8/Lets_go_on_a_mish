@@ -15,6 +15,18 @@ export async function POST(
         { status: 400 },
       );
     }
+    // PII guard: client validates this too, but a direct API call must not
+    // be able to store an email or phone-shaped string as a kid's nickname.
+    const trimmed = display_name.trim();
+    if (!trimmed) {
+      return NextResponse.json({ error: 'display_name required (1-30 chars)' }, { status: 400 });
+    }
+    if (trimmed.includes('@') || /\d{7,}/.test(trimmed)) {
+      return NextResponse.json(
+        { error: 'Pick a fun nickname — no real names, emails, or contact info.' },
+        { status: 400 },
+      );
+    }
 
     const db = await connect();
     const mission = await db.collection(COLLECTIONS.missions).findOne({ share_token: shareToken });

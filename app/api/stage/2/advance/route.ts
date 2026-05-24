@@ -5,6 +5,9 @@ import { connect, COLLECTIONS } from '@/lib/db';
 export async function POST() {
   const session = await getCurrentSession();
   if (!session) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
+  if (session.current_stage !== 2) {
+    return NextResponse.json({ error: 'Wrong stage' }, { status: 409 });
+  }
   const db = await connect();
   await db
     .collection(COLLECTIONS.sessions)

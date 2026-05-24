@@ -25,12 +25,54 @@ export default function CompletePage({
 }) {
   const { shareToken } = use(params);
   const [data, setData] = useState<ExportData | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+
+  async function handleDownload() {
+    if (!data || pdfBusy) return;
+    setPdfError(null);
+    setPdfBusy(true);
+    try {
+      await generatePDF(data);
+    } catch (e) {
+      setPdfError((e as Error).message || "Couldn't generate the PDF.");
+    } finally {
+      setPdfBusy(false);
+    }
+  }
 
   useEffect(() => {
     fetch("/api/export")
-      .then((r) => r.json())
-      .then(setData);
+      .then(async (r) => {
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
+        setData(d);
+      })
+      .catch((e) => setLoadError((e as Error).message));
   }, []);
+
+  if (loadError) {
+    return (
+      <main className="flex flex-1 items-center justify-center p-12" style={PAPER_BG}>
+        <HDCard variant="postItPink" className="p-6 max-w-md text-center">
+          <div style={{ ...KALAM, color: COLOR.pencil }}>
+            Couldn&apos;t load your brief.
+          </div>
+          <div className="mt-2 text-sm" style={{ color: pencilAlpha("99") }}>
+            {loadError}
+          </div>
+          <Link
+            href={`/m/${shareToken}`}
+            className="mt-3 inline-block underline"
+            style={{ color: COLOR.red }}
+          >
+            Restart →
+          </Link>
+        </HDCard>
+      </main>
+    );
+  }
 
   if (!data) {
     return (
@@ -191,9 +233,9 @@ export default function CompletePage({
         </HDCard>
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <HDButton variant="primary" size="lg" onClick={() => generatePDF(data)}>
+          <HDButton variant="primary" size="lg" onClick={handleDownload} disabled={pdfBusy}>
             <Download size={22} strokeWidth={2.5} />
-            Download Research Brief (PDF)
+            {pdfBusy ? "Preparing PDF…" : "Download Research Brief (PDF)"}
           </HDButton>
           <Link
             href="/"
@@ -208,6 +250,12 @@ export default function CompletePage({
             Back to start
           </Link>
         </div>
+
+        {pdfError && (
+          <p className="mt-3 text-center text-sm" style={{ color: COLOR.red }}>
+            {pdfError}
+          </p>
+        )}
 
         <p
           className="mt-10 text-center text-xs"

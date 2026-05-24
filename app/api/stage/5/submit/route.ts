@@ -5,6 +5,9 @@ import { connect, COLLECTIONS } from '@/lib/db';
 export async function POST(req: NextRequest) {
   const session = await getCurrentSession();
   if (!session) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
+  if (session.current_stage !== 5) {
+    return NextResponse.json({ error: 'Wrong stage' }, { status: 409 });
+  }
 
   const { picks } = (await req.json()) as { picks: Record<string, number> };
   if (!picks) return NextResponse.json({ error: 'picks required' }, { status: 400 });
@@ -25,9 +28,12 @@ export async function POST(req: NextRequest) {
   // vacuously true.
   const earnedBadge = items.length > 0 && correctCount === items.length;
 
+  // Conditional-spread so unanswered items don't get `kid_pick_index: undefined`
+  // (which serializes to `null` in Mongo and then satisfies the
+  // `h.kid_pick_index !== undefined` completion check in the teacher analytics).
   const updatedItems = items.map((item) => ({
     ...item,
-    kid_pick_index: picks[item.fact_id],
+    ...(picks[item.fact_id] !== undefined ? { kid_pick_index: picks[item.fact_id] } : {}),
   }));
 
   const db = await connect();

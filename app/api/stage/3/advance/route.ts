@@ -6,6 +6,9 @@ import type { FactEntry } from '@/lib/types';
 export async function POST() {
   const session = await getCurrentSession();
   if (!session) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
+  if (session.current_stage !== 3) {
+    return NextResponse.json({ error: 'Wrong stage' }, { status: 409 });
+  }
 
   const facts: FactEntry[] = session.notepad?.facts || [];
   const updatedFacts = facts.map((f) => {

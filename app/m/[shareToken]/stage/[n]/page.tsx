@@ -26,14 +26,21 @@ export default function StagePage({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/session/state").then(async (r) => {
-      if (r.status === 401) {
-        setError("Please join the Mish first.");
-        return;
-      }
-      const data = await r.json();
-      setSession(data.session);
-    });
+    fetch("/api/session/state")
+      .then(async (r) => {
+        if (r.status === 401) {
+          setError("Please join the Mish first.");
+          return;
+        }
+        if (!r.ok) {
+          const d = await r.json().catch(() => ({}));
+          setError(d.error || `Couldn't load your session (HTTP ${r.status}). Try refreshing.`);
+          return;
+        }
+        const data = await r.json();
+        setSession(data.session);
+      })
+      .catch((e) => setError((e as Error).message || "Couldn't reach the server. Check your connection."));
   }, []);
 
   if (error) {

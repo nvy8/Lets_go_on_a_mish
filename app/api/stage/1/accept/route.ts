@@ -6,6 +6,9 @@ import { webSearch, aiSearch } from '@/lib/search';
 export async function POST(req: NextRequest) {
   const session = await getCurrentSession();
   if (!session) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
+  if (session.current_stage !== 1) {
+    return NextResponse.json({ error: 'Wrong stage' }, { status: 409 });
+  }
 
   const { refined_query } = await req.json();
   if (!refined_query || typeof refined_query !== 'string' || refined_query.length < 5) {
