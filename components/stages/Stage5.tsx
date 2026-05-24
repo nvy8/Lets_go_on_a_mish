@@ -1,6 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  ArrowRight,
+  ShieldQuestion,
+  Pin,
+  Lightbulb,
+  Check,
+  X,
+  Bot,
+  AlertTriangle,
+  Award,
+  GraduationCap,
+} from "lucide-react";
+import { HDCard } from "@/components/handdrawn/HDCard";
+import { HDButton } from "@/components/handdrawn/HDButton";
+import { COLOR, RADIUS, SHADOW, KALAM, pencilAlpha } from "@/lib/design-tokens";
 
 type Option = {
   kind: "clean" | "factual_error" | "ai_tell" | "both";
@@ -14,11 +29,34 @@ type Item = {
   correct_index: number;
 };
 
-const KIND_LABELS: Record<string, { label: string; color: string }> = {
-  clean: { label: "✅ Accurate", color: "bg-green-100 text-green-800 border-green-300" },
-  factual_error: { label: "❌ Wrong fact", color: "bg-red-100 text-red-800 border-red-300" },
-  ai_tell: { label: "🤖 AI tells", color: "bg-purple-100 text-purple-800 border-purple-300" },
-  both: { label: "🤖❌ Both", color: "bg-orange-100 text-orange-800 border-orange-300" },
+const KIND_STYLES: Record<
+  string,
+  { label: string; bg: string; Icon: typeof Check; iconColor: string }
+> = {
+  clean: {
+    label: "Accurate",
+    bg: COLOR.postItGreen,
+    Icon: Check,
+    iconColor: "#2f7a2f",
+  },
+  factual_error: {
+    label: "Wrong fact",
+    bg: COLOR.postItPink,
+    Icon: X,
+    iconColor: COLOR.red,
+  },
+  ai_tell: {
+    label: "AI tells",
+    bg: "#f3e6ff",
+    Icon: Bot,
+    iconColor: COLOR.pencil,
+  },
+  both: {
+    label: "Both",
+    bg: COLOR.postIt,
+    Icon: AlertTriangle,
+    iconColor: COLOR.red,
+  },
 };
 
 export function Stage5({ shareToken }: { shareToken: string }) {
@@ -68,36 +106,58 @@ export function Stage5({ shareToken }: { shareToken: string }) {
 
   if (!items) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center text-zinc-500">
-        <div className="text-2xl">🕵️</div>
-        <div className="mt-2">Generating 4 versions of each fact (1 real, 3 AI-flavoured fakes)...</div>
-        <div className="mt-1 text-xs">(takes 20-30s — this is the trickiest one to fake well)</div>
-      </div>
+      <HDCard className="p-10 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-high-tech.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg" style={{ color: COLOR.pencil }}>
+          Generating 4 versions of each fact — 1 real, 3 AI-flavoured fakes.
+        </div>
+        <div className="mt-1 text-sm" style={{ color: pencilAlpha("99") }}>
+          20-30 seconds — faking facts well is hard.
+        </div>
+      </HDCard>
     );
   }
 
   if (!items.length) {
-    return <div className="text-red-600">No items to compare. Refresh.</div>;
+    return (
+      <div className="text-base" style={{ color: COLOR.red }}>
+        No items to compare. Refresh the page.
+      </div>
+    );
   }
 
   if (done) {
     const allPerfect = done.earned_badge;
     return (
-      <div className="rounded-2xl border border-amber-300 bg-amber-50 p-8 text-center">
-        <div className="text-5xl">{allPerfect ? "🏅" : "🎓"}</div>
-        <h2 className="mt-3 text-xl font-semibold">
+      <HDCard variant="postIt" className="p-8 text-center" decoration="tack">
+        {allPerfect ? (
+          <Award size={64} strokeWidth={2.5} color={COLOR.red} className="mx-auto" />
+        ) : (
+          <GraduationCap size={64} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto" />
+        )}
+        <h2 className="mt-3 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
           {allPerfect ? "Badge unlocked: Hallucination Hunter" : "Stage 5 complete"}
         </h2>
-        <p className="mt-2 text-zinc-700">
+        <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
           You spotted <b>{done.correct}/{done.total}</b> accurate versions.
         </p>
-        <button
-          onClick={() => router.push(`/m/${shareToken}/complete`)}
-          className="mt-6 rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white"
-        >
-          See your Research Brief →
-        </button>
-      </div>
+        <div className="mt-6 inline-block">
+          <HDButton
+            variant="primary"
+            size="lg"
+            onClick={() => router.push(`/m/${shareToken}/complete`)}
+          >
+            See your Research Brief
+            <ArrowRight size={22} strokeWidth={2.5} />
+          </HDButton>
+        </div>
+      </HDCard>
     );
   }
 
@@ -108,64 +168,117 @@ export function Stage5({ shareToken }: { shareToken: string }) {
 
   return (
     <div>
-      <div className="rounded-2xl border-2 border-amber-200 bg-white p-6">
+      <HDCard className="p-6">
         <div className="flex items-start justify-between gap-4">
-          <h2 className="text-2xl font-bold">🕵️ Spot the FAKE!</h2>
-          <div className="text-sm font-bold text-amber-700">
+          <h2
+            className="flex items-center gap-2 text-2xl"
+            style={{ ...KALAM, color: COLOR.pencil }}
+          >
+            <ShieldQuestion size={28} strokeWidth={2.5} color={COLOR.red} />
+            Spot the fake
+          </h2>
+          <div className="text-sm" style={{ ...KALAM, color: COLOR.red }}>
             {currentIdx + 1} of {items.length}
           </div>
         </div>
-        <p className="mt-2 text-base text-zinc-700">
-          One of these 4 is the REAL version. The other 3 are <b>fakes</b> — wrong info, weird AI
-          writing, or both. Pick the real one!
+        <p className="mt-2 text-lg" style={{ color: pencilAlpha("cc") }}>
+          One of these 4 is the real version. The other 3 are <b>fakes</b> — wrong info, weird AI
+          writing, or both. Pick the real one.
         </p>
-        <p className="mt-2 text-sm text-zinc-500">
-          💡 Watch out for: wrong dates, weird AI words like &quot;moreover&quot; or &quot;delve into&quot;,
-          em-dashes, and fancy-sounding nonsense.
-        </p>
-      </div>
-
-      <div className="mt-4 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
-        <div className="text-sm font-bold uppercase tracking-wide text-amber-700">
-          📌 The real fact (you found this in 2+ sources)
+        <div
+          className="mt-3 flex items-start gap-2 px-3 py-2 text-sm border-2 border-dashed"
+          style={{
+            borderColor: pencilAlpha("4d"),
+            color: pencilAlpha("b3"),
+            borderRadius: RADIUS.notice,
+          }}
+        >
+          <Lightbulb size={18} strokeWidth={2.5} color={COLOR.red} className="mt-0.5 shrink-0" />
+          <span>
+            Watch out for: wrong dates, weird AI words like &quot;moreover&quot; or &quot;delve
+            into&quot;, em-dashes, fancy-sounding nonsense.
+          </span>
         </div>
-        <div className="mt-1 text-lg font-semibold leading-7">{current.fact_text}</div>
-      </div>
+      </HDCard>
+
+      <HDCard variant="postIt" className="mt-4 p-5">
+        <div
+          className="flex items-center gap-2 text-sm"
+          style={{ ...KALAM, color: COLOR.red }}
+        >
+          <Pin size={16} strokeWidth={2.5} />
+          The real fact (you found this in 2+ sources)
+        </div>
+        <div className="mt-1 text-lg leading-7" style={{ ...KALAM, color: COLOR.pencil }}>
+          {current.fact_text}
+        </div>
+      </HDCard>
 
       <div className="mt-4 flex flex-col gap-3">
         {current.options.map((opt, idx) => {
           const isPicked = kidPick === idx;
           const isCorrect = idx === current.correct_index;
           const showResult = isRevealed;
-          let cardClass = "border-zinc-200 bg-white";
+          let bg = "white";
+          let borderColor = COLOR.pencil;
           if (showResult) {
-            if (isCorrect) cardClass = "border-green-400 bg-green-50";
-            else if (isPicked) cardClass = "border-red-400 bg-red-50";
-            else cardClass = "border-zinc-200 bg-white";
+            if (isCorrect) bg = COLOR.postItGreen;
+            else if (isPicked) {
+              bg = COLOR.postItPink;
+              borderColor = COLOR.red;
+            }
           } else if (isPicked) {
-            cardClass = "border-amber-500 bg-amber-50 ring-2 ring-amber-200";
+            bg = COLOR.postIt;
           }
+          const kindStyle = KIND_STYLES[opt.kind];
+          const KindIcon = kindStyle?.Icon;
           return (
             <button
               key={idx}
               onClick={() => pick(current.fact_id, idx)}
               disabled={isRevealed}
-              className={`rounded-xl border p-4 text-left transition ${cardClass}`}
+              className="text-left p-4 border-[3px] transition-transform duration-100 hover:-rotate-[0.5deg] disabled:cursor-default"
+              style={{
+                backgroundColor: bg,
+                borderColor,
+                borderRadius: RADIUS.cardSm,
+                boxShadow: isPicked || (showResult && isCorrect) ? SHADOW.md : SHADOW.sm,
+              }}
             >
               <div className="flex items-start gap-3">
-                <div className="text-xs font-mono text-zinc-400 mt-0.5">
+                <div
+                  className="text-sm mt-0.5"
+                  style={{ ...KALAM, color: COLOR.red, fontSize: "1rem" }}
+                >
                   {String.fromCharCode(65 + idx)}
                 </div>
                 <div className="flex-1">
-                  <div className="text-sm">{opt.text}</div>
-                  {showResult && (
+                  <div className="text-base" style={{ color: COLOR.pencil }}>
+                    {opt.text}
+                  </div>
+                  {showResult && kindStyle && (
                     <div className="mt-2 space-y-1">
                       <span
-                        className={`inline-block rounded px-2 py-0.5 text-[10px] font-mono uppercase ${KIND_LABELS[opt.kind]?.color}`}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 text-xs border-2"
+                        style={{
+                          ...KALAM,
+                          backgroundColor: kindStyle.bg,
+                          color: COLOR.pencil,
+                          borderColor: COLOR.pencil,
+                          borderRadius: RADIUS.chip,
+                        }}
                       >
-                        {KIND_LABELS[opt.kind]?.label}
+                        {KindIcon && (
+                          <KindIcon size={12} strokeWidth={2.5} color={kindStyle.iconColor} />
+                        )}
+                        {kindStyle.label}
                       </span>
-                      <div className="text-xs italic text-zinc-600">{opt.teach_note}</div>
+                      <div
+                        className="text-xs italic"
+                        style={{ color: pencilAlpha("99") }}
+                      >
+                        {opt.teach_note}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -177,29 +290,22 @@ export function Stage5({ shareToken }: { shareToken: string }) {
 
       <div className="mt-6 flex justify-end gap-2">
         {!isRevealed && kidPick !== undefined && (
-          <button
-            onClick={() => reveal(current.fact_id)}
-            className="rounded-full bg-zinc-900 px-5 py-2.5 text-sm text-white"
-          >
-            Lock in & reveal →
-          </button>
+          <HDButton variant="secondary" size="md" onClick={() => reveal(current.fact_id)}>
+            Lock in &amp; reveal
+            <ArrowRight size={18} strokeWidth={2.5} />
+          </HDButton>
         )}
         {isRevealed && !isLast && (
-          <button
-            onClick={next}
-            className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white"
-          >
-            Next fact →
-          </button>
+          <HDButton variant="primary" size="md" onClick={next}>
+            Next fact
+            <ArrowRight size={20} strokeWidth={2.5} />
+          </HDButton>
         )}
         {isRevealed && isLast && (
-          <button
-            onClick={finish}
-            disabled={submitting}
-            className="rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
-          >
-            {submitting ? "Saving..." : "See my final brief →"}
-          </button>
+          <HDButton variant="primary" size="md" onClick={finish} disabled={submitting}>
+            {submitting ? "Saving…" : "See my final brief"}
+            {!submitting && <ArrowRight size={20} strokeWidth={2.5} />}
+          </HDButton>
         )}
       </div>
     </div>

@@ -16,9 +16,15 @@ export async function runClaude(prompt: string, opts: RunOpts = {}): Promise<str
   const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
   return new Promise((resolve, reject) => {
-    const child = spawn(CLAUDE_BIN, ['--print', fullPrompt], {
+    // Pass the prompt via stdin (never on the command line) so user content can never
+    // be interpreted as shell syntax. Windows requires `shell: true` to spawn .cmd
+    // shims like `claude.cmd` (Node 18.20.2+/20.12.2+ rejects .cmd files otherwise).
+    // Args list contains only the hardcoded `--print` flag — no user data — so the
+    // shell:true deprecation warning about arg escaping does not apply.
+    const child = spawn(CLAUDE_BIN, ['--print'], {
       env: { ...process.env, ANTHROPIC_API_KEY: '' },
-      stdio: ['ignore', 'pipe', 'pipe'],
+      stdio: ['pipe', 'pipe', 'pipe'],
+      shell: true,
     });
 
     let stdout = '';
@@ -44,6 +50,9 @@ export async function runClaude(prompt: string, opts: RunOpts = {}): Promise<str
       clearTimeout(timer);
       reject(err);
     });
+
+    child.stdin.write(fullPrompt);
+    child.stdin.end();
   });
 }
 

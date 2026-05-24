@@ -1,0 +1,24 @@
+<svg viewBox="354.825 51.097 867.35 746.806" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
+    <defs>
+        <polygon id="masterstickersstatistics-path-1" points="0 727 871 727 871 0 0 0"/>
+    </defs>
+    <g id="Master/Stickers/Statistics" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-14" transform="translate(353.000000, 61.000000)">
+            <path d="M173.143646,144 C172.380018,144 171.641711,143.588835 171.255232,142.865986 C170.695504,141.819192 171.087314,140.514047 172.128141,139.95317 L418.342979,7.1991785 C429.219019,1.33472713 442.565857,1.63055999 453.17536,7.97557242 L673.953245,140.000021 C674.970084,140.60775 675.303255,141.92762 674.698216,142.948979 C674.09451,143.970339 672.77915,144.304992 671.762312,143.695924 L450.984427,11.6714752 C441.659632,6.09616368 429.92934,5.83647329 420.36866,10.9901226 L174.155154,143.744114 C173.832644,143.916795 173.484814,144 173.143646,144" id="Fill-1" fill="#21211D"/>
+            <mask id="masterstickersstatistics-mask-2" fill="#fff">
+                <use xlink:href="#masterstickersstatistics-path-1"/>
+            </mask>
+            <g id="Clip-4"/>
+            <polygon id="Fill-3" fill="#DCE9FF" mask="url(#masterstickersstatistics-mask-2)" points="33 727 838 727 838 158 33 158"/>
+            <polygon id="Fill-5" fill="#4965CC" mask="url(#masterstickersstatistics-mask-2)" points="2 199 869 199 869 121 2 121"/>
+            <polygon id="Fill-6" fill="#D5962F" mask="url(#masterstickersstatistics-mask-2)" points="212 629 298 629 298 444 212 444"/>
+            <polygon id="Fill-7" fill="#EE82DA" mask="url(#masterstickersstatistics-mask-2)" points="444 629 530 629 530 487 444 487"/>
+            <polygon id="Fill-8" fill="#4965CC" mask="url(#masterstickersstatistics-mask-2)" points="328 629 414 629 414 378 328 378"/>
+            <polygon id="Fill-9" fill="#F73132" mask="url(#masterstickersstatistics-mask-2)" points="560 629 646 629 646 285 560 285"/>
+            <path d="M354.859236,287 L212.140764,287 C210.957815,287 210,286.105165 210,285 C210,283.894835 210.957815,283 212.140764,283 L354.859236,283 C356.042185,283 357,283.894835 357,285 C357,286.105165 356.042185,287 354.859236,287" id="Fill-10" fill="#21211D" mask="url(#masterstickersstatistics-mask-2)"/>
+            <path d="M283.849069,325 L212.150931,325 C210.962364,325 210,324.105165 210,323 C210,321.894835 210.962364,321 212.150931,321 L283.849069,321 C285.037636,321 286,321.894835 286,323 C286,324.105165 285.037636,325 283.849069,325" id="Fill-11" fill="#21211D" mask="url(#masterstickersstatistics-mask-2)"/>
+            <path d="M458,22.5 C458,34.9267726 447.925733,45 435.50067,45 C423.074267,45 413,34.9267726 413,22.5 C413,10.0732274 423.074267,0 435.50067,0 C447.925733,0 458,10.0732274 458,22.5" id="Fill-12" fill="#2448CD" mask="url(#masterstickersstatistics-mask-2)"/>
+            <path d="M868.857845,162 L2.14215511,162 C0.958437786,162 0,161.105165 0,160 C0,158.894835 0.958437786,158 2.14215511,158 L868.857845,158 C870.041562,158 871,158.894835 871,160 C871,161.105165 870.041562,162 868.857845,162" id="Fill-13" fill="#FFF" mask="url(#masterstickersstatistics-mask-2)"/>
+        </g>
+    </g>
+</svg>

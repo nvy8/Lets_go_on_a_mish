@@ -1,6 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  ArrowRight,
+  Check,
+  X,
+  Sparkles,
+  Search,
+  Award,
+  ExternalLink,
+  Pin,
+  Globe,
+  HelpCircle,
+} from "lucide-react";
+import { HDCard } from "@/components/handdrawn/HDCard";
+import { HDButton } from "@/components/handdrawn/HDButton";
+import { COLOR, RADIUS, SHADOW, KALAM, pencilAlpha } from "@/lib/design-tokens";
 
 type EvidencePiece = { source_id: string; snippet: string };
 type Fact = {
@@ -45,40 +60,58 @@ export function Stage3({ shareToken }: { shareToken: string }) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
-        <div className="text-4xl">🧩</div>
-        <div className="mt-3 text-lg text-zinc-700">
-          Your coach is reading all 3 websites and picking 5 facts to check...
+      <HDCard className="p-10 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-study.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg" style={{ color: COLOR.pencil }}>
+          Your coach is reading all 3 websites and picking 5 facts to check…
         </div>
-        <div className="mt-1 text-sm text-zinc-500">(takes 15-20 seconds)</div>
-      </div>
+        <div className="mt-1 text-sm" style={{ color: pencilAlpha("99") }}>
+          15-20 seconds — real reading takes time.
+        </div>
+      </HDCard>
     );
   }
 
   if (!facts.length || !sources.length) {
-    return <div className="text-red-600">Failed to load. Refresh.</div>;
+    return (
+      <div className="text-base" style={{ color: COLOR.red }}>
+        Failed to load. Refresh the page.
+      </div>
+    );
   }
 
   if (finalSummary) {
     return (
-      <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 p-8 text-center">
-        <div className="text-6xl">{finalSummary.earned_badge ? "🏅" : "📋"}</div>
-        <h2 className="mt-3 text-2xl font-bold">
-          {finalSummary.earned_badge
-            ? "Badge unlocked: Triangulator"
-            : "Stage 3 complete"}
+      <HDCard variant="postIt" className="p-8 text-center" decoration="tack">
+        {finalSummary.earned_badge ? (
+          <Award size={64} strokeWidth={2.5} color={COLOR.red} className="mx-auto" />
+        ) : (
+          <Search size={64} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto" />
+        )}
+        <h2 className="mt-3 text-3xl" style={{ ...KALAM, color: COLOR.pencil }}>
+          {finalSummary.earned_badge ? "Badge unlocked: Triangulator" : "Stage 3 complete"}
         </h2>
-        <p className="mt-3 text-base text-zinc-700">
+        <p className="mt-3 text-base" style={{ color: pencilAlpha("cc") }}>
           You triangulated <b>{finalSummary.triangulated_count}</b> out of {facts.length} facts
           across at least 2 sites.
         </p>
-        <button
-          onClick={() => router.push(`/m/${shareToken}/stage/4`)}
-          className="mt-6 rounded-full bg-amber-500 px-8 py-3 text-lg font-bold text-white"
-        >
-          Continue to Explain →
-        </button>
-      </div>
+        <div className="mt-6 inline-block">
+          <HDButton
+            variant="primary"
+            size="lg"
+            onClick={() => router.push(`/m/${shareToken}/stage/4`)}
+          >
+            Continue to Explain
+            <ArrowRight size={22} strokeWidth={2.5} />
+          </HDButton>
+        </div>
+      </HDCard>
     );
   }
 
@@ -154,38 +187,59 @@ export function Stage3({ shareToken }: { shareToken: string }) {
     const isTriangulated = verifiedForFact >= 2;
     return (
       <div className="mx-auto max-w-2xl">
-        <div className="text-center text-xs font-bold uppercase tracking-wide text-amber-600">
+        <div
+          className="text-center text-sm"
+          style={{ ...KALAM, color: COLOR.red }}
+        >
           Fact {factIdx + 1} of {facts.length}
         </div>
-        <div
-          className={`mt-3 rounded-3xl border-2 p-8 text-center ${
-            isTriangulated ? "border-green-300 bg-green-50" : "border-zinc-300 bg-white"
-          }`}
+        <HDCard
+          variant={isTriangulated ? "postItGreen" : "default"}
+          className="mt-3 p-8 text-center"
         >
-          <div className="text-5xl">{isTriangulated ? "🎯" : "🔍"}</div>
-          <h2 className="mt-3 text-2xl font-bold">
+          {isTriangulated ? (
+            <Sparkles size={56} strokeWidth={2.5} color={COLOR.red} className="mx-auto" />
+          ) : (
+            <Search size={56} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto" />
+          )}
+          <h2 className="mt-3 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
             You found this fact in {verifiedForFact} out of {evidenceList.length} sites!
           </h2>
-          <div className="mt-4 rounded-xl bg-white border border-zinc-200 p-4 text-left">
-            <div className="text-xs font-mono uppercase text-zinc-500">📌 The fact</div>
-            <div className="mt-1 text-base font-semibold">{currentFact.plain_text}</div>
+          <div
+            className="mt-4 p-4 text-left border-2"
+            style={{
+              backgroundColor: "white",
+              borderColor: pencilAlpha("33"),
+              borderRadius: RADIUS.cardSm,
+            }}
+          >
+            <div
+              className="flex items-center gap-2 text-sm"
+              style={{ ...KALAM, color: COLOR.red }}
+            >
+              <Pin size={14} strokeWidth={2.5} />
+              The fact
+            </div>
+            <div className="mt-1 text-base" style={{ ...KALAM, color: COLOR.pencil }}>
+              {currentFact.plain_text}
+            </div>
           </div>
           {isTriangulated ? (
-            <p className="mt-4 text-base text-green-800">
-              ✓ Triangulated — you found it in at least 2 sites. That&apos;s a fact you can trust!
+            <p className="mt-4 text-base" style={{ color: "#2f7a2f" }}>
+              ✓ Triangulated — you found it in at least 2 sites. That&apos;s a fact you can trust.
             </p>
           ) : (
-            <p className="mt-4 text-base text-zinc-700">
-              Hmm — not enough sources backed this one up. Be careful before trusting it.
+            <p className="mt-4 text-base" style={{ color: pencilAlpha("cc") }}>
+              Not enough sources backed this one up. Be careful before trusting it.
             </p>
           )}
-          <button
-            onClick={nextFact}
-            className="mt-6 rounded-full bg-amber-500 px-8 py-3 text-lg font-bold text-white"
-          >
-            {factIdx < facts.length - 1 ? "Next fact →" : "See my score →"}
-          </button>
-        </div>
+          <div className="mt-6 inline-block">
+            <HDButton variant="primary" size="lg" onClick={nextFact}>
+              {factIdx < facts.length - 1 ? "Next fact" : "See my score"}
+              <ArrowRight size={22} strokeWidth={2.5} />
+            </HDButton>
+          </div>
+        </HDCard>
       </div>
     );
   }
@@ -197,26 +251,52 @@ export function Stage3({ shareToken }: { shareToken: string }) {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <div className="flex items-center justify-between text-xs">
-        <div className="font-bold uppercase tracking-wide text-amber-600">
+      <div className="flex items-center justify-between text-sm">
+        <div style={{ ...KALAM, color: COLOR.red }}>
           Fact {factIdx + 1} of {facts.length} · Site {sourceIdx + 1} of {evidenceList.length}
         </div>
-        <div className="text-zinc-500">
-          Triangulated so far: <b className="text-amber-700">{triangulatedSoFar}</b>
+        <div style={{ color: pencilAlpha("99") }}>
+          Triangulated so far:{" "}
+          <b style={{ ...KALAM, color: COLOR.red }}>{triangulatedSoFar}</b>
         </div>
       </div>
 
-      <div className="mt-3 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
-        <div className="text-xs font-bold uppercase tracking-wide text-amber-700">📌 The fact</div>
-        <div className="mt-1 text-xl font-bold leading-snug">{currentFact.plain_text}</div>
-      </div>
-
-      <div className="mt-4 rounded-2xl border-2 border-zinc-200 bg-white p-5">
-        <div className="text-xs font-bold uppercase tracking-wide text-zinc-500">
-          🌐 What this site said
+      <HDCard variant="postIt" className="mt-3 p-5">
+        <div
+          className="flex items-center gap-2 text-sm"
+          style={{ ...KALAM, color: COLOR.red }}
+        >
+          <Pin size={16} strokeWidth={2.5} />
+          The fact
         </div>
-        <div className="mt-1 text-sm font-mono text-zinc-600">{currentSource?.domain}</div>
-        <div className="mt-3 rounded-lg bg-zinc-50 p-4 text-base leading-7 text-zinc-900">
+        <div className="mt-1 text-xl leading-snug" style={{ ...KALAM, color: COLOR.pencil }}>
+          {currentFact.plain_text}
+        </div>
+      </HDCard>
+
+      <HDCard className="mt-4 p-5">
+        <div
+          className="flex items-center gap-2 text-sm"
+          style={{ ...KALAM, color: COLOR.pencil }}
+        >
+          <Globe size={16} strokeWidth={2.5} color={COLOR.blue} />
+          What this site said
+        </div>
+        <div
+          className="mt-1 text-sm font-mono"
+          style={{ color: pencilAlpha("99") }}
+        >
+          {currentSource?.domain}
+        </div>
+        <div
+          className="mt-3 p-4 text-base leading-7 border-2"
+          style={{
+            backgroundColor: "#fffdf6",
+            color: COLOR.pencil,
+            borderColor: pencilAlpha("33"),
+            borderRadius: RADIUS.cardSm,
+          }}
+        >
           {currentEvidence?.snippet}
         </div>
         {currentSource?.url && (
@@ -224,32 +304,55 @@ export function Stage3({ shareToken }: { shareToken: string }) {
             href={currentSource.url}
             target="_blank"
             rel="noopener"
-            className="mt-3 inline-block text-xs text-blue-700 underline"
+            className="mt-3 inline-flex items-center gap-1 text-sm underline"
+            style={{ color: COLOR.blue }}
           >
-            🔗 Open the full website
+            <ExternalLink size={14} strokeWidth={2.5} />
+            Open the full website
           </a>
         )}
-      </div>
+      </HDCard>
 
       {phase === "ask" && (
         <div className="mt-5">
-          <div className="text-center text-base font-semibold text-zinc-700">
+          <div
+            className="text-center text-base"
+            style={{ ...KALAM, color: COLOR.pencil }}
+          >
             Does this snippet really say the fact above?
           </div>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <button
               onClick={() => submitAnswer("yes")}
               disabled={submitting}
-              className="flex-1 rounded-full bg-green-500 px-6 py-4 text-lg font-bold text-white hover:bg-green-600 disabled:opacity-50"
+              className="flex-1 px-6 py-4 text-lg border-[3px] transition-transform duration-100 enabled:hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-50"
+              style={{
+                ...KALAM,
+                backgroundColor: "#2f7a2f",
+                color: "white",
+                borderColor: COLOR.pencil,
+                borderRadius: RADIUS.button,
+                boxShadow: SHADOW.md,
+              }}
             >
-              ✓ Yes, I see it!
+              <Check size={20} strokeWidth={3} className="inline mr-1" />
+              Yes, I see it!
             </button>
             <button
               onClick={() => submitAnswer("no")}
               disabled={submitting}
-              className="flex-1 rounded-full bg-red-500 px-6 py-4 text-lg font-bold text-white hover:bg-red-600 disabled:opacity-50"
+              className="flex-1 px-6 py-4 text-lg border-[3px] transition-transform duration-100 enabled:hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-50"
+              style={{
+                ...KALAM,
+                backgroundColor: COLOR.red,
+                color: "white",
+                borderColor: COLOR.pencil,
+                borderRadius: RADIUS.button,
+                boxShadow: SHADOW.md,
+              }}
             >
-              ✗ No, not quite
+              <X size={20} strokeWidth={3} className="inline mr-1" />
+              No, not quite
             </button>
           </div>
         </div>
@@ -257,36 +360,48 @@ export function Stage3({ shareToken }: { shareToken: string }) {
 
       {phase === "feedback" && feedback && (
         <div className="mt-5">
-          <div
-            className={`rounded-2xl border-2 p-5 ${
-              feedback.correct
-                ? "border-green-400 bg-green-50"
-                : "border-amber-400 bg-amber-50"
-            }`}
+          <HDCard
+            variant={feedback.correct ? "postItGreen" : "postIt"}
+            className="p-5"
           >
-            <div className="text-xl font-bold">
-              {feedback.correct ? "✓ Nice eye!" : "🤔 Look again"}
+            <div
+              className="flex items-center gap-2 text-xl"
+              style={{ ...KALAM, color: COLOR.pencil }}
+            >
+              {feedback.correct ? (
+                <>
+                  <Sparkles size={22} strokeWidth={2.5} color="#2f7a2f" />
+                  Nice eye!
+                </>
+              ) : (
+                <>
+                  <HelpCircle size={22} strokeWidth={2.5} color={COLOR.red} />
+                  Look again
+                </>
+              )}
             </div>
             {feedback.hint && (
-              <div className="mt-2 text-base text-zinc-800">{feedback.hint}</div>
+              <div className="mt-2 text-base" style={{ color: COLOR.pencil }}>
+                {feedback.hint}
+              </div>
             )}
             {feedback.correct && feedback.verified && (
-              <div className="mt-2 text-sm text-green-800">
+              <div className="mt-2 text-sm" style={{ color: "#2f7a2f" }}>
                 That counts as one site backing the fact!
               </div>
             )}
             {feedback.correct && !feedback.verified && (
-              <div className="mt-2 text-sm text-zinc-700">
+              <div className="mt-2 text-sm" style={{ color: pencilAlpha("cc") }}>
                 Correct — and you noticed this site doesn&apos;t really back the fact. Sharp.
               </div>
             )}
+          </HDCard>
+          <div className="mt-4">
+            <HDButton variant="primary" size="md" onClick={nextStep} className="w-full">
+              {sourceIdx < evidenceList.length - 1 ? "Next site" : "See my score for this fact"}
+              <ArrowRight size={20} strokeWidth={2.5} />
+            </HDButton>
           </div>
-          <button
-            onClick={nextStep}
-            className="mt-4 w-full rounded-full bg-zinc-900 px-6 py-3 text-base font-bold text-white"
-          >
-            {sourceIdx < evidenceList.length - 1 ? "Next site →" : "See my score for this fact →"}
-          </button>
         </div>
       )}
     </div>

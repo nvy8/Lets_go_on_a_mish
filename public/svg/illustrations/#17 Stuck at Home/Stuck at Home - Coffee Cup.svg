@@ -1,0 +1,20 @@
+<svg viewBox="623.2 409.125 311.6 272.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
+    <defs>
+        <polygon id="masterstickerscoffee-cup-path-1" points="0 0.0271 82.5367 0.0271 82.5367 176.6381 0 176.6381"/>
+    </defs>
+    <g id="Master/Stickers/Coffee Cup" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-7" transform="translate(626.000000, 419.000000)">
+            <g id="Group-6">
+                <polygon id="Fill-1" fill="#DF9CBC" points="82.194 238.13 306.068 238.13 306.068 0 82.194 0"/>
+                <polygon id="Fill-2" fill="#EECCDC" points="102.259 253.97 287.06 253.97 287.06 237.602 102.259 237.602"/>
+                <g id="Group-5" transform="translate(0.000000, 19.970000)">
+                    <mask id="masterstickerscoffee-cup-mask-2" fill="#fff">
+                        <use xlink:href="#masterstickerscoffee-cup-path-1"/>
+                    </mask>
+                    <g id="Clip-4"/>
+                    <path d="M82.1387,151.7181 L39.4987,151.7181 C30.1367,151.7181 22.5497,144.1241 22.5497,134.7681 L22.5497,42.2741 C22.5497,32.9121 30.1367,25.3181 39.4987,25.3181 L82.1387,25.3181 L82.1387,151.7181 Z M24.7947,0.0271 C11.1037,0.0271 -0.0003,11.1311 -0.0003,24.8221 L-0.0003,151.8441 C-0.0003,165.5351 11.1037,176.6381 24.7947,176.6381 L82.5367,176.6381 L82.5367,0.0271 L24.7947,0.0271 Z" id="Fill-3" fill="#DF9CBC" mask="url(#masterstickerscoffee-cup-mask-2)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

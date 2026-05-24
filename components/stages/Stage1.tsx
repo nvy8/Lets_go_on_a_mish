@@ -1,6 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowRight, MessageCircleQuestion, Lightbulb, Sparkles, Pencil } from "lucide-react";
+import { KidNotice } from "@/components/KidNotice";
+import { HDCard } from "@/components/handdrawn/HDCard";
+import { HDButton } from "@/components/handdrawn/HDButton";
+import { HDTextarea } from "@/components/handdrawn/HDInput";
+import { COLOR, RADIUS, SHADOW, KALAM, pencilAlpha } from "@/lib/design-tokens";
 
 type Example = { quality: "bad" | "ok" | "strong"; text: string };
 type Critique = { verdict: "strong" | "needs_work"; feedback: string };
@@ -57,57 +63,103 @@ export function Stage1({ shareToken }: { shareToken: string }) {
 
   if (loadingExamples) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
-        <div className="text-4xl">🔍</div>
-        <div className="mt-3 text-lg text-zinc-700">Your coach is writing some examples...</div>
-        <div className="mt-1 text-sm text-zinc-500">(takes about 5 seconds)</div>
-      </div>
+      <HDCard className="p-10 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-brainstorming.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg" style={{ color: COLOR.pencil }}>
+          Your coach is drafting 3 questions for you to compare.
+        </div>
+        <div className="mt-1 text-sm" style={{ color: pencilAlpha("80") }}>
+          Take a breath — researchers always pause before they search.
+        </div>
+      </HDCard>
     );
   }
 
   if (!examples) {
-    return <div className="text-red-600">Failed to load examples. Refresh the page.</div>;
+    return (
+      <KidNotice
+        tone="error"
+        title="Something got stuck"
+        action={
+          <HDButton variant="primary" size="sm" onClick={() => window.location.reload()}>
+            Try again
+          </HDButton>
+        }
+      >
+        We couldn&apos;t load your coach&apos;s examples. Tap below to try again.
+      </KidNotice>
+    );
   }
 
   // PHASE 1: pick the strongest
   if (phase === "pick") {
     return (
-      <div>
-        <div className="rounded-2xl border-2 border-amber-200 bg-white p-6">
-          <h2 className="text-2xl font-bold">
-            🤔 Which question is best?
-          </h2>
-          <p className="mt-2 text-base text-zinc-700">
-            Here are 3 different ways to ask about your topic. <b>Which one would help you find a real, focused answer?</b>
-          </p>
-          <p className="mt-2 text-sm text-zinc-500">
-            💡 Tip: a good question is specific, not too broad, and asks WHY or HOW.
-          </p>
-          <div className="mt-5 flex flex-col gap-3">
-            {examples.map((ex, i) => (
+      <HDCard className="p-6">
+        <h2 className="flex items-center gap-2 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
+          <MessageCircleQuestion size={28} strokeWidth={2.5} color={COLOR.red} />
+          Which question is best?
+        </h2>
+        <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
+          Here are 3 different ways to ask about your topic.{" "}
+          <b>Which one would help you find a real, focused answer?</b>
+        </p>
+        <div
+          className="mt-3 flex items-start gap-2 px-3 py-2 text-sm border-2 border-dashed"
+          style={{
+            borderColor: pencilAlpha("4d"),
+            color: pencilAlpha("b3"),
+            borderRadius: RADIUS.notice,
+          }}
+        >
+          <Lightbulb size={18} strokeWidth={2.5} color={COLOR.red} className="mt-0.5 shrink-0" />
+          <span>A good question is specific, not too broad, and asks WHY or HOW.</span>
+        </div>
+        <div className="mt-5 flex flex-col gap-3">
+          {examples.map((ex, i) => {
+            const picked = pickedIdx === i;
+            return (
               <button
                 key={i}
                 onClick={() => setPickedIdx(i)}
-                className={`rounded-2xl border-2 p-5 text-left transition ${
-                  pickedIdx === i
-                    ? "border-amber-500 bg-amber-50 shadow-md"
-                    : "border-zinc-200 bg-white hover:border-amber-300"
-                }`}
+                className="text-left p-5 border-[3px] transition-transform duration-100 hover:-rotate-[0.5deg]"
+                style={{
+                  backgroundColor: picked ? COLOR.postIt : "white",
+                  borderColor: COLOR.pencil,
+                  borderRadius: RADIUS.cardSm,
+                  boxShadow: picked ? SHADOW.md : SHADOW.sm,
+                }}
               >
-                <div className="text-sm font-bold text-zinc-400">{String.fromCharCode(65 + i)}</div>
-                <div className="mt-1 text-lg leading-7">{ex.text}</div>
+                <div
+                  className="text-sm"
+                  style={{ ...KALAM, color: COLOR.red, fontSize: "1rem" }}
+                >
+                  {String.fromCharCode(65 + i)}
+                </div>
+                <div className="mt-1 text-lg leading-7" style={{ color: COLOR.pencil }}>
+                  {ex.text}
+                </div>
               </button>
-            ))}
-          </div>
-          <button
+            );
+          })}
+        </div>
+        <div className="mt-6">
+          <HDButton
+            variant="primary"
+            size="md"
             disabled={pickedIdx === null}
             onClick={() => setPhase("reveal")}
-            className="mt-6 rounded-full bg-zinc-900 px-8 py-3 text-base font-bold text-white disabled:opacity-40"
           >
-            I picked one! →
-          </button>
+            I picked one!
+            <ArrowRight size={20} strokeWidth={2.5} />
+          </HDButton>
         </div>
-      </div>
+      </HDCard>
     );
   }
 
@@ -116,109 +168,180 @@ export function Stage1({ shareToken }: { shareToken: string }) {
     const correctIdx = examples.findIndex((e) => e.quality === "strong");
     const wasRight = pickedIdx === correctIdx;
     return (
-      <div className="rounded-2xl border-2 border-zinc-200 bg-white p-6">
-        <h2 className="text-2xl font-bold">
-          {wasRight ? "🎯 Nice eye!" : "🤔 Almost — look again"}
-        </h2>
-        <p className="mt-2 text-base text-zinc-700">
-          {wasRight
-            ? "You picked the strongest one! That kind of question gets real, focused answers."
-            : "The strongest question is the green one below. See the difference?"}
-        </p>
-        <div className="mt-4 flex flex-col gap-2">
-          {examples.map((ex, i) => (
-            <div
-              key={i}
-              className={`rounded-xl border p-3 ${
-                ex.quality === "strong"
-                  ? "border-green-400 bg-green-50"
-                  : ex.quality === "ok"
-                  ? "border-zinc-300 bg-white"
-                  : "border-red-200 bg-red-50"
-              }`}
-            >
-              <div className="flex items-center gap-2 text-xs font-mono uppercase">
-                <span
-                  className={
-                    ex.quality === "strong"
-                      ? "text-green-700"
-                      : ex.quality === "ok"
-                      ? "text-zinc-500"
-                      : "text-red-600"
-                  }
-                >
-                  {ex.quality === "strong" ? "✓ Strong" : ex.quality === "ok" ? "~ OK" : "✗ Too broad"}
-                </span>
-                {i === pickedIdx && (
-                  <span className="rounded bg-zinc-900 px-1.5 py-0.5 text-[10px] text-white">
-                    Your pick
-                  </span>
-                )}
-              </div>
-              <div className="mt-1 text-sm">{ex.text}</div>
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={() => setPhase("draft")}
-          className="mt-6 rounded-full bg-amber-500 px-8 py-3 text-base font-bold text-white"
+      <HDCard className="p-6">
+        <h2
+          className="flex items-center gap-2 text-2xl"
+          style={{ ...KALAM, color: COLOR.pencil }}
         >
-          Now write your own! →
-        </button>
-      </div>
+          {wasRight ? (
+            <>
+              <Sparkles size={28} strokeWidth={2.5} color={COLOR.red} />
+              Nice eye!
+            </>
+          ) : (
+            <>
+              <MessageCircleQuestion size={28} strokeWidth={2.5} color={COLOR.red} />
+              Almost — look again
+            </>
+          )}
+        </h2>
+        <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
+          {wasRight
+            ? "You picked the strongest one — that question will find a real, focused answer."
+            : "The green one below is the strongest. See the difference?"}
+        </p>
+        <div className="mt-4 flex flex-col gap-3">
+          {examples.map((ex, i) => {
+            const bg =
+              ex.quality === "strong"
+                ? COLOR.postItGreen
+                : ex.quality === "ok"
+                ? "white"
+                : COLOR.postItPink;
+            return (
+              <div
+                key={i}
+                className="p-3 border-[3px]"
+                style={{
+                  backgroundColor: bg,
+                  borderColor: COLOR.pencil,
+                  borderRadius: RADIUS.cardSm,
+                  boxShadow: SHADOW.sm,
+                }}
+              >
+                <div className="flex items-center gap-2 text-sm">
+                  <span
+                    style={{
+                      ...KALAM,
+                      color:
+                        ex.quality === "strong"
+                          ? "#2f7a2f"
+                          : ex.quality === "ok"
+                          ? pencilAlpha("99")
+                          : COLOR.red,
+                    }}
+                  >
+                    {ex.quality === "strong"
+                      ? "✓ Strong"
+                      : ex.quality === "ok"
+                      ? "~ OK"
+                      : "✗ Too broad"}
+                  </span>
+                  {i === pickedIdx && (
+                    <span
+                      className="px-2 py-0.5 text-xs border-2 rotate-1"
+                      style={{
+                        ...KALAM,
+                        backgroundColor: COLOR.red,
+                        color: "white",
+                        borderColor: COLOR.pencil,
+                        borderRadius: RADIUS.tag,
+                      }}
+                    >
+                      Your pick
+                    </span>
+                  )}
+                </div>
+                <div className="mt-1 text-base" style={{ color: COLOR.pencil }}>
+                  {ex.text}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-6">
+          <HDButton variant="primary" size="lg" onClick={() => setPhase("draft")}>
+            Now write your own
+            <ArrowRight size={22} strokeWidth={2.5} />
+          </HDButton>
+        </div>
+      </HDCard>
     );
   }
 
   // PHASE 3: kid drafts their own
   return (
-    <div className="rounded-2xl border-2 border-amber-200 bg-white p-6">
-      <h2 className="text-2xl font-bold">✍️ Your turn!</h2>
-      <p className="mt-2 text-base text-zinc-700">
-        Write your OWN research question. Make it specific. Your coach will help you make it even better.
+    <HDCard className="p-6">
+      <h2 className="flex items-center gap-2 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
+        <Pencil size={28} strokeWidth={2.5} color={COLOR.red} />
+        Your turn
+      </h2>
+      <p className="mt-2 text-lg" style={{ color: pencilAlpha("cc") }}>
+        Write your own research question. Make it specific. Your coach will help you sharpen it.
       </p>
-      <textarea
+      <label
+        htmlFor="stage1-draft"
+        className="mt-4 block text-base"
+        style={{ ...KALAM, color: COLOR.pencil }}
+      >
+        Your research question
+      </label>
+      <HDTextarea
+        id="stage1-draft"
         value={draft}
         onChange={(e) => {
           setDraft(e.target.value);
           setCritique(null);
         }}
-        placeholder="Type your research question here..."
+        placeholder="Type it here…"
         rows={3}
-        className="mt-4 w-full rounded-xl border-2 border-zinc-300 px-4 py-3 text-lg leading-7 focus:border-amber-500 focus:outline-none"
+        aria-label="Your research question"
+        className="mt-2 w-full"
       />
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <button
+        <HDButton
+          variant="secondary"
+          size="md"
           onClick={getCritique}
           disabled={draft.length < 5 || critiquing}
-          className="rounded-full bg-zinc-900 px-6 py-3 text-base font-semibold text-white disabled:opacity-40"
         >
-          {critiquing ? "Coach is reading..." : "Ask the coach 🧑‍🏫"}
-        </button>
+          {critiquing ? "Coach is reading…" : "Ask the coach"}
+        </HDButton>
         {critique && critique.verdict === "strong" && (
-          <button
+          <HDButton
+            variant="primary"
+            size="lg"
             onClick={accept}
             disabled={accepting}
-            className="rounded-full bg-amber-500 px-6 py-3 text-base font-bold text-white disabled:opacity-50"
           >
-            {accepting ? "Saving..." : "Let's go! →"}
-          </button>
+            {accepting ? "Saving…" : (
+              <>
+                Let&apos;s go
+                <ArrowRight size={22} strokeWidth={2.5} />
+              </>
+            )}
+          </HDButton>
         )}
       </div>
 
       {critique && (
         <div
-          className={`mt-5 rounded-xl border-2 p-5 ${
-            critique.verdict === "strong"
-              ? "border-green-300 bg-green-50"
-              : "border-amber-300 bg-amber-50"
-          }`}
+          className="mt-5 p-5 border-[3px]"
+          style={{
+            backgroundColor: critique.verdict === "strong" ? COLOR.postItGreen : COLOR.postIt,
+            borderColor: COLOR.pencil,
+            borderRadius: RADIUS.notice,
+            boxShadow: SHADOW.sm,
+          }}
         >
-          <div className="text-sm font-bold uppercase">
-            {critique.verdict === "strong" ? "✓ Coach says: Awesome!" : "✎ Coach says: Almost there"}
+          <div className="text-base flex items-center gap-2" style={{ ...KALAM, color: COLOR.pencil }}>
+            {critique.verdict === "strong" ? (
+              <>
+                <Sparkles size={20} strokeWidth={2.5} color="#2f7a2f" />
+                Coach says: that question will find a real answer
+              </>
+            ) : (
+              <>
+                <Pencil size={20} strokeWidth={2.5} color={COLOR.red} />
+                Coach says: almost there
+              </>
+            )}
           </div>
-          <div className="mt-2 text-base">{critique.feedback}</div>
+          <div className="mt-2 text-base" style={{ color: COLOR.pencil }}>
+            {critique.feedback}
+          </div>
         </div>
       )}
-    </div>
+    </HDCard>
   );
 }

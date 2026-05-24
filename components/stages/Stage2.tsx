@@ -1,7 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  ArrowRight,
+  ChevronUp,
+  ChevronDown,
+  Check,
+  X,
+  ExternalLink,
+  Globe,
+  Bot,
+  Award,
+  Lightbulb,
+  SearchCheck,
+  AlertTriangle,
+} from "lucide-react";
 import type { SourceEntry } from "@/lib/types";
+import { HDCard } from "@/components/handdrawn/HDCard";
+import { HDButton } from "@/components/handdrawn/HDButton";
+import { COLOR, RADIUS, SHADOW, KALAM, pencilAlpha } from "@/lib/design-tokens";
 
 type Preview = {
   url: string;
@@ -79,16 +96,30 @@ export function Stage2({ shareToken }: { shareToken: string }) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center text-zinc-500">
-        <div className="text-2xl">📄</div>
-        <div className="mt-2">Fetching previews from each source page...</div>
-        <div className="mt-1 text-xs">(takes ~10s — actually loading 10 web pages)</div>
-      </div>
+      <HDCard className="p-10 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/illustrations/kid-study.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-44 w-auto"
+        />
+        <div className="mt-4 text-lg" style={{ color: COLOR.pencil }}>
+          Fetching previews from each source…
+        </div>
+        <div className="mt-1 text-sm" style={{ color: pencilAlpha("99") }}>
+          About 10 seconds — your coach is actually opening 10 web pages.
+        </div>
+      </HDCard>
     );
   }
 
   if (!candidates) {
-    return <div className="text-red-600">Failed to load sources.</div>;
+    return (
+      <div className="text-base" style={{ color: COLOR.red }}>
+        Failed to load sources.
+      </div>
+    );
   }
 
   if (phase === "results" && result) {
@@ -96,23 +127,37 @@ export function Stage2({ shareToken }: { shareToken: string }) {
     for (const j of result.judgments) judgeById[j.id] = j;
     return (
       <div className="space-y-6">
-        <div
-          className={`rounded-2xl border p-6 ${
-            result.earned_badge
-              ? "border-amber-300 bg-amber-50"
-              : "border-zinc-200 bg-white"
-          }`}
+        <HDCard
+          variant={result.earned_badge ? "postIt" : "default"}
+          className="p-6"
         >
-          <h2 className="text-lg font-semibold">
-            {result.earned_badge ? "🏅 Badge unlocked: URL Detective" : "📋 Here's the breakdown"}
+          <h2
+            className="flex items-center gap-2 text-2xl"
+            style={{ ...KALAM, color: COLOR.pencil }}
+          >
+            {result.earned_badge ? (
+              <>
+                <Award size={26} strokeWidth={2.5} color={COLOR.red} />
+                Badge unlocked: URL Detective
+              </>
+            ) : (
+              <>
+                <SearchCheck size={26} strokeWidth={2.5} color={COLOR.red} />
+                Here&apos;s the breakdown
+              </>
+            )}
           </h2>
-          <p className="mt-1 text-sm text-zinc-700">
-            You agreed with your coach on <b>{result.agree_count}/{result.total}</b> sources.{" "}
+          <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
+            You agreed with your coach on{" "}
+            <b>
+              {result.agree_count}/{result.total}
+            </b>{" "}
+            sources.{" "}
             {result.earned_badge
-              ? "Nice — you've got a sharp eye for sources."
+              ? "You&apos;ve got a sharp eye for sources."
               : "Read each one's reason — they're worth knowing for next time."}
           </p>
-        </div>
+        </HDCard>
 
         <div className="flex flex-col gap-3">
           {candidates.map((c) => {
@@ -121,11 +166,11 @@ export function Stage2({ shareToken }: { shareToken: string }) {
             const agree = kid && j && kid === j.verdict;
             const p = previews[c.id];
             return (
-              <div
+              <HDCard
                 key={c.id}
-                className={`rounded-xl border p-4 ${
-                  agree ? "border-green-300 bg-green-50/50" : "border-zinc-200 bg-white"
-                }`}
+                variant={agree ? "postItGreen" : "default"}
+                size="sm"
+                className="p-4"
               >
                 <div className="flex items-start gap-3">
                   {p?.favicon && (
@@ -133,45 +178,40 @@ export function Stage2({ shareToken }: { shareToken: string }) {
                     <img src={p.favicon} alt="" className="mt-1 h-5 w-5 shrink-0 rounded" />
                   )}
                   <div className="flex-1">
-                    <div className="text-xs font-mono text-zinc-500">{c.domain}</div>
-                    <div className="text-sm font-semibold">{c.title}</div>
-                    <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                      <span
-                        className={`rounded-full px-2 py-0.5 ${
-                          kid === "legit"
-                            ? "bg-green-100 text-green-800"
-                            : kid === "sus"
-                            ? "bg-red-100 text-red-800"
-                            : "bg-zinc-100 text-zinc-500"
-                        }`}
-                      >
-                        You: {kid || "skipped"}
-                      </span>
-                      <span
-                        className={`rounded-full px-2 py-0.5 ${
-                          j?.verdict === "legit"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        Coach: {j?.verdict || "?"}
-                      </span>
+                    <div
+                      className="text-xs font-mono"
+                      style={{ color: pencilAlpha("99") }}
+                    >
+                      {c.domain}
                     </div>
-                    <div className="mt-2 text-xs italic text-zinc-600">{j?.one_line_reason}</div>
+                    <div className="text-base" style={{ ...KALAM, color: COLOR.pencil }}>
+                      {c.title}
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2 text-xs">
+                      <VerdictChip label={`You: ${kid || "skipped"}`} verdict={kid} />
+                      <VerdictChip
+                        label={`Coach: ${j?.verdict || "?"}`}
+                        verdict={j?.verdict}
+                      />
+                    </div>
+                    <div
+                      className="mt-2 text-sm"
+                      style={{ color: pencilAlpha("b3"), fontStyle: "italic" }}
+                    >
+                      {j?.one_line_reason}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </HDCard>
             );
           })}
         </div>
 
         <div className="flex justify-end">
-          <button
-            onClick={next}
-            className="rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-white"
-          >
-            Continue to Triangulate →
-          </button>
+          <HDButton variant="primary" size="lg" onClick={next}>
+            Continue to Triangulate
+            <ArrowRight size={22} strokeWidth={2.5} />
+          </HDButton>
         </div>
       </div>
     );
@@ -181,22 +221,45 @@ export function Stage2({ shareToken }: { shareToken: string }) {
 
   return (
     <div>
-      <div className="rounded-2xl border-2 border-amber-200 bg-white p-6">
-        <h2 className="text-2xl font-bold">🕵️ Check each website</h2>
-        <p className="mt-2 text-base text-zinc-700">
-          For each one: <b>open the website in a new tab</b>, look at it, then come back and pick
-          <span className="ml-1 rounded-full bg-green-100 px-2 py-0.5 font-semibold text-green-800">✓ Trust it</span>
-          {" "}or{" "}
-          <span className="rounded-full bg-red-100 px-2 py-0.5 font-semibold text-red-800">✗ Don&apos;t trust</span>.
+      <HDCard className="p-6" decoration="tape">
+        <h2
+          className="flex items-center gap-2 text-2xl"
+          style={{ ...KALAM, color: COLOR.pencil }}
+        >
+          <SearchCheck size={28} strokeWidth={2.5} color={COLOR.red} />
+          Check each website
+        </h2>
+        <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
+          For each one: <b>open the website in a new tab</b>, look at it, then come back and pick{" "}
+          <SmallChip color="postItGreen" label="✓ Trust it" /> or{" "}
+          <SmallChip color="postItPink" label="✗ Don't trust" />.
         </p>
-        <p className="mt-2 text-sm text-zinc-600">
-          💡 Tip: look at the web address. Sites like <b>wikipedia.org</b>, <b>unesco.org</b>, and
-          <b>britannica.com</b> are usually solid. Random blogs or weird-looking sites? Be careful.
-        </p>
-        <div className="mt-3 text-sm font-semibold text-amber-700">
+        <div
+          className="mt-3 flex items-start gap-2 px-3 py-2 text-sm border-2 border-dashed"
+          style={{
+            borderColor: pencilAlpha("4d"),
+            color: pencilAlpha("b3"),
+            borderRadius: RADIUS.notice,
+          }}
+        >
+          <Lightbulb
+            size={18}
+            strokeWidth={2.5}
+            color={COLOR.red}
+            className="mt-0.5 shrink-0"
+          />
+          <span>
+            Look at the web address. Sites like <b>wikipedia.org</b>, <b>unesco.org</b>,{" "}
+            <b>britannica.com</b> are usually solid. Random blogs? Be careful.
+          </span>
+        </div>
+        <div
+          className="mt-4 text-sm"
+          style={{ ...KALAM, color: COLOR.red, fontSize: "1rem" }}
+        >
           Done: {Object.keys(verdicts).length} / {candidates.length} websites
         </div>
-      </div>
+      </HDCard>
 
       <div className="mt-6 flex flex-col gap-3">
         {candidates.map((c) => {
@@ -204,15 +267,13 @@ export function Stage2({ shareToken }: { shareToken: string }) {
           const v = verdicts[c.id];
           const open = openId === c.id;
           return (
-            <div
+            <HDCard
               key={c.id}
-              className={`rounded-xl border bg-white transition ${
-                v === "legit"
-                  ? "border-green-400"
-                  : v === "sus"
-                  ? "border-red-400"
-                  : "border-zinc-200"
-              }`}
+              variant={
+                v === "legit" ? "postItGreen" : v === "sus" ? "postItPink" : "default"
+              }
+              size="sm"
+              className="p-0 overflow-hidden"
             >
               <button
                 onClick={() => setOpenId(open ? null : c.id)}
@@ -223,32 +284,33 @@ export function Stage2({ shareToken }: { shareToken: string }) {
                   <img src={p.favicon} alt="" className="h-6 w-6 shrink-0 rounded" />
                 )}
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-mono text-zinc-500">{c.domain}</div>
-                  <div className="truncate text-base font-semibold">{c.title}</div>
-                </div>
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-bold ${
-                    c.origin === "web"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-purple-100 text-purple-800"
-                  }`}
-                >
-                  {c.origin === "web" ? "🌐 Web" : "🤖 AI"}
-                </span>
-                {v && (
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-bold ${
-                      v === "legit" ? "bg-green-500 text-white" : "bg-red-500 text-white"
-                    }`}
+                  <div
+                    className="text-xs font-mono"
+                    style={{ color: pencilAlpha("99") }}
                   >
-                    {v === "legit" ? "✓ Trust" : "✗ Don't"}
-                  </span>
+                    {c.domain}
+                  </div>
+                  <div
+                    className="truncate text-base"
+                    style={{ ...KALAM, color: COLOR.pencil }}
+                  >
+                    {c.title}
+                  </div>
+                </div>
+                <OriginTag origin={c.origin} />
+                {v && <VerdictTag verdict={v} />}
+                {open ? (
+                  <ChevronUp size={20} strokeWidth={2.5} color={pencilAlpha("99")} />
+                ) : (
+                  <ChevronDown size={20} strokeWidth={2.5} color={pencilAlpha("99")} />
                 )}
-                <span className="text-base text-zinc-400">{open ? "▲" : "▼"}</span>
               </button>
 
               {open && (
-                <div className="border-t-2 border-zinc-100 p-5">
+                <div
+                  className="p-5 border-t-2 border-dashed"
+                  style={{ borderColor: pencilAlpha("33") }}
+                >
                   <a
                     href={c.url}
                     target="_blank"
@@ -260,78 +322,238 @@ export function Stage2({ shareToken }: { shareToken: string }) {
                         return n;
                       })
                     }
-                    className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-lg font-bold text-white shadow-sm hover:bg-blue-700"
+                    className="flex items-center justify-center gap-2 px-6 py-4 text-lg border-[3px]"
+                    style={{
+                      ...KALAM,
+                      backgroundColor: COLOR.blue,
+                      color: "white",
+                      borderColor: COLOR.pencil,
+                      borderRadius: RADIUS.button,
+                      boxShadow: SHADOW.md,
+                    }}
                   >
-                    🔗 Open this website in a new tab →
+                    <ExternalLink size={20} strokeWidth={2.5} />
+                    Open this website in a new tab
                   </a>
-                  <div className="mt-2 text-center text-xs font-mono text-zinc-500 break-all">
+                  <div
+                    className="mt-2 text-center text-xs font-mono break-all"
+                    style={{ color: pencilAlpha("99") }}
+                  >
                     {c.url}
                   </div>
 
                   {visited.has(c.id) && (
-                    <div className="mt-3 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-center text-sm text-green-800">
+                    <div
+                      className="mt-3 px-3 py-2 text-center text-sm border-2"
+                      style={{
+                        ...KALAM,
+                        backgroundColor: COLOR.postItGreen,
+                        color: COLOR.pencil,
+                        borderColor: COLOR.pencil,
+                        borderRadius: RADIUS.notice,
+                      }}
+                    >
                       ✓ You opened this website. Did it look real?
                     </div>
                   )}
 
                   <div className="mt-4">
-                    <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                    <div
+                      className="text-sm"
+                      style={{ ...KALAM, color: COLOR.pencil, fontSize: "0.95rem" }}
+                    >
                       Quick preview
                     </div>
-                    <div className="mt-2 max-h-44 overflow-y-auto rounded-lg bg-zinc-50 p-3 text-base leading-6 text-zinc-800">
+                    <div
+                      className="mt-2 max-h-44 overflow-y-auto p-3 text-base leading-6 border-2"
+                      style={{
+                        backgroundColor: "#fffdf6",
+                        color: COLOR.pencil,
+                        borderColor: pencilAlpha("33"),
+                        borderRadius: RADIUS.cardSm,
+                      }}
+                    >
                       {p?.preview_text || c.preview_text}
                     </div>
                     {!p?.fetched_ok && (
-                      <div className="mt-1 text-xs text-amber-700">
-                        ⚠️ We couldn&apos;t auto-load this page. Click the blue button above to see
-                        it on the real website.
+                      <div
+                        className="mt-2 flex items-start gap-2 text-xs"
+                        style={{ color: COLOR.red }}
+                      >
+                        <AlertTriangle size={14} strokeWidth={2.5} className="mt-0.5 shrink-0" />
+                        We couldn&apos;t auto-load this page. Use the blue button to open it.
                       </div>
                     )}
                   </div>
 
-                  <div className="mt-5 text-center text-sm font-semibold text-zinc-700">
+                  <div
+                    className="mt-5 text-center text-sm"
+                    style={{ ...KALAM, color: COLOR.pencil }}
+                  >
                     {visited.has(c.id)
                       ? "What do you think?"
                       : "Open the website first, then decide ↓"}
                   </div>
                   <div className="mt-3 flex gap-3">
-                    <button
+                    <VerdictButton
+                      active={v === "legit"}
                       onClick={() => setVerdict(c.id, "legit")}
-                      className={`flex-1 rounded-full px-4 py-4 text-base font-bold transition ${
-                        v === "legit"
-                          ? "bg-green-500 text-white shadow-lg"
-                          : "bg-white text-green-700 border-2 border-green-400 hover:bg-green-50"
-                      }`}
-                    >
-                      ✓ Trust it
-                    </button>
-                    <button
+                      kind="legit"
+                    />
+                    <VerdictButton
+                      active={v === "sus"}
                       onClick={() => setVerdict(c.id, "sus")}
-                      className={`flex-1 rounded-full px-4 py-4 text-base font-bold transition ${
-                        v === "sus"
-                          ? "bg-red-500 text-white shadow-lg"
-                          : "bg-white text-red-700 border-2 border-red-400 hover:bg-red-50"
-                      }`}
-                    >
-                      ✗ Don&apos;t trust
-                    </button>
+                      kind="sus"
+                    />
                   </div>
                 </div>
               )}
-            </div>
+            </HDCard>
           );
         })}
       </div>
 
       <div className="mt-8 flex justify-end">
-        <button
+        <HDButton
+          variant="primary"
+          size="lg"
           onClick={submitJudgments}
           disabled={!allJudged || submitting}
-          className="rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-white disabled:opacity-40"
         >
-          {submitting ? "Coach is checking..." : "I'm done — see how I did →"}
-        </button>
+          {submitting ? "Coach is checking…" : (
+            <>
+              I&apos;m done — see how I did
+              <ArrowRight size={22} strokeWidth={2.5} />
+            </>
+          )}
+        </HDButton>
       </div>
     </div>
+  );
+}
+
+function SmallChip({ color, label }: { color: "postItGreen" | "postItPink"; label: string }) {
+  const bg = color === "postItGreen" ? COLOR.postItGreen : COLOR.postItPink;
+  return (
+    <span
+      className="inline-block px-2 py-0.5 border-2 text-xs"
+      style={{
+        ...KALAM,
+        backgroundColor: bg,
+        color: COLOR.pencil,
+        borderColor: COLOR.pencil,
+        borderRadius: RADIUS.tag,
+      }}
+    >
+      {label}
+    </span>
+  );
+}
+
+function VerdictChip({
+  label,
+  verdict,
+}: {
+  label: string;
+  verdict: "legit" | "sus" | undefined;
+}) {
+  const bg =
+    verdict === "legit" ? COLOR.postItGreen : verdict === "sus" ? COLOR.postItPink : COLOR.muted;
+  return (
+    <span
+      className="px-2 py-0.5 border-2 text-xs"
+      style={{
+        ...KALAM,
+        backgroundColor: bg,
+        color: COLOR.pencil,
+        borderColor: COLOR.pencil,
+        borderRadius: RADIUS.chip,
+      }}
+    >
+      {label}
+    </span>
+  );
+}
+
+function OriginTag({ origin }: { origin: "web" | "ai" }) {
+  const isWeb = origin === "web";
+  return (
+    <span
+      className="inline-flex items-center gap-1 px-3 py-1 border-2 text-xs"
+      style={{
+        ...KALAM,
+        backgroundColor: isWeb ? "#eaf1fb" : "#f3e6ff",
+        color: COLOR.pencil,
+        borderColor: COLOR.pencil,
+        borderRadius: RADIUS.chip,
+      }}
+    >
+      {isWeb ? (
+        <Globe size={12} strokeWidth={2.5} color={COLOR.blue} />
+      ) : (
+        <Bot size={12} strokeWidth={2.5} color={COLOR.pencil} />
+      )}
+      {isWeb ? "Web" : "AI"}
+    </span>
+  );
+}
+
+function VerdictTag({ verdict }: { verdict: "legit" | "sus" }) {
+  const isLegit = verdict === "legit";
+  return (
+    <span
+      className="inline-flex items-center gap-1 px-3 py-1 border-2 text-xs"
+      style={{
+        ...KALAM,
+        backgroundColor: isLegit ? "#2f7a2f" : COLOR.red,
+        color: "white",
+        borderColor: COLOR.pencil,
+        borderRadius: RADIUS.chip,
+      }}
+    >
+      {isLegit ? (
+        <>
+          <Check size={12} strokeWidth={3} /> Trust
+        </>
+      ) : (
+        <>
+          <X size={12} strokeWidth={3} /> Don&apos;t
+        </>
+      )}
+    </span>
+  );
+}
+
+function VerdictButton({
+  active,
+  onClick,
+  kind,
+}: {
+  active: boolean;
+  onClick: () => void;
+  kind: "legit" | "sus";
+}) {
+  const isLegit = kind === "legit";
+  return (
+    <button
+      onClick={onClick}
+      className="flex-1 px-4 py-4 text-base border-[3px] transition-transform duration-100 hover:-translate-y-[1px]"
+      style={{
+        ...KALAM,
+        backgroundColor: active
+          ? isLegit
+            ? "#2f7a2f"
+            : COLOR.red
+          : isLegit
+          ? COLOR.postItGreen
+          : COLOR.postItPink,
+        color: active ? "white" : COLOR.pencil,
+        borderColor: COLOR.pencil,
+        borderRadius: RADIUS.button,
+        boxShadow: active ? SHADOW.md : SHADOW.sm,
+      }}
+    >
+      {isLegit ? "✓ Trust it" : "✗ Don't trust"}
+    </button>
   );
 }

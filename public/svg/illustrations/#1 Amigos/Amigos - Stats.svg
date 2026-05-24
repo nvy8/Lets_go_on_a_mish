@@ -1,0 +1,19 @@
+<svg viewBox="473.1 129.708 611.088 589.583" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
+    <defs>
+        <polygon id="masterstickersstats-path-1" points="0.00133959184 0.0523196062 546.947756 0.0523196062 546.947756 547.790749 0.00133959184 547.790749"/>
+    </defs>
+    <g id="Master/Stickers/Stats" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-7" transform="translate(491.000000, 130.000000)">
+            <g id="Group-3" transform="translate(0.000000, 41.000000)">
+                <mask id="masterstickersstats-mask-2" fill="#fff">
+                    <use xlink:href="#masterstickersstats-path-1"/>
+                </mask>
+                <g id="Clip-2"/>
+                <path d="M273.474548,0.0523196062 C122.440033,0.0523196062 0.00133959184,122.668012 0.00133959184,273.920863 C0.00133959184,425.175951 122.440033,547.791643 273.474548,547.791643 C424.509062,547.791643 546.947756,425.175951 546.947756,273.920863 L273.474548,273.920863 L273.474548,0.0523196062 Z" id="Fill-1" fill="#F73132" mask="url(#masterstickersstats-mask-2)"/>
+            </g>
+            <g id="Group-6" transform="translate(319.000000, 0.000000)" fill="#EDC829">
+                <path d="M0.0793699187,0.97027101 L0.0793699187,274.800617 L273.934654,274.800617 C273.934654,123.568862 151.324898,0.97027101 0.0793699187,0.97027101" id="Fill-4"/>
+            </g>
+        </g>
+    </g>
+</svg>
