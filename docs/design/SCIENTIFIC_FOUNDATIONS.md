@@ -213,7 +213,7 @@ The contemporary replacement for the older CRAAP test, which over-emphasizes on-
 - Stage 3 surfaces N facts in a sidebar (typically 4-6), under the limit. ✅
 - Animation budget is intentionally tiny (4 microinteractions per [DESIGN_IMPROVEMENTS_FOR_KIDS.md §7](DESIGN_IMPROVEMENTS_FOR_KIDS.md)). ✅
 
-**Anti-pattern.** Edtech dashboards with 20 widgets (ClassDojo-style). Decorative motion on reading surfaces.
+**Anti-pattern.** Edtech dashboards with 20 widgets (big-name-edtech-style). Decorative motion on reading surfaces.
 
 **Sources.** Sweller (1988), *Cognitive Science*. Cowan (2001), *Behavioral and Brain Sciences*.
 
