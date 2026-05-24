@@ -1,18 +1,29 @@
 "use client";
 import { useEffect, useState, use } from "react";
 import { StageShell } from "@/components/StageShell";
-import { Stage1 } from "@/components/stages/Stage1";
-import { Stage2 } from "@/components/stages/Stage2";
-import { Stage3 } from "@/components/stages/Stage3";
-import { Stage4 } from "@/components/stages/Stage4";
-import { Stage5 } from "@/components/stages/Stage5";
+import { SourcesVettingRunner } from "@/components/types/SourcesVettingRunner";
+import { ChoreCheckRunner } from "@/components/types/ChoreCheckRunner";
+import { DopamineResetRunner } from "@/components/types/DopamineResetRunner";
+import { ReadingDrillRunner } from "@/components/types/ReadingDrillRunner";
+import { getTypeMeta } from "@/components/types/registry";
+import { PAPER_BG } from "@/lib/design-tokens";
+
+type MissionMeta = {
+  id: string;
+  title: string;
+  topic: string;
+  mission_type_slug: string;
+  audience_role: 'teacher' | 'parent';
+  timer_seconds?: number;
+};
 
 type SessionState = {
   id: string;
   display_name: string;
   current_stage: number;
   badges_earned: string[];
-  mission: { id: string; title: string; topic: string } | null;
+  started_at?: string;
+  mission: MissionMeta | null;
 };
 
 export default function StagePage({
@@ -50,19 +61,57 @@ export default function StagePage({
     return <main className="p-12 text-zinc-500">Loading...</main>;
   }
 
+  const typeMeta = getTypeMeta(session.mission.mission_type_slug);
+
   return (
-    <StageShell
-      stageNum={stageNum}
-      displayName={session.display_name}
-      missionTitle={session.mission.title}
-      missionTopic={session.mission.topic}
-      badges={session.badges_earned}
-    >
-      {stageNum === 1 && <Stage1 shareToken={shareToken} />}
-      {stageNum === 2 && <Stage2 shareToken={shareToken} />}
-      {stageNum === 3 && <Stage3 shareToken={shareToken} />}
-      {stageNum === 4 && <Stage4 shareToken={shareToken} />}
-      {stageNum === 5 && <Stage5 shareToken={shareToken} />}
-    </StageShell>
+    <div className="relative flex-1 overflow-hidden" style={PAPER_BG}>
+      <div className="relative">
+        <StageShell
+          stageNum={stageNum}
+          displayName={session.display_name}
+          missionTitle={session.mission.title}
+          missionTopic={session.mission.topic}
+          badges={session.badges_earned}
+          stageNames={typeMeta.stageNames}
+          totalStages={typeMeta.totalStages}
+          timerSeconds={session.mission.timer_seconds}
+          startedAt={session.started_at}
+        >
+          {/* Dispatch by mission type */}
+          {session.mission.mission_type_slug === 'sources-vetting' && (
+            <SourcesVettingRunner stageNum={stageNum} shareToken={shareToken} />
+          )}
+          {session.mission.mission_type_slug === 'chore-check' && (
+            <ChoreCheckRunner
+              shareToken={shareToken}
+              mission={{ title: session.mission.title, topic: session.mission.topic }}
+            />
+          )}
+          {session.mission.mission_type_slug === 'dopamine-reset' && (
+            <DopamineResetRunner stageNum={stageNum} shareToken={shareToken} />
+          )}
+          {session.mission.mission_type_slug === 'reading-drill' && (
+            <ReadingDrillRunner stageNum={stageNum} shareToken={shareToken} />
+          )}
+          {!['sources-vetting', 'chore-check', 'dopamine-reset', 'reading-drill'].includes(
+            session.mission.mission_type_slug,
+          ) && <NewTypePlaceholder typeSlug={session.mission.mission_type_slug} />}
+        </StageShell>
+      </div>
+    </div>
+  );
+}
+
+function NewTypePlaceholder({ typeSlug }: { typeSlug: string }) {
+  return (
+    <div className="rounded-2xl border-2 border-dashed border-zinc-300 bg-white p-12 text-center">
+      <div className="text-5xl">🚧</div>
+      <h2 className="mt-3 text-xl font-semibold">
+        Mission type <code>{typeSlug}</code> — under construction
+      </h2>
+      <p className="mt-2 text-zinc-600">
+        Coming in Phase B of the platform refactor.
+      </p>
+    </div>
   );
 }

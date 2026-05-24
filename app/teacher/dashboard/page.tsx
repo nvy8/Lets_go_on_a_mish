@@ -184,14 +184,12 @@ export default function TeacherDashboard() {
             </HDButton>
           )}
           {createMode !== "project" && (
-            <HDButton
-              variant="secondary"
-              size="md"
-              onClick={() => setCreateMode(createMode === "mission" ? null : "mission")}
-            >
-              <FilePlus2 size={18} strokeWidth={3} />
-              {createMode === "mission" ? "Cancel" : "New Mish"}
-            </HDButton>
+            <Link href="/teacher/missions/new">
+              <HDButton variant="secondary" size="md">
+                <Plus size={18} strokeWidth={3} />
+                New Mish
+              </HDButton>
+            </Link>
           )}
         </div>
 

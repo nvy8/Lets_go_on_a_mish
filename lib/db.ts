@@ -21,6 +21,7 @@ export const COLLECTIONS = {
   projects: 'projects',
   missions: 'missions',
   sessions: 'sessions',
+  mission_types: 'mission_types',
 } as const;
 
 let client: MongoClient | null = null;
@@ -56,6 +57,8 @@ async function ensureIndexes(db: Db) {
       { last_active_at: 1 },
       { expireAfterSeconds: 30 * 24 * 60 * 60 },
     );
+    await db.collection(COLLECTIONS.mission_types).createIndex({ slug: 1 }, { unique: true });
+    await db.collection(COLLECTIONS.mission_types).createIndex({ is_builtin: 1 });
   } catch (err) {
     console.warn('[DB] index ensure failed:', (err as Error).message);
   }

@@ -12,15 +12,45 @@ function parseObjectId(id: unknown): ObjectId | null {
   }
 }
 
+const VALID_TYPE_SLUGS = new Set([
+  'sources-vetting',
+  'dopamine-reset',
+  'chore-check',
+  'reading-drill',
+]);
+
+const VALID_AUDIENCE_ROLES = new Set(['teacher', 'parent']);
+
 export async function POST(req: NextRequest) {
   const teacher = await getCurrentTeacher();
   if (!teacher) return NextResponse.json({ error: 'Auth required' }, { status: 401 });
 
   try {
     const body = await req.json();
-    const { title, topic, knowledge_base_text, project_id, week_number } = body;
+    const {
+      title,
+      topic,
+      knowledge_base_text,
+      mission_type_slug,
+      audience_role,
+      timer_seconds,
+      rewards_config,
+      project_id,
+      week_number,
+    } = body;
+
     if (!title || !topic) {
       return NextResponse.json({ error: 'title and topic required' }, { status: 400 });
+    }
+
+    const typeSlug = mission_type_slug || 'sources-vetting';
+    if (!VALID_TYPE_SLUGS.has(typeSlug)) {
+      return NextResponse.json({ error: `Unknown mission_type_slug: ${typeSlug}` }, { status: 400 });
+    }
+
+    const role = audience_role || 'teacher';
+    if (!VALID_AUDIENCE_ROLES.has(role)) {
+      return NextResponse.json({ error: `Unknown audience_role: ${role}` }, { status: 400 });
     }
 
     const db = await connect();
@@ -60,6 +90,10 @@ export async function POST(req: NextRequest) {
       title,
       topic,
       knowledge_base_text: knowledge_base_text || '',
+      mission_type_slug: typeSlug,
+      audience_role: role,
+      timer_seconds: typeof timer_seconds === 'number' ? timer_seconds : undefined,
+      rewards_config: rewards_config || undefined,
       share_token,
       created_at: new Date(),
       ...(projectObjectId ? { project_id: projectObjectId, position: nextPosition } : {}),
@@ -69,6 +103,7 @@ export async function POST(req: NextRequest) {
       ok: true,
       missionId: result.insertedId.toString(),
       share_token,
+      mission_type_slug: typeSlug,
     });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
@@ -99,6 +134,9 @@ export async function GET(req: NextRequest) {
       title: m.title,
       topic: m.topic,
       share_token: m.share_token,
+      mission_type_slug: m.mission_type_slug || 'sources-vetting',
+      audience_role: m.audience_role || 'teacher',
+      timer_seconds: m.timer_seconds,
       created_at: m.created_at,
       project_id: m.project_id ? m.project_id.toString() : null,
       position: m.position ?? null,
