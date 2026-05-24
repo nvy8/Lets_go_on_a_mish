@@ -25,6 +25,14 @@ Point-in-time audits of the codebase. Findings only — no fixes applied unless 
 | [design/SCIENTIFIC_FOUNDATIONS.md](design/SCIENTIFIC_FOUNDATIONS.md) | Research base — pedagogy, critical-thinking frameworks (SIFT, lateral reading), motivation theory, cognition, anti-patterns, child-safety regulation. Includes a Sleuth-surface application map to cite when changing copy or microinteractions. |
 | [design/DESIGN_IMPROVEMENTS_FOR_KIDS.md](design/DESIGN_IMPROVEMENTS_FOR_KIDS.md) | Proposal for kid-flow improvements derived from the kids-app design guidelines. Cross-referenced against the visual audit. |
 
+## Specs (proposals not yet implemented)
+
+Design specs for future features. One file per proposal. Implementation moves to `changelog/` once a spec ships.
+
+| Date | Spec | Status |
+|---|---|---|
+| 2026-05-24 | [specs/2026-05-24-per-kid-research-chatbot.md](specs/2026-05-24-per-kid-research-chatbot.md) | **Proposal** — per-kid research chatbot generated from the kid's verified sources + facts + explanations; inline chat on the Complete page + 30-min public share link for peer/teacher cross-testing. Pedagogical frame, data model, API, UI flows, security + privacy, cost analysis, phased 4-step plan, 15 open questions. |
+
 ## Changelog
 
 Chronological log of larger implementation passes. One file per pass — append, don't edit.
