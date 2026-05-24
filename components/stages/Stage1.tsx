@@ -66,10 +66,10 @@ export function Stage1({ shareToken }: { shareToken: string }) {
       <HDCard className="p-10 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/svg/illustrations/kid-brainstorming.svg"
+          src="/svg/brand/mascot-thinking.svg"
           alt=""
           aria-hidden="true"
-          className="mx-auto h-44 w-auto"
+          className="mx-auto h-44 w-auto animate-sleuth-pop-in"
         />
         <div className="mt-4 text-lg" style={{ color: COLOR.pencil }}>
           Your coach is drafting 3 questions for you to compare.
@@ -175,7 +175,7 @@ export function Stage1({ shareToken }: { shareToken: string }) {
         >
           {wasRight ? (
             <>
-              <Sparkles size={28} strokeWidth={2.5} color={COLOR.red} />
+              <Sparkles size={28} strokeWidth={2.5} color={COLOR.gold} />
               Nice eye!
             </>
           ) : (
@@ -185,6 +185,15 @@ export function Stage1({ shareToken }: { shareToken: string }) {
             </>
           )}
         </h2>
+        <div className="float-right ml-3 -mt-2 hidden sm:block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={wasRight ? "/svg/brand/mascot-celebrate.svg" : "/svg/brand/mascot-puzzled.svg"}
+            alt=""
+            aria-hidden="true"
+            className="h-28 w-28 animate-sleuth-pop-in"
+          />
+        </div>
         <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
           {wasRight
             ? "You picked the strongest one — that question will find a real, focused answer."

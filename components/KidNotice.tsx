@@ -58,10 +58,10 @@ const TONE_STYLES: Record<KidNoticeTone, ToneStyle> = {
     role: "alert",
   },
   guidance: {
-    bg: COLOR.postIt,
+    bg: COLOR.goldSoft,
     border: COLOR.pencil,
     text: COLOR.pencil,
-    iconColor: COLOR.pencil,
+    iconColor: COLOR.gold,
     Icon: Search,
     iconLabel: "tip",
     role: "status",

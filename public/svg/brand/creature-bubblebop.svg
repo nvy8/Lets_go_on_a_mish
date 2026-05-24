@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="bubblebopTitle">
+  <title id="bubblebopTitle">Bubblebop, a translucent bubble creature</title>
+  <ellipse cx="100" cy="186" rx="44" ry="5" fill="#2d2d2d" opacity="0.10"/>
+  <!-- tiny bubbles -->
+  <circle cx="30" cy="60" r="6" fill="#eef0fa" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="170" cy="74" r="8" fill="#eef0fa" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="40" cy="140" r="5" fill="#eef0fa" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="162" cy="140" r="4" fill="#eef0fa" stroke="#2d2d2d" stroke-width="2.5"/>
+  <!-- main bubble body -->
+  <circle cx="100" cy="106" r="60" fill="#eef0fa" stroke="#2d2d2d" stroke-width="3.5"/>
+  <!-- inner faint ring -->
+  <circle cx="100" cy="106" r="60" fill="none" stroke="#d3d7ec" stroke-width="2"/>
+  <!-- highlight crescents -->
+  <path d="M60 78 C70 64 88 56 102 60 C88 60 72 70 64 86 Z" fill="#ffffff" opacity="0.85"/>
+  <circle cx="138" cy="142" r="6" fill="#ffffff" opacity="0.7"/>
+  <!-- little stub legs -->
+  <path d="M84 162 C82 178 92 180 92 168" fill="#eef0fa" stroke="#2d2d2d" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M108 168 C108 180 118 178 116 162" fill="#eef0fa" stroke="#2d2d2d" stroke-width="3" stroke-linejoin="round"/>
+  <!-- eyes -->
+  <circle cx="84" cy="104" r="11" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="116" cy="104" r="11" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="87" cy="107" r="5" fill="#2d2d2d"/>
+  <circle cx="119" cy="107" r="5" fill="#2d2d2d"/>
+  <!-- tiny smile -->
+  <path d="M90 124 Q100 132 110 124" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- cheeks -->
+  <circle cx="72" cy="120" r="4" fill="#ff8aa1" opacity="0.5"/>
+  <circle cx="128" cy="120" r="4" fill="#ff8aa1" opacity="0.5"/>
+</svg>

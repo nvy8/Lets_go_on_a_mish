@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="celebTitle">
+  <title id="celebTitle">Sleuth cheering with confetti</title>
+  <ellipse cx="100" cy="184" rx="42" ry="6" fill="#2d2d2d" opacity="0.12"/>
+  <!-- confetti -->
+  <rect x="22" y="36" width="8" height="8" fill="#f7b100" transform="rotate(20 26 40)"/>
+  <rect x="170" y="30" width="8" height="8" fill="#ff4d4d" transform="rotate(-15 174 34)"/>
+  <circle cx="40" cy="78" r="5" fill="#2d5da1"/>
+  <circle cx="166" cy="84" r="5" fill="#7fb3a3"/>
+  <path d="M14 100 L22 96 L20 106 Z" fill="#f7b100"/>
+  <path d="M186 110 L178 106 L182 116 Z" fill="#ff4d4d"/>
+  <!-- body -->
+  <path d="M64 180 C64 138 76 118 100 118 C124 118 136 138 136 180 Z" fill="#f7b100" stroke="#2d2d2d" stroke-width="3.5"/>
+  <path d="M100 118 C124 118 136 138 136 180 L120 180 C120 146 114 124 100 120 Z" fill="#c98c00" opacity="0.55"/>
+  <!-- arms raised -->
+  <path d="M70 132 L46 90" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M130 132 L154 90" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="44" cy="84" r="8" fill="#fce3c4" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="156" cy="84" r="8" fill="#fce3c4" stroke="#2d2d2d" stroke-width="2.5"/>
+  <!-- head -->
+  <circle cx="100" cy="86" r="38" fill="#fce3c4" stroke="#2d2d2d" stroke-width="3.5"/>
+  <!-- hair -->
+  <path d="M66 74 C72 54 92 46 112 52 C124 56 130 66 128 78 C116 66 92 62 76 72 Z" fill="#5a3a22" stroke="#2d2d2d" stroke-width="3"/>
+  <!-- eyes (closed happy ^^) -->
+  <path d="M80 90 Q86 82 92 90" fill="none" stroke="#2d2d2d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M108 90 Q114 82 120 90" fill="none" stroke="#2d2d2d" stroke-width="3" stroke-linecap="round"/>
+  <!-- big smile -->
+  <path d="M82 104 Q100 122 118 104 Q108 110 92 110 Z" fill="#a8551f" stroke="#2d2d2d" stroke-width="3" stroke-linejoin="round"/>
+  <!-- cheeks -->
+  <circle cx="74" cy="100" r="5" fill="#ff8aa1" opacity="0.6"/>
+  <circle cx="126" cy="100" r="5" fill="#ff8aa1" opacity="0.6"/>
+</svg>

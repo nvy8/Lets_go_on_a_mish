@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="jellybeanTitle">
+  <title id="jellybeanTitle">Jellybean, a fuzzy bean-shaped critter</title>
+  <ellipse cx="100" cy="184" rx="52" ry="5" fill="#2d2d2d" opacity="0.12"/>
+  <!-- bean body -->
+  <path d="M48 110 C48 70 80 50 116 56 C148 62 158 88 152 122 C146 158 110 178 78 170 C50 162 48 140 48 110 Z"
+        fill="#fce3c4" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- fuzz tufts -->
+  <path d="M58 78 L52 70 M68 62 L66 52 M82 54 L82 44 M120 56 L124 46 M150 84 L160 80 M152 110 L162 110 M148 140 L160 142" stroke="#2d2d2d" stroke-width="3" stroke-linecap="round"/>
+  <!-- belly shadow -->
+  <path d="M70 140 C90 156 130 156 144 138 C138 162 84 168 70 140 Z" fill="#e7c69b" opacity="0.6"/>
+  <!-- feet -->
+  <ellipse cx="84" cy="174" rx="12" ry="6" fill="#a8551f" stroke="#2d2d2d" stroke-width="3"/>
+  <ellipse cx="124" cy="172" rx="12" ry="6" fill="#a8551f" stroke="#2d2d2d" stroke-width="3"/>
+  <!-- eyes -->
+  <circle cx="86" cy="110" r="13" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="124" cy="110" r="13" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="89" cy="113" r="5.5" fill="#2d2d2d"/>
+  <circle cx="127" cy="113" r="5.5" fill="#2d2d2d"/>
+  <circle cx="91" cy="111" r="1.8" fill="#ffffff"/>
+  <circle cx="129" cy="111" r="1.8" fill="#ffffff"/>
+  <!-- smile -->
+  <path d="M92 132 Q105 142 116 132" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- cheeks -->
+  <circle cx="70" cy="128" r="5" fill="#ff8aa1" opacity="0.55"/>
+  <circle cx="140" cy="128" r="5" fill="#ff8aa1" opacity="0.55"/>
+</svg>

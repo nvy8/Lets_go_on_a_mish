@@ -15,7 +15,7 @@ export function HDInput({
   return (
     <input
       {...rest}
-      className={`px-4 py-3 text-lg border-[3px] focus:outline-none focus:ring-2 ${className}`}
+      className={`px-4 py-3 text-lg border-[3px] focus:outline-none focus:ring-4 focus:ring-[#f7b100]/40 ${className}`}
       style={{
         borderColor: invalid ? COLOR.red : COLOR.pencil,
         backgroundColor: "white",

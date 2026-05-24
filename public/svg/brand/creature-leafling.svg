@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="leaflingTitle">
+  <title id="leaflingTitle">Leafling, a leaf-shaped forest imp</title>
+  <ellipse cx="100" cy="186" rx="38" ry="5" fill="#2d2d2d" opacity="0.12"/>
+  <!-- stem -->
+  <path d="M100 168 C100 178 102 184 100 188 M100 168 C92 162 88 156 90 150" stroke="#a8551f" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- leaf body -->
+  <path d="M100 24 C40 60 36 140 100 172 C164 140 160 60 100 24 Z"
+        fill="#7fb3a3" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- center vein -->
+  <path d="M100 36 L100 162" stroke="#2d2d2d" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <!-- side veins -->
+  <path d="M100 70 Q80 78 64 82 M100 100 Q78 108 56 112 M100 130 Q82 138 70 144" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round" opacity="0.4" fill="none"/>
+  <path d="M100 70 Q120 78 136 82 M100 100 Q122 108 144 112 M100 130 Q118 138 130 144" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round" opacity="0.4" fill="none"/>
+  <!-- inner shadow -->
+  <path d="M100 24 C140 50 156 100 140 150 C148 110 140 60 100 36 Z" fill="#5a8a7a" opacity="0.45"/>
+  <!-- eyes -->
+  <circle cx="84" cy="96" r="11" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="116" cy="96" r="11" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="87" cy="99" r="5" fill="#2d2d2d"/>
+  <circle cx="119" cy="99" r="5" fill="#2d2d2d"/>
+  <!-- smile -->
+  <path d="M86 116 Q100 128 114 116" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- cheeks -->
+  <circle cx="74" cy="114" r="4" fill="#ff8aa1" opacity="0.55"/>
+  <circle cx="126" cy="114" r="4" fill="#ff8aa1" opacity="0.55"/>
+</svg>

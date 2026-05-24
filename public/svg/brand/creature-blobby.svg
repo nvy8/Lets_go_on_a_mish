@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="blobbyTitle">
+  <title id="blobbyTitle">Blobby, a happy slime creature</title>
+  <ellipse cx="100" cy="184" rx="56" ry="6" fill="#2d2d2d" opacity="0.12"/>
+  <!-- blob body -->
+  <path d="M40 150 C32 110 60 70 100 70 C144 70 172 108 164 152 C160 174 138 182 100 182 C64 182 44 174 40 150 Z"
+        fill="#7fb3a3" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- shine highlight -->
+  <path d="M60 100 C68 86 84 82 94 90 C82 92 72 102 70 116 Z" fill="#b8d8cc" opacity="0.7"/>
+  <!-- drips -->
+  <path d="M58 178 C56 188 64 192 66 184 Z" fill="#7fb3a3" stroke="#2d2d2d" stroke-width="3"/>
+  <path d="M140 180 C140 190 150 192 150 182 Z" fill="#7fb3a3" stroke="#2d2d2d" stroke-width="3"/>
+  <!-- eyes -->
+  <circle cx="82" cy="118" r="14" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="122" cy="118" r="14" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="85" cy="121" r="6" fill="#2d2d2d"/>
+  <circle cx="125" cy="121" r="6" fill="#2d2d2d"/>
+  <circle cx="87" cy="119" r="1.8" fill="#ffffff"/>
+  <circle cx="127" cy="119" r="1.8" fill="#ffffff"/>
+  <!-- smile -->
+  <path d="M84 142 Q102 158 120 142" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- cheeks -->
+  <circle cx="64" cy="138" r="5" fill="#ff8aa1" opacity="0.55"/>
+  <circle cx="140" cy="138" r="5" fill="#ff8aa1" opacity="0.55"/>
+</svg>

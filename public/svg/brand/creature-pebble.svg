@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="pebbleTitle">
+  <title id="pebbleTitle">Pebble, a smiling rock with little legs</title>
+  <ellipse cx="100" cy="190" rx="50" ry="5" fill="#2d2d2d" opacity="0.12"/>
+  <!-- legs -->
+  <rect x="74" y="150" width="12" height="28" rx="5" fill="#a8551f" stroke="#2d2d2d" stroke-width="3"/>
+  <rect x="114" y="150" width="12" height="28" rx="5" fill="#a8551f" stroke="#2d2d2d" stroke-width="3"/>
+  <ellipse cx="80" cy="184" rx="14" ry="5" fill="#2d2d2d"/>
+  <ellipse cx="120" cy="184" rx="14" ry="5" fill="#2d2d2d"/>
+  <!-- pebble body (irregular oval) -->
+  <path d="M44 100 C40 70 80 46 116 50 C150 54 168 80 162 116 C156 146 124 158 92 156 C58 154 48 130 44 100 Z"
+        fill="#d3d7ec" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- speckles -->
+  <circle cx="62" cy="120" r="3" fill="#a8acc4"/>
+  <circle cx="140" cy="80" r="3" fill="#a8acc4"/>
+  <circle cx="120" cy="138" r="2.5" fill="#a8acc4"/>
+  <circle cx="80" cy="76" r="2.5" fill="#a8acc4"/>
+  <!-- highlight -->
+  <path d="M64 70 C78 60 96 60 108 66 C92 64 76 70 70 84 Z" fill="#eef0fa" opacity="0.7"/>
+  <!-- googly eyes (oversized) -->
+  <circle cx="78" cy="100" r="16" fill="#ffffff" stroke="#2d2d2d" stroke-width="3.5"/>
+  <circle cx="124" cy="100" r="16" fill="#ffffff" stroke="#2d2d2d" stroke-width="3.5"/>
+  <circle cx="82" cy="106" r="6" fill="#2d2d2d"/>
+  <circle cx="128" cy="106" r="6" fill="#2d2d2d"/>
+  <!-- smile -->
+  <path d="M84 128 Q100 140 116 128" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

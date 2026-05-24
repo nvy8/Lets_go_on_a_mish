@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="ribbonTitle">
+  <title id="ribbonTitle">Ribbon award badge</title>
+  <!-- tails -->
+  <path d="M70 130 L54 188 L86 170 Z" fill="#ff4d4d" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M130 130 L146 188 L114 170 Z" fill="#ff4d4d" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- medallion -->
+  <circle cx="100" cy="90" r="56" fill="#f7b100" stroke="#2d2d2d" stroke-width="4"/>
+  <circle cx="100" cy="90" r="42" fill="#fdd968" stroke="#2d2d2d" stroke-width="2.5"/>
+  <text x="100" y="106" text-anchor="middle" font-family="Georgia, serif" font-size="46" font-weight="700" fill="#2d2d2d">1</text>
+</svg>

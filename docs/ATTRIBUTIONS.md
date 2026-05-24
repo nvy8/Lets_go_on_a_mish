@@ -59,4 +59,27 @@ See [package.json](../package.json) for the full list of npm dependencies. All c
 
 ---
 
-*Last reviewed: 2026-05-23.*
+## Inspiration assets in public/svg/inspiration/
+
+These files are reference material for the kid-flow visual design. They are not rendered by the app — they exist purely so designers/engineers can compare our original mascots against established friendly-creature registers (ClassDojo-adjacent). Licenses:
+
+- Microsoft Fluent Emoji — MIT License — © Microsoft Corporation — https://github.com/microsoft/fluentui-emoji
+- Twemoji — CC BY 4.0 — © Twitter, Inc and contributors — https://github.com/twitter/twemoji
+- OpenMoji — CC BY-SA 4.0 — © OpenMoji project — https://openmoji.org
+
+| File | Source | Represents |
+|---|---|---|
+| `fluent-alien-monster.svg` | Microsoft Fluent Emoji | 👾 Alien monster |
+| `fluent-ghost.svg` | Microsoft Fluent Emoji | 👻 Ghost |
+| `fluent-robot.svg` | Microsoft Fluent Emoji | 🤖 Robot |
+| `fluent-smiling-face-smiling-eyes.svg` | Microsoft Fluent Emoji | 😊 Smiling face with smiling eyes |
+| `fluent-star-struck.svg` | Microsoft Fluent Emoji | 🤩 Star-struck |
+| `fluent-smiling-face-with-hearts.svg` | Microsoft Fluent Emoji | 🥰 Smiling face with hearts |
+| `fluent-face-with-monocle.svg` | Microsoft Fluent Emoji | 🧐 Face with monocle (detective vibe) |
+| `fluent-owl.svg` | Microsoft Fluent Emoji | 🦉 Owl |
+| `fluent-t-rex.svg` | Microsoft Fluent Emoji | 🦖 T-Rex |
+| `fluent-unicorn.svg` | Microsoft Fluent Emoji | 🦄 Unicorn |
+
+---
+
+*Last reviewed: 2026-05-24.*

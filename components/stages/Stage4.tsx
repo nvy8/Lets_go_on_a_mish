@@ -116,7 +116,16 @@ export function Stage4({ shareToken }: { shareToken: string }) {
   if (!facts) {
     return (
       <HDCard className="p-10 text-center" style={{ color: pencilAlpha("99") }}>
-        Loading your triangulated facts…
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/svg/brand/mascot-reading.svg"
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-40 w-40 animate-sleuth-pop-in"
+        />
+        <div className="mt-3 text-lg" style={{ color: COLOR.pencil }}>
+          Loading your triangulated facts…
+        </div>
       </HDCard>
     );
   }
@@ -132,10 +141,17 @@ export function Stage4({ shareToken }: { shareToken: string }) {
   if (done) {
     return (
       <HDCard variant="postIt" className="p-8 text-center" decoration="tack">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={doneBadge ? "/svg/brand/mascot-celebrate.svg" : "/svg/brand/mascot-thinking.svg"}
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-32 w-32 animate-sleuth-pop-in"
+        />
         {doneBadge ? (
-          <Award size={64} strokeWidth={2.5} color={COLOR.red} className="mx-auto" />
+          <Award size={48} strokeWidth={2.5} color={COLOR.gold} className="mx-auto mt-2" />
         ) : (
-          <FileText size={64} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto" />
+          <FileText size={48} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto mt-2" />
         )}
         <h2 className="mt-3 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
           {doneBadge ? "Badge unlocked: Wordsmith" : "Stage 4 complete"}

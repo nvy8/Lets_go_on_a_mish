@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="bulbTitle">
+  <title id="bulbTitle">Bright idea badge</title>
+  <circle cx="100" cy="100" r="80" fill="#d8f5c4" stroke="#2d2d2d" stroke-width="4"/>
+  <!-- rays -->
+  <g stroke="#f7b100" stroke-width="4" stroke-linecap="round">
+    <path d="M100 24 L100 38"/>
+    <path d="M176 100 L162 100"/>
+    <path d="M24 100 L38 100"/>
+    <path d="M152 48 L142 58"/>
+    <path d="M48 48 L58 58"/>
+  </g>
+  <!-- bulb -->
+  <path d="M100 56 C76 56 62 76 70 100 C74 112 84 116 84 130 L116 130 C116 116 126 112 130 100 C138 76 124 56 100 56 Z" fill="#fff9c4" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- base -->
+  <rect x="84" y="132" width="32" height="10" fill="#a8acc4" stroke="#2d2d2d" stroke-width="3"/>
+  <rect x="88" y="144" width="24" height="8" fill="#a8acc4" stroke="#2d2d2d" stroke-width="3"/>
+  <path d="M94 156 L106 156" stroke="#2d2d2d" stroke-width="3" stroke-linecap="round"/>
+  <!-- filament smile -->
+  <path d="M90 92 Q100 104 110 92" fill="none" stroke="#f7b100" stroke-width="3" stroke-linecap="round"/>
+</svg>

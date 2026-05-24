@@ -102,23 +102,19 @@ export default function KidJoin({ params }: { params: Promise<{ shareToken: stri
     <main className="flex flex-1 items-center justify-center px-6 py-12" style={PAPER_BG}>
       <HDCard className="w-full max-w-md p-8" decoration="tape">
         <div className="text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/svg/brand/mascot-sleuth.svg"
+            alt=""
+            aria-hidden="true"
+            className="mx-auto h-28 w-28 animate-sleuth-pop-in"
+          />
           <div
-            className="inline-flex h-20 w-20 items-center justify-center border-[3px] -rotate-3"
-            style={{
-              borderColor: COLOR.pencil,
-              backgroundColor: COLOR.postIt,
-              borderRadius: RADIUS.oval,
-              boxShadow: SHADOW.md,
-            }}
-          >
-            <Search size={38} strokeWidth={2.5} color={COLOR.pencil} aria-hidden="true" />
-          </div>
-          <div
-            className="mt-5 inline-block px-3 py-1 text-sm border-2 rotate-1 ml-2"
+            className="mt-3 inline-block px-3 py-1 text-sm border-2 rotate-1"
             style={{
               ...KALAM,
-              backgroundColor: COLOR.red,
-              color: "white",
+              backgroundColor: COLOR.gold,
+              color: COLOR.pencil,
               borderColor: COLOR.pencil,
               borderRadius: RADIUS.tag,
               boxShadow: SHADOW.sm,

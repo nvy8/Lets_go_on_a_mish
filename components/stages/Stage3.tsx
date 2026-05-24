@@ -63,10 +63,10 @@ export function Stage3({ shareToken }: { shareToken: string }) {
       <HDCard className="p-10 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/svg/illustrations/kid-study.svg"
+          src="/svg/brand/mascot-reading.svg"
           alt=""
           aria-hidden="true"
-          className="mx-auto h-44 w-auto"
+          className="mx-auto h-44 w-auto animate-sleuth-pop-in"
         />
         <div className="mt-4 text-lg" style={{ color: COLOR.pencil }}>
           Your coach is reading all 3 websites and picking 5 facts to check…
@@ -89,10 +89,17 @@ export function Stage3({ shareToken }: { shareToken: string }) {
   if (finalSummary) {
     return (
       <HDCard variant="postIt" className="p-8 text-center" decoration="tack">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={finalSummary.earned_badge ? "/svg/brand/mascot-celebrate.svg" : "/svg/brand/mascot-reading.svg"}
+          alt=""
+          aria-hidden="true"
+          className="mx-auto h-32 w-32 animate-sleuth-pop-in"
+        />
         {finalSummary.earned_badge ? (
-          <Award size={64} strokeWidth={2.5} color={COLOR.red} className="mx-auto" />
+          <Award size={48} strokeWidth={2.5} color={COLOR.gold} className="mx-auto mt-2" />
         ) : (
-          <Search size={64} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto" />
+          <Search size={48} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto mt-2" />
         )}
         <h2 className="mt-3 text-3xl" style={{ ...KALAM, color: COLOR.pencil }}>
           {finalSummary.earned_badge ? "Badge unlocked: Triangulator" : "Stage 3 complete"}
@@ -197,10 +204,17 @@ export function Stage3({ shareToken }: { shareToken: string }) {
           variant={isTriangulated ? "postItGreen" : "default"}
           className="mt-3 p-8 text-center"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={isTriangulated ? "/svg/brand/mascot-celebrate.svg" : "/svg/brand/mascot-puzzled.svg"}
+            alt=""
+            aria-hidden="true"
+            className="mx-auto h-28 w-28 animate-sleuth-pop-in"
+          />
           {isTriangulated ? (
-            <Sparkles size={56} strokeWidth={2.5} color={COLOR.red} className="mx-auto" />
+            <Sparkles size={40} strokeWidth={2.5} color={COLOR.gold} className="mx-auto mt-2" />
           ) : (
-            <Search size={56} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto" />
+            <Search size={40} strokeWidth={2.5} color={COLOR.pencil} className="mx-auto mt-2" />
           )}
           <h2 className="mt-3 text-2xl" style={{ ...KALAM, color: COLOR.pencil }}>
             You found this fact in {verifiedForFact} out of {evidenceList.length} sites!

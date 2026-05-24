@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="spritewispTitle">
+  <title id="spritewispTitle">Spritewisp, a friendly wispy ghost</title>
+  <ellipse cx="100" cy="186" rx="44" ry="5" fill="#2d2d2d" opacity="0.10"/>
+  <!-- wispy body -->
+  <path d="M50 90 C50 50 84 30 110 36 C146 44 156 78 152 110 L154 170 L140 158 L124 174 L108 158 L92 174 L76 158 L60 172 L50 156 Z"
+        fill="#fff1c2" stroke="#2d2d2d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- soft shadow -->
+  <path d="M110 36 C146 44 156 78 152 110 L154 170 L140 158 L130 168 C140 130 142 80 110 50 Z" fill="#f0d98a" opacity="0.55"/>
+  <!-- floating sparkles -->
+  <circle cx="30" cy="70" r="4" fill="#f7b100" stroke="#2d2d2d" stroke-width="1.8"/>
+  <circle cx="174" cy="50" r="5" fill="#f7b100" stroke="#2d2d2d" stroke-width="1.8"/>
+  <path d="M22 130 L26 138 L34 142 L26 146 L22 154 L18 146 L10 142 L18 138 Z" fill="#7fb3a3" stroke="#2d2d2d" stroke-width="1.8"/>
+  <!-- arms (tiny wisps) -->
+  <path d="M56 110 C40 116 36 128 44 134" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M150 110 C166 116 168 128 160 134" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- eyes -->
+  <circle cx="84" cy="92" r="12" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="120" cy="92" r="12" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="87" cy="95" r="5" fill="#2d2d2d"/>
+  <circle cx="123" cy="95" r="5" fill="#2d2d2d"/>
+  <circle cx="89" cy="93" r="1.6" fill="#ffffff"/>
+  <circle cx="125" cy="93" r="1.6" fill="#ffffff"/>
+  <!-- smile -->
+  <path d="M88 116 Q102 126 116 116" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- cheeks -->
+  <circle cx="72" cy="110" r="4" fill="#ff8aa1" opacity="0.55"/>
+  <circle cx="132" cy="110" r="4" fill="#ff8aa1" opacity="0.55"/>
+</svg>

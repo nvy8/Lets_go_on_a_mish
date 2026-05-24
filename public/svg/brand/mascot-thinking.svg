@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="thinkTitle">
+  <title id="thinkTitle">Sleuth thinking with finger on chin</title>
+  <ellipse cx="100" cy="184" rx="40" ry="5" fill="#2d2d2d" opacity="0.12"/>
+  <!-- body -->
+  <path d="M64 178 C64 138 76 118 100 118 C124 118 136 138 136 178 Z" fill="#7fb3a3" stroke="#2d2d2d" stroke-width="3.5"/>
+  <path d="M100 118 C124 118 136 138 136 178 L118 178 C118 146 112 124 100 120 Z" fill="#5a8f80" opacity="0.6"/>
+  <!-- head -->
+  <circle cx="100" cy="84" r="40" fill="#fce3c4" stroke="#2d2d2d" stroke-width="3.5"/>
+  <!-- hair -->
+  <path d="M64 70 C68 50 90 42 110 48 C124 52 130 64 128 76 C116 64 92 60 76 70 Z" fill="#3a2818" stroke="#2d2d2d" stroke-width="3"/>
+  <!-- eyes — one looking up (thinking) -->
+  <circle cx="86" cy="86" r="8" fill="#ffffff" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="114" cy="86" r="8" fill="#ffffff" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="86" cy="82" r="3.5" fill="#2d2d2d"/>
+  <circle cx="114" cy="82" r="3.5" fill="#2d2d2d"/>
+  <!-- eyebrow raised -->
+  <path d="M76 72 Q86 68 96 72" fill="none" stroke="#2d2d2d" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- mouth — small 'hmm' -->
+  <path d="M92 108 Q100 106 108 108" fill="none" stroke="#2d2d2d" stroke-width="3" stroke-linecap="round"/>
+  <!-- arm + finger on chin -->
+  <path d="M124 144 Q132 130 122 116" fill="none" stroke="#2d2d2d" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="118" cy="112" r="6" fill="#fce3c4" stroke="#2d2d2d" stroke-width="2.5"/>
+  <!-- thought bubbles -->
+  <circle cx="150" cy="58" r="6" fill="#fff9c4" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="162" cy="44" r="9" fill="#fff9c4" stroke="#2d2d2d" stroke-width="2.5"/>
+  <circle cx="180" cy="28" r="14" fill="#fff9c4" stroke="#2d2d2d" stroke-width="3"/>
+  <path d="M174 24 L180 32 L188 22" fill="none" stroke="#f7b100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

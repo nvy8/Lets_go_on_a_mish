@@ -64,16 +64,23 @@ export default function CompletePage({
     <main className="flex-1" style={PAPER_BG}>
       <div className="mx-auto w-full max-w-3xl px-6 py-12">
         <div className="text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/svg/brand/mascot-celebrate.svg"
+            alt=""
+            aria-hidden="true"
+            className="mx-auto h-36 w-36 animate-sleuth-pop-in"
+          />
           <div
-            className="mx-auto inline-flex h-24 w-24 items-center justify-center border-[3px] -rotate-3"
+            className="mx-auto -mt-3 inline-flex h-14 w-14 items-center justify-center border-[3px] rotate-3"
             style={{
               borderColor: COLOR.pencil,
-              backgroundColor: COLOR.postIt,
+              backgroundColor: COLOR.gold,
               borderRadius: RADIUS.oval,
-              boxShadow: SHADOW.lg,
+              boxShadow: SHADOW.md,
             }}
           >
-            <Trophy size={52} strokeWidth={2.5} color={COLOR.red} />
+            <Trophy size={30} strokeWidth={2.5} color={COLOR.pencil} />
           </div>
           <h1
             className="mt-5 text-5xl"
@@ -121,7 +128,7 @@ export default function CompletePage({
                     boxShadow: SHADOW.sm,
                   }}
                 >
-                  <Award size={16} strokeWidth={2.5} color={COLOR.red} />
+                  <Award size={16} strokeWidth={2.5} color={COLOR.gold} />
                   {b}
                 </span>
               );

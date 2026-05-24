@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="owlTitle">
+  <title id="owlTitle">Curious owl sidekick</title>
+  <ellipse cx="100" cy="180" rx="44" ry="6" fill="#2d2d2d" opacity="0.12"/>
+  <!-- body -->
+  <path d="M50 110 C50 70 70 44 100 44 C130 44 150 70 150 110 C150 152 130 174 100 174 C70 174 50 152 50 110 Z" fill="#c79a5a" stroke="#2d2d2d" stroke-width="3.5"/>
+  <!-- belly -->
+  <path d="M72 116 C72 90 84 74 100 74 C116 74 128 90 128 116 C128 144 116 162 100 162 C84 162 72 144 72 116 Z" fill="#f6dfb0"/>
+  <!-- belly stripes -->
+  <path d="M82 128 Q100 138 118 128 M82 142 Q100 152 118 142" fill="none" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+  <!-- ear tufts -->
+  <path d="M62 50 L70 70 L78 56 Z" fill="#c79a5a" stroke="#2d2d2d" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M138 50 L130 70 L122 56 Z" fill="#c79a5a" stroke="#2d2d2d" stroke-width="3" stroke-linejoin="round"/>
+  <!-- big eye discs -->
+  <circle cx="80" cy="92" r="22" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <circle cx="120" cy="92" r="22" fill="#ffffff" stroke="#2d2d2d" stroke-width="3"/>
+  <!-- pupils -->
+  <circle cx="82" cy="94" r="9" fill="#2d2d2d"/>
+  <circle cx="122" cy="94" r="9" fill="#2d2d2d"/>
+  <circle cx="85" cy="91" r="2.5" fill="#ffffff"/>
+  <circle cx="125" cy="91" r="2.5" fill="#ffffff"/>
+  <!-- beak -->
+  <path d="M94 108 L100 122 L106 108 Z" fill="#f7b100" stroke="#2d2d2d" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- feet -->
+  <path d="M86 172 L82 184 M92 172 L92 184 M98 172 L102 184" stroke="#f7b100" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M110 172 L108 184 M116 172 L118 184 M122 172 L126 184" stroke="#f7b100" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- wing -->
+  <path d="M52 116 C56 102 58 96 64 92 C66 110 64 130 58 138 Z" fill="#a87a40" stroke="#2d2d2d" stroke-width="3" stroke-linejoin="round"/>
+</svg>

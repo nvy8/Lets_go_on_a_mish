@@ -99,10 +99,10 @@ export function Stage2({ shareToken }: { shareToken: string }) {
       <HDCard className="p-10 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/svg/illustrations/kid-study.svg"
+          src="/svg/brand/mascot-owl.svg"
           alt=""
           aria-hidden="true"
-          className="mx-auto h-44 w-auto"
+          className="mx-auto h-44 w-auto animate-sleuth-pop-in"
         />
         <div className="mt-4 text-lg" style={{ color: COLOR.pencil }}>
           Fetching previews from each source…
@@ -137,7 +137,7 @@ export function Stage2({ shareToken }: { shareToken: string }) {
           >
             {result.earned_badge ? (
               <>
-                <Award size={26} strokeWidth={2.5} color={COLOR.red} />
+                <Award size={26} strokeWidth={2.5} color={COLOR.gold} />
                 Badge unlocked: URL Detective
               </>
             ) : (
@@ -147,6 +147,15 @@ export function Stage2({ shareToken }: { shareToken: string }) {
               </>
             )}
           </h2>
+          <div className="float-right ml-3 -mt-2 hidden sm:block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={result.earned_badge ? "/svg/brand/mascot-celebrate.svg" : "/svg/brand/mascot-owl.svg"}
+              alt=""
+              aria-hidden="true"
+              className="h-28 w-28 animate-sleuth-pop-in"
+            />
+          </div>
           <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
             You agreed with your coach on{" "}
             <b>

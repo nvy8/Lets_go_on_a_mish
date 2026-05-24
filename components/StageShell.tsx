@@ -31,32 +31,41 @@ export function StageShell({
   const progressPct = (stageNum / TOTAL_STAGES) * 100;
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-8">
+    <main className="mx-auto w-full max-w-5xl px-6 py-8 sm:py-10">
       <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
-          <div
-            className="inline-block px-3 py-1 text-xs border-2 -rotate-1"
-            style={{
-              fontFamily: "var(--font-kalam)",
-              fontWeight: 700,
-              backgroundColor: COLOR.red,
-              color: "white",
-              borderColor: COLOR.pencil,
-              borderRadius: RADIUS.tag,
-              boxShadow: SHADOW.sm,
-            }}
-          >
-            Stage {stageNum} of {TOTAL_STAGES}
+        <div className="flex min-w-0 flex-1 items-start gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/svg/brand/mascot-sleuth.svg"
+            alt=""
+            aria-hidden="true"
+            className="hidden h-20 w-20 shrink-0 sm:block"
+          />
+          <div className="min-w-0 flex-1">
+            <div
+              className="inline-block px-3 py-1 text-xs border-2 -rotate-1"
+              style={{
+                fontFamily: "var(--font-kalam)",
+                fontWeight: 700,
+                backgroundColor: COLOR.gold,
+                color: COLOR.pencil,
+                borderColor: COLOR.pencil,
+                borderRadius: RADIUS.tag,
+                boxShadow: SHADOW.sm,
+              }}
+            >
+              Stage {stageNum} of {TOTAL_STAGES}
+            </div>
+            <h1
+              className="mt-3 text-3xl sm:text-4xl leading-tight"
+              style={{ ...KALAM, color: COLOR.pencil }}
+            >
+              {STAGE_NAMES[stageNum]}
+            </h1>
+            <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
+              {missionTopic}
+            </p>
           </div>
-          <h1
-            className="mt-3 text-3xl sm:text-4xl leading-tight"
-            style={{ ...KALAM, color: COLOR.pencil }}
-          >
-            {STAGE_NAMES[stageNum]}
-          </h1>
-          <p className="mt-2 text-base" style={{ color: pencilAlpha("cc") }}>
-            {missionTopic}
-          </p>
         </div>
         <div
           className="shrink-0 text-right text-sm"
@@ -83,7 +92,7 @@ export function StageShell({
             className="h-full transition-all duration-500 ease-out"
             style={{
               width: `${progressPct}%`,
-              backgroundColor: COLOR.red,
+              backgroundColor: COLOR.gold,
             }}
           />
         </div>
@@ -106,7 +115,7 @@ export function StageShell({
                   boxShadow: SHADOW.sm,
                 }}
               >
-                <Award size={14} strokeWidth={2.5} color={COLOR.red} />
+                <Award size={14} strokeWidth={2.5} color={COLOR.gold} />
                 {b}
               </span>
             );
